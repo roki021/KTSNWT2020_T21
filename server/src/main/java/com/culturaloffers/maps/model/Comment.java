@@ -3,6 +3,7 @@ package com.culturaloffers.maps.model;
 import javax.persistence.*;
 import java.util.*;
 
+@Entity
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,7 +15,8 @@ public class Comment {
     @Column(nullable = false)
     private Date commentedOn;
 
-    @Column(nullable = false)
+    @ElementCollection
+    @CollectionTable(name="commentImages")
     private List<String> imageUrls;
 
     @ManyToOne

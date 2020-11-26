@@ -2,6 +2,7 @@ package com.culturaloffers.maps.model;
 
 import javax.persistence.*;
 
+@Entity
 public class Subtype {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

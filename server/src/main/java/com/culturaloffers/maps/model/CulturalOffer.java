@@ -16,7 +16,8 @@ public class CulturalOffer {
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
+    @ElementCollection
+    @CollectionTable(name="offerImages")
     private List<String> imageUrls;
 
     @ManyToOne
@@ -25,16 +26,20 @@ public class CulturalOffer {
     @ManyToOne
     private Subtype subtype;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "offer")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "culturalOffer")
     private Set<Comment> comments;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "offer")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "culturalOffer")
     private Set<Grade> userGrades;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "culturalOffer")
     private Set<OfferNews> offerNews;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "cultural_offer_subscribers",
+            joinColumns = @JoinColumn(name = "guest_id"),
+            inverseJoinColumns = @JoinColumn(name = "cultural_offer_id"))
     private Set<Guest> subscribers;
 
     public Integer getId() {

@@ -3,6 +3,7 @@ package com.culturaloffers.maps.model;
 import javax.persistence.*;
 import java.util.*;
 
+@Entity
 public class OfferNews {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +18,8 @@ public class OfferNews {
     @Column(nullable = false)
     private Date date;
 
-    @Column(nullable = false)
+    @ElementCollection
+    @CollectionTable(name="newsImages")
     private List<String> imageUrls;
 
     @ManyToOne

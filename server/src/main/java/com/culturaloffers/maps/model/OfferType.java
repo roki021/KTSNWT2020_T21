@@ -3,6 +3,7 @@ package com.culturaloffers.maps.model;
 import javax.persistence.*;
 import java.util.Set;
 
+@Entity
 public class OfferType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -11,7 +12,7 @@ public class OfferType {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "offerType")
     private Set<Subtype> subtypes;
 
     public Integer getId() {
