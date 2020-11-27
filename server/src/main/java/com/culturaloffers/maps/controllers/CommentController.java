@@ -4,6 +4,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/comment")
+@RequestMapping("/comments")
 public class CommentController {
 }

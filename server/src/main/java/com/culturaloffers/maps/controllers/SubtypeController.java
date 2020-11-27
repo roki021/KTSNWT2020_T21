@@ -4,6 +4,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/subtype")
+@RequestMapping("/subtypes")
 public class SubtypeController {
 }

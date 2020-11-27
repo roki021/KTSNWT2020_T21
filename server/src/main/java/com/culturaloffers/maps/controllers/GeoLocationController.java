@@ -4,6 +4,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/geolocation")
+@RequestMapping("/geolocations")
 public class GeoLocationController {
 }

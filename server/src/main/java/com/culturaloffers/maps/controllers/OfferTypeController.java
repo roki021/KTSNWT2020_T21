@@ -4,6 +4,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/offer-type")
+@RequestMapping("/offer-types")
 public class OfferTypeController {
 }
