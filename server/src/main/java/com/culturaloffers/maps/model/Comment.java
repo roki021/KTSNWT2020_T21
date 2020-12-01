@@ -1,5 +1,8 @@
 package com.culturaloffers.maps.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -19,10 +22,10 @@ public class Comment {
     @CollectionTable(name="commentImages")
     private List<String> imageUrls;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Guest user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private CulturalOffer culturalOffer;
 
     public Integer getId() {
@@ -64,7 +67,7 @@ public class Comment {
     public void setUser(Guest user) {
         this.user = user;
     }
-
+    
     public CulturalOffer getCulturalOffer() {
         return culturalOffer;
     }

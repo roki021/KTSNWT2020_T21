@@ -1,7 +1,70 @@
 package com.culturaloffers.maps.services;
 
+import com.culturaloffers.maps.dto.CommentDTO;
+import com.culturaloffers.maps.model.Comment;
+import com.culturaloffers.maps.repositories.CommentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class CommentService {
+
+    @Autowired
+    CommentRepository commentRepository;
+
+    public List<CommentDTO> findByCulturalOfferId(int id)
+    {
+        List<CommentDTO> commentDTOS = new ArrayList<>();
+
+        for (Comment c: commentRepository.findByCulturalOfferId(id)) {
+            commentDTOS.add(new CommentDTO(c));
+        }
+        return commentDTOS;
+    }
+
+    public List<CommentDTO> findByUserId(int id)
+    {
+        List<CommentDTO> commentDTOS = new ArrayList<>();
+
+        for (Comment c: commentRepository.findByUserId(id)) {
+            commentDTOS.add(new CommentDTO(c));
+        }
+        return commentDTOS;
+    }
+
+    public Comment addComment(Comment comment)
+    {
+        return commentRepository.save(comment);
+    }
+
+    public Map<String, Boolean> deleteById(int commentId) throws ResourceNotFoundException
+    {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + commentId));
+
+        commentRepository.delete(comment);
+        Map< String, Boolean > response = new HashMap< >();
+        response.put("deleted", Boolean.TRUE);
+        return response;
+    }
+
+    public CommentDTO updateComment(int commentId, Comment commentDetails) throws ResourceNotFoundException {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + commentId));
+
+        comment.setContent(commentDetails.getContent());
+        comment.setImageUrls(commentDetails.getImageUrls());
+        comment.setCommentedOn(commentDetails.getCommentedOn());
+
+        final Comment updatedComment = commentRepository.save(comment);
+        CommentDTO updatedCommentDTO = new CommentDTO(comment);
+
+        return updatedCommentDTO;
+    }
 }
