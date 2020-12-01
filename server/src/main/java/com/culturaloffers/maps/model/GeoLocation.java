@@ -18,6 +18,14 @@ public class GeoLocation {
     @Column
     private String address;
 
+    public GeoLocation() {}
+
+    public GeoLocation(Double latitude, Double longitude, String address) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.address = address;
+    }
+
     public Integer getId() {
         return id;
     }

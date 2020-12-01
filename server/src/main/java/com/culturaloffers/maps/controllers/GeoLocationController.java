@@ -1,9 +1,12 @@
 package com.culturaloffers.maps.controllers;
 
 import com.culturaloffers.maps.dto.GeoLocationDTO;
+import com.culturaloffers.maps.helper.GeoLocationMapper;
+import com.culturaloffers.maps.model.GeoLocation;
 import com.culturaloffers.maps.services.GeoLocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,75 +23,84 @@ public class GeoLocationController {
     @Autowired
     private GeoLocationService geoLocationService;
 
+    private GeoLocationMapper geoLocationMapper;
+
     @PostMapping(
             consumes = { MediaType.APPLICATION_JSON_VALUE },
             produces = { MediaType.APPLICATION_JSON_VALUE }
     )
-    public ResponseEntity<Map<String, String>> addGeoLocation(@RequestBody GeoLocationDTO newGeoLocation) {
-        Map<String, String> response = new HashMap<>();
-        GeoLocationDTO addedGeoLocation = geoLocationService.insert(newGeoLocation);
-        if(addedGeoLocation != null) {
-            response.put("message", "true");
-        }
-        else {
-            response.put("message", "false");
+    public ResponseEntity<GeoLocationDTO> addGeoLocation(@RequestBody GeoLocationDTO newGeoLocation) {
+        GeoLocation addedGeoLocation;
+        try {
+            addedGeoLocation = geoLocationService.insert(geoLocationMapper.toEntity(newGeoLocation));
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(geoLocationMapper.toDto(addedGeoLocation), HttpStatus.CREATED);
     }
 
     @GetMapping
     public Page<GeoLocationDTO> getGeoLocations(Pageable pageable) {
-        return geoLocationService.getGeoLocations(pageable);
+        Page<GeoLocation> users = geoLocationService.getGeoLocations(pageable);
+        return new PageImpl<GeoLocationDTO>(
+                geoLocationMapper.toDtoList(users.getContent()),
+                pageable,
+                users.getTotalElements()
+        );
     }
 
     @GetMapping("/{coords}")
     public ResponseEntity<GeoLocationDTO> getGeoLocation(@PathVariable String coords) {
-
+        GeoLocation geoLocation;
         try {
             String[] splited = coords.split(",");
             Double latitude = Double.parseDouble(splited[0]);
             Double longitude = Double.parseDouble(splited[1]);
-            Map<String, String> response = new HashMap<>();
-            GeoLocationDTO geoLocationDTO = geoLocationService.getByLatitudeAndLongitude(latitude, longitude);
-            return new ResponseEntity<>(geoLocationDTO, HttpStatus.OK);
+            geoLocation = geoLocationService.getByLatitudeAndLongitude(latitude, longitude);
+            if(geoLocation == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } catch (NumberFormatException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
+        return new ResponseEntity<>(geoLocationMapper.toDto(geoLocation), HttpStatus.OK);
     }
 
     @PutMapping("/{coords}")
     public ResponseEntity<GeoLocationDTO> updateGeoLocation(@PathVariable String coords,
                                                             @RequestBody GeoLocationDTO geoLocationDTO) {
+        GeoLocation geoLocation;
         try {
             String[] splited = coords.split(",");
             Double latitude = Double.parseDouble(splited[0]);
             Double longitude = Double.parseDouble(splited[1]);
-            Map<String, String> response = new HashMap<>();
-            GeoLocationDTO updatedGeoLocation = geoLocationService.update(latitude, longitude, geoLocationDTO);
-            return new ResponseEntity<>(updatedGeoLocation, HttpStatus.OK);
+            geoLocation = geoLocationService.update(latitude, longitude, geoLocationMapper.toEntity(geoLocationDTO));
         } catch (NumberFormatException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
+        return new ResponseEntity<>(geoLocationMapper.toDto(geoLocation), HttpStatus.OK);
     }
 
     @DeleteMapping("/{coords}")
-    public ResponseEntity<Map<String, String>> deleteGeoLocation(@PathVariable String coords) {
+    public ResponseEntity<Void> deleteGeoLocation(@PathVariable String coords) {
         try {
             String[] splited = coords.split(",");
             Double latitude = Double.parseDouble(splited[0]);
             Double longitude = Double.parseDouble(splited[1]);
-            Map<String, String> response = new HashMap<>();
-            if(geoLocationService.delete(latitude, longitude)) {
-                response.put("message", "true");
-            }
-            else {
-                response.put("message", "false");
-            }
-
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            geoLocationService.delete(latitude, longitude);
         } catch (NumberFormatException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public GeoLocationController() {
+        this.geoLocationMapper = new GeoLocationMapper();
     }
 }

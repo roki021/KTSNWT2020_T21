@@ -1,20 +1,27 @@
 package com.culturaloffers.maps.dto;
 
-import com.culturaloffers.maps.model.GeoLocation;
+import javax.validation.constraints.NotBlank;
 
 public class GeoLocationDTO {
+
+    @NotBlank(message = "Latitude cannot be empty.")
     private Double latitude;
+
+    @NotBlank(message = "Longitude cannot be empty.")
     private Double longitude;
+
+    @NotBlank(message = "Address cannot be empty.")
     private String address;
 
     public GeoLocationDTO() {}
 
-    public GeoLocationDTO(GeoLocation geoLocation) {
-        if(geoLocation != null) {
-            this.latitude = geoLocation.getLatitude();
-            this.longitude = geoLocation.getLongitude();
-            this.address = geoLocation.getAddress();
-        }
+    public GeoLocationDTO(
+            @NotBlank(message = "Latitude cannot be empty.") Double latitude,
+            @NotBlank(message = "Longitude cannot be empty.") Double longitude,
+            @NotBlank(message = "Address cannot be empty.") String address) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.address = address;
     }
 
     public Double getLatitude() {

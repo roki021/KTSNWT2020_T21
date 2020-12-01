@@ -17,32 +17,16 @@ public class GeoLocationService {
     @Autowired
     private GeoLocationRepository geoLocationRepository;
 
-    private List<GeoLocationDTO> convertToList(List<GeoLocation> geoLocations) {
-        List<GeoLocationDTO> guestsDTO = new ArrayList<GeoLocationDTO>();
-        for(GeoLocation guest : geoLocations) {
-            guestsDTO.add(new GeoLocationDTO(guest));
-        }
-
-        return guestsDTO;
+    public GeoLocation getByAddress(String address) {
+        return geoLocationRepository.findByAddress(address);
     }
 
-    public GeoLocationDTO getByAddress(String address) {
-        GeoLocation geoLocation = geoLocationRepository.findByAddress(address);
-        return new GeoLocationDTO(geoLocation);
+    public GeoLocation getByLatitudeAndLongitude(Double latitude, Double longitude) {
+        return geoLocationRepository.findByLatitudeAndLongitude(latitude, longitude);
     }
 
-    public GeoLocationDTO getByLatitudeAndLongitude(Double latitude, Double longitude) {
-        GeoLocation geoLocation = geoLocationRepository.findByLatitudeAndLongitude(latitude, longitude);
-        return new GeoLocationDTO(geoLocation);
-    }
-
-    public Page<GeoLocationDTO> getGeoLocations(Pageable pageable) {
-        Page<GeoLocation> geoLocations = geoLocationRepository.findAll(pageable);
-        return new PageImpl<GeoLocationDTO>(
-                convertToList(geoLocations.getContent()),
-                pageable,
-                geoLocations.getTotalElements()
-        );
+    public Page<GeoLocation> getGeoLocations(Pageable pageable) {
+        return geoLocationRepository.findAll(pageable);
     }
 
     public boolean delete(String address) {
@@ -69,34 +53,28 @@ public class GeoLocationService {
         return false;
     }
 
-    public GeoLocationDTO insert(GeoLocationDTO geoLocationDTO) {
+    public GeoLocation insert(GeoLocation newGeoLocation) {
         GeoLocation geoLocation = geoLocationRepository.findByLatitudeAndLongitude(
-                geoLocationDTO.getLatitude(),
-                geoLocationDTO.getLongitude());
+                newGeoLocation.getLatitude(),
+                newGeoLocation.getLongitude());
 
-        if(geoLocation == null) {
-            geoLocation = new GeoLocation();
-            geoLocation.setLatitude(geoLocationDTO.getLatitude());
-            geoLocation.setLongitude(geoLocationDTO.getLongitude());
-            geoLocation.setAddress(geoLocationDTO.getAddress());
-
-            return new GeoLocationDTO(geoLocationRepository.save(geoLocation));
-        }
+        if(geoLocation == null)
+            return geoLocationRepository.save(newGeoLocation);
 
         return null;
     }
 
-    public GeoLocationDTO update(Double latitude, Double longitude, GeoLocationDTO geoLocationDTO) {
+    public GeoLocation update(Double latitude, Double longitude, GeoLocation newGeoLocation) {
         GeoLocation geoLocation = geoLocationRepository.findByLatitudeAndLongitude(
                 latitude,
                 longitude);
 
         if(geoLocation != null) {
-            geoLocation.setLatitude(geoLocationDTO.getLatitude());
-            geoLocation.setLongitude(geoLocationDTO.getLongitude());
-            geoLocation.setAddress(geoLocationDTO.getAddress());
+            geoLocation.setLatitude(newGeoLocation.getLatitude());
+            geoLocation.setLongitude(newGeoLocation.getLongitude());
+            geoLocation.setAddress(newGeoLocation.getAddress());
 
-            return new GeoLocationDTO(geoLocationRepository.save(geoLocation));
+            return geoLocationRepository.save(geoLocation);
         }
 
         return null;
