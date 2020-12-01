@@ -1,5 +1,7 @@
 package com.culturaloffers.maps.model;
 
+import com.culturaloffers.maps.dto.CulturalOfferDTO;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -121,4 +123,19 @@ public class CulturalOffer {
     public void setSubscribers(Set<Guest> subscribers) {
         this.subscribers = subscribers;
     }
+
+    public CulturalOffer(CulturalOfferDTO dto){
+        this.id = dto.id;
+        this.description = dto.description;
+        this.title = dto.title;
+        this.comments = new HashSet<Comment>();
+        this.offerNews = new HashSet<OfferNews>();
+        this.userGrades = new HashSet<Grade>();
+        this.imageUrls = dto.imageUrls;
+        this.subscribers = new HashSet<Guest>();
+    }
+
+    public CulturalOffer(){
+    }
+
 }
