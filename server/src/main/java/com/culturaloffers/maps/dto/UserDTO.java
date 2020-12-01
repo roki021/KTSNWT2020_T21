@@ -1,21 +1,22 @@
 package com.culturaloffers.maps.dto;
 
-import com.culturaloffers.maps.model.User;
-
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.constraints.NotBlank;
 
 public class UserDTO {
+
+    @NotBlank(message = "Username name cannot be empty.")
     private String username;
+
+    @NotBlank(message = "Password name cannot be empty.")
     private String password;
 
     public UserDTO() {}
 
-    public UserDTO(User user) {
-        if(user != null) {
-            this.username = user.getUsername();
-            this.password = user.getPassword();
-        }
+    public UserDTO(
+            @NotBlank(message = "Username name cannot be empty.") String username,
+            @NotBlank(message = "Password name cannot be empty.") String password) {
+        this.username = username;
+        this.password = password;
     }
 
     public String getUsername() {

@@ -27,6 +27,15 @@ public class Guest extends User {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Grade> offerGrades;
 
+    public Guest() {}
+
+    public Guest(String firstName, String lastName, String emailAddress, String username, String password) {
+        super(username, password);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.emailAddress = emailAddress;
+    }
+
     public String getFirstName() {
         return firstName;
     }
