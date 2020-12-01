@@ -1,29 +1,20 @@
-package com.culturaloffers.maps.model;
+package com.culturaloffers.maps.dto;
 
-import javax.persistence.*;
+import com.culturaloffers.maps.model.GeoLocation;
 
-@Entity
-public class GeoLocation {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Column(nullable = false)
+public class GeoLocationDTO {
     private Double latitude;
-
-    @Column(nullable = false)
     private Double longitude;
-
-    @Column
     private String address;
 
-    public Integer getId() {
-        return id;
-    }
+    public GeoLocationDTO() {}
 
-    public void setId(Integer id) {
-        this.id = id;
+    public GeoLocationDTO(GeoLocation geoLocation) {
+        if(geoLocation != null) {
+            this.latitude = geoLocation.getLatitude();
+            this.longitude = geoLocation.getLongitude();
+            this.address = geoLocation.getAddress();
+        }
     }
 
     public Double getLatitude() {
