@@ -1,37 +1,27 @@
-package com.culturaloffers.maps.model;
+package com.culturaloffers.maps.dto;
 
-import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
-@Entity
-public class GeoLocation {
+public class GeoLocationDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Column(nullable = false)
+    @NotBlank(message = "Latitude cannot be empty.")
     private Double latitude;
 
-    @Column(nullable = false)
+    @NotBlank(message = "Longitude cannot be empty.")
     private Double longitude;
 
-    @Column
+    @NotBlank(message = "Address cannot be empty.")
     private String address;
 
-    public GeoLocation() {}
+    public GeoLocationDTO() {}
 
-    public GeoLocation(Double latitude, Double longitude, String address) {
+    public GeoLocationDTO(
+            @NotBlank(message = "Latitude cannot be empty.") Double latitude,
+            @NotBlank(message = "Longitude cannot be empty.") Double longitude,
+            @NotBlank(message = "Address cannot be empty.") String address) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.address = address;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Double getLatitude() {
