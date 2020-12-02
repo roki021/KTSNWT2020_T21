@@ -6,12 +6,60 @@ import java.util.List;
 
 public class CulturalOfferDTO {
 
-    public Integer id;
-    public String title;
-    public String description;
-    public Integer geoLocationId;
-    public Integer subTypeId;
-    public List<String> imageUrls;
+    private Integer id;
+    private String title;
+    private String description;
+    private Integer geoLocationId;
+    private Integer subTypeId;
+    private List<String> imageUrls;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getGeoLocationId() {
+        return geoLocationId;
+    }
+
+    public void setGeoLocationId(Integer geoLocationId) {
+        this.geoLocationId = geoLocationId;
+    }
+
+    public Integer getSubTypeId() {
+        return subTypeId;
+    }
+
+    public void setSubTypeId(Integer subTypeId) {
+        this.subTypeId = subTypeId;
+    }
+
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
+    }
 
     public CulturalOfferDTO(CulturalOffer offer){
         this.id = offer.getId();

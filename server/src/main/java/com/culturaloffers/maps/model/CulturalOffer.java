@@ -12,7 +12,7 @@ public class CulturalOffer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String title;
 
     @Column(nullable = false)
@@ -125,13 +125,13 @@ public class CulturalOffer {
     }
 
     public CulturalOffer(CulturalOfferDTO dto){
-        this.id = dto.id;
-        this.description = dto.description;
-        this.title = dto.title;
+        this.id = dto.getId();
+        this.description = dto.getDescription();
+        this.title = dto.getTitle();
         this.comments = new HashSet<Comment>();
         this.offerNews = new HashSet<OfferNews>();
         this.userGrades = new HashSet<Grade>();
-        this.imageUrls = dto.imageUrls;
+        this.imageUrls = dto.getImageUrls();
         this.subscribers = new HashSet<Guest>();
     }
 
