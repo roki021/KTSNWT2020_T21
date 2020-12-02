@@ -2,6 +2,7 @@ package com.culturaloffers.maps.controllers;
 
 import com.culturaloffers.maps.dto.OfferTypeDTO;
 import com.culturaloffers.maps.dto.SubtypeDTO;
+import com.culturaloffers.maps.helper.SubtypeMapper;
 import com.culturaloffers.maps.model.OfferType;
 import com.culturaloffers.maps.model.Subtype;
 import com.culturaloffers.maps.services.OfferTypeService;
@@ -28,34 +29,22 @@ public class SubtypeController {
     @Autowired
     private SubtypeService subtypeService;
 
-    //private CulturalContentCategoryMapper culturalContentCategoryMapper;
-
-    //private CategoryTypeMapper categoryTypeMapper;
-
-    //@Autowired
-    //private CategoryTypeService categoryTypeService;
+    private SubtypeMapper subtypeMapper;
 
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<SubtypeDTO>> getAllSubtypes() {
         List<Subtype> subtypes = subtypeService.findAll();
-        List<SubtypeDTO> subtypeDTOS = new ArrayList<SubtypeDTO>();
-        for(Subtype subtype : subtypes){
-            SubtypeDTO subtypeDTO = new SubtypeDTO(subtype.getId(), subtype.getName(), subtype.getOfferType().getName());
-            subtypeDTOS.add(subtypeDTO);
-        }
-        return new ResponseEntity<>(subtypeDTOS, HttpStatus.OK);
+
+        return new ResponseEntity<>(subtypeMapper.toDtoList(subtypes), HttpStatus.OK);
     }
 
     @RequestMapping(value= "/by-page", method = RequestMethod.GET)
     public ResponseEntity<Page<SubtypeDTO>> getAllSubtypes(Pageable pageable) {
         Page<Subtype> subtypesPage = subtypeService.findAll(pageable);
-        List<SubtypeDTO> subtypeDTOS = new ArrayList<SubtypeDTO>();
-        for(Subtype subtype : subtypesPage){
-            SubtypeDTO subtypeDTO = new SubtypeDTO(subtype.getId(), subtype.getName(), subtype.getOfferType().getName());
-            subtypeDTOS.add(subtypeDTO);
-        }
-        return new ResponseEntity<>(new PageImpl<>(subtypeDTOS,subtypesPage.getPageable(),subtypesPage.getTotalElements()), HttpStatus.OK);
+
+        return new ResponseEntity<>(new PageImpl<>(subtypeMapper.toDtoList(subtypesPage.toList()),
+                subtypesPage.getPageable(),subtypesPage.getTotalElements()), HttpStatus.OK);
     }
 
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -66,8 +55,7 @@ public class SubtypeController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        SubtypeDTO subtypeDTO = new SubtypeDTO(subtype.getId(), subtype.getName(), subtype.getOfferType().getName());
-        return new ResponseEntity<>(subtypeDTO, HttpStatus.OK);
+        return new ResponseEntity<>(subtypeMapper.toDto(subtype), HttpStatus.OK);
     }
 
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -75,18 +63,16 @@ public class SubtypeController {
     public ResponseEntity<SubtypeDTO> createSubtype(@RequestBody SubtypeDTO subtypeDTO){
         Subtype subtype;
         try {
-            subtype = new Subtype();
-            subtype.setName(subtypeDTO.getName());
-
-            subtype = subtypeService.create(subtype, subtypeDTO.getOfferTypeName());
+            if(subtypeDTO.getOfferTypeName() == null){
+                throw new Exception();
+            }
+            subtype = subtypeService.create(subtypeMapper.toEntity(subtypeDTO), subtypeDTO.getOfferTypeName());
 
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        SubtypeDTO newSubtypeDTO = new SubtypeDTO(subtype.getId(), subtype.getName(), subtype.getOfferType().getName());
-
-        return new ResponseEntity<>(newSubtypeDTO, HttpStatus.CREATED);
+        return new ResponseEntity<>(subtypeMapper.toDto(subtype), HttpStatus.CREATED);
     }
 
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -95,15 +81,12 @@ public class SubtypeController {
             @RequestBody SubtypeDTO subtypeDTO, @PathVariable Integer id){
         Subtype subtype;
         try {
-            subtype = new Subtype();
-            subtype.setName(subtypeDTO.getName());
-            subtype = subtypeService.update(subtype, id);
+            subtype = subtypeService.update(subtypeMapper.toEntity(subtypeDTO), id);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        SubtypeDTO newSubtypeDTO = new SubtypeDTO(subtype.getId(), subtype.getName(), subtype.getOfferType().getName());
-        return new ResponseEntity<>(newSubtypeDTO, HttpStatus.OK);
+        return new ResponseEntity<>(subtypeMapper.toDto(subtype), HttpStatus.OK);
     }
 
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -116,5 +99,9 @@ public class SubtypeController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public SubtypeController(){
+        subtypeMapper = new SubtypeMapper();
     }
 }
