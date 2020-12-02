@@ -1,11 +1,18 @@
 package com.culturaloffers.maps.controllers;
 
+import com.culturaloffers.maps.dto.CulturalOfferDTO;
 import com.culturaloffers.maps.dto.OfferNewsDTO;
+import com.culturaloffers.maps.helper.OfferNewsMapper;
+import com.culturaloffers.maps.model.CulturalOffer;
 import com.culturaloffers.maps.model.OfferNews;
 import com.culturaloffers.maps.services.CulturalOfferService;
 import com.culturaloffers.maps.services.OfferNewsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,40 +31,64 @@ public class OfferNewsController {
     @Autowired
     private CulturalOfferService culturalOfferService;
 
-    @PostMapping(value = "/add")
-    public ResponseEntity<Void> addOfferNews(@RequestBody OfferNewsDTO dto){
-        OfferNews offerNews = new OfferNews(dto);
-        offerNews.setCulturalOffer(culturalOfferService.findOne(dto.culturalOfferId));
-        service.save(offerNews);
-        return new ResponseEntity<>(HttpStatus.OK);
+    private OfferNewsMapper mapper = new OfferNewsMapper();
+
+    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<OfferNewsDTO> addOfferNews(@RequestBody OfferNewsDTO dto){
+        OfferNews offerNews = mapper.toEntity(dto);
+        try {
+            offerNews.setCulturalOffer(culturalOfferService.findOne(dto.getCulturalOfferId()));
+            if (offerNews.getCulturalOffer() == null)
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            service.create(offerNews);
+        } catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(mapper.toDto(offerNews), HttpStatus.OK);
     }
 
-    @GetMapping(value="/all")
-    public ResponseEntity<List<OfferNewsDTO>> allOfferNews(){
-        List<OfferNewsDTO> ret = new ArrayList<OfferNewsDTO>();
-        for (OfferNews offer: service.findAll()){
-            OfferNewsDTO dto = new OfferNewsDTO(offer);
-            ret.add(dto);
-            if (offer.getCulturalOffer() != null)
-                System.out.println("News "+offer.getId()+"-offer: "+offer.getCulturalOffer().getTitle());
-        }
+    @RequestMapping(value="/all", method = RequestMethod.GET)
+    public ResponseEntity<List<OfferNewsDTO>> getAll(){
+        List<OfferNewsDTO> ret = mapper.toDtoList(service.findAll());
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/update")
-    public ResponseEntity<Void> updateNews(@RequestBody OfferNewsDTO dto){
-        OfferNews offerNews = service.findOne(dto.id);
-        offerNews.setDescription(dto.description);
-        offerNews.setTitle(dto.title);
-        offerNews.setImageUrls(dto.imageUrls);
-        offerNews.setDate(new Date());
-        service.save(offerNews);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @RequestMapping(value="/page", method = RequestMethod.GET)
+    public ResponseEntity<Page<OfferNewsDTO>> getAllPageable(Pageable pageable){
+        Page<OfferNews> page = service.findAll(pageable);
+        List<OfferNewsDTO> dtos = mapper.toDtoList(page.toList());
+        Page<OfferNewsDTO> ret = new PageImpl<>(dtos, page.getPageable(), page.getTotalElements());
+        return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteNews(@PathVariable Integer id){
-        service.delete(id);
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<OfferNewsDTO> findOfferNews(@PathVariable Integer id){
+        OfferNews news = service.findOne(id);
+        if (news == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(mapper.toDto(news), HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<OfferNewsDTO> updateNews(@RequestBody OfferNewsDTO dto, @PathVariable Integer id){
+        OfferNews offerNews = mapper.toEntity(dto);
+        try{
+            CulturalOffer offer = service.findOne(id).getCulturalOffer();
+            offerNews.setCulturalOffer(offer);
+            service.update(id, offerNews);
+        }catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(mapper.toDto(offerNews), HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteOffer(@PathVariable Integer id){
+        try {
+            service.delete(id);
+        }catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

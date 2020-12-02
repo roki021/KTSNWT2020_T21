@@ -76,11 +76,11 @@ public class OfferNews {
     }
 
     public OfferNews(OfferNewsDTO dto){
-        this.id = dto.id;
-        this.description = dto.description;
-        this.title = dto.title;
+        this.id = dto.getId();
+        this.description = dto.getDescription();
+        this.title = dto.getTitle();
         this.date = new Date();
-        this.imageUrls = dto.imageUrls;
+        this.imageUrls = dto.getImageUrls();
     }
 
     public OfferNews(){}
