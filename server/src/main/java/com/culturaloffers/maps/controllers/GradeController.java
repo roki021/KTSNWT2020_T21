@@ -8,6 +8,9 @@ import com.culturaloffers.maps.model.Grade;
 import com.culturaloffers.maps.services.CommentService;
 import com.culturaloffers.maps.services.GradeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +42,15 @@ public class GradeController {
         }
     }
 
+    @GetMapping("/culturalofferpg/{id}")
+    public Page<GradeDTO> findByCulturalOfferIdPageable(@PathVariable int id, Pageable pageable)
+    {
+        Page<Grade> grades = gradeService.findByCulturalOfferId(id, pageable);
+        return new PageImpl<GradeDTO>(
+                gradeMapper.toDtoList(grades.getContent()), pageable, grades.getTotalElements()
+        );
+    }
+
     @GetMapping("/usergrades/{id}")
     public ResponseEntity<List<GradeDTO>> findByUserId(@PathVariable int id)
     {
@@ -52,6 +64,15 @@ public class GradeController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/usergradespg/{id}")
+    public Page<GradeDTO> findByUserIdPageable(@PathVariable int id, Pageable pageable)
+    {
+        Page<Grade> grades = gradeService.findByCulturalOfferId(id, pageable);
+        return new PageImpl<GradeDTO>(
+                gradeMapper.toDtoList(grades.getContent()), pageable, grades.getTotalElements()
+        );
     }
 
     @PostMapping

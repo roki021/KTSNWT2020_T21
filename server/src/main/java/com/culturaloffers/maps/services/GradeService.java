@@ -7,6 +7,8 @@ import com.culturaloffers.maps.model.Grade;
 import com.culturaloffers.maps.repositories.CommentRepository;
 import com.culturaloffers.maps.repositories.GradeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +27,19 @@ public class GradeService {
         return gradeRepository.findByCulturalOfferId(id);
     }
 
+    public Page<Grade> findByCulturalOfferId(int id, Pageable pageable)
+    {
+        return gradeRepository.findByCulturalOfferId(id, pageable);
+    }
+
     public List<Grade> findByUserId(int id)
     {
         return gradeRepository.findByUserId(id);
+    }
+
+    public Page<Grade> findByUserId(int id, Pageable pageable)
+    {
+        return gradeRepository.findByUserId(id, pageable);
     }
 
     public Grade addGrade(Grade grade)

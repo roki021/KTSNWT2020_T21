@@ -1,10 +1,15 @@
 package com.culturaloffers.maps.controllers;
 
 import com.culturaloffers.maps.dto.CommentDTO;
+import com.culturaloffers.maps.dto.GradeDTO;
 import com.culturaloffers.maps.helper.CommentMapper;
 import com.culturaloffers.maps.model.Comment;
+import com.culturaloffers.maps.model.Grade;
 import com.culturaloffers.maps.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -37,6 +42,15 @@ public class CommentController {
         }
     }
 
+    @GetMapping("/culturalofferpg/{id}")
+    public Page<CommentDTO> findByCulturalOfferIdPageable(@PathVariable int id, Pageable pageable)
+    {
+        Page<Comment> comments = commentService.findByCulturalOfferId(id, pageable);
+        return new PageImpl<CommentDTO>(
+                commentMapper.toDtoList(comments.getContent()), pageable, comments.getTotalElements()
+        );
+    }
+
     @GetMapping("/usercomments/{id}")
     public ResponseEntity<List<CommentDTO>> findByUserId(@PathVariable int id)
     {
@@ -50,6 +64,15 @@ public class CommentController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/usercommentspg/{id}")
+    public Page<CommentDTO> findByUserIdPageable(@PathVariable int id, Pageable pageable)
+    {
+        Page<Comment> comments = commentService.findByCulturalOfferId(id, pageable);
+        return new PageImpl<CommentDTO>(
+                commentMapper.toDtoList(comments.getContent()), pageable, comments.getTotalElements()
+        );
     }
 
     @PostMapping
