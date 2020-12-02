@@ -1,5 +1,7 @@
 package com.culturaloffers.maps.model;
 
+import com.culturaloffers.maps.dto.OfferNewsDTO;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -72,4 +74,15 @@ public class OfferNews {
     public void setCulturalOffer(CulturalOffer culturalOffer) {
         this.culturalOffer = culturalOffer;
     }
+
+    public OfferNews(OfferNewsDTO dto){
+        this.id = dto.getId();
+        this.description = dto.getDescription();
+        this.title = dto.getTitle();
+        this.date = new Date();
+        this.imageUrls = dto.getImageUrls();
+    }
+
+    public OfferNews(){}
+
 }

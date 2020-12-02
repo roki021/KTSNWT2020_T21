@@ -43,7 +43,7 @@ public class CulturalOfferService {
         if (repository.findById(id).orElse(null) == null)
             throw new Exception("Cultural offer with given id does not exist");
         if (repository.findByTitleAndIdNot(offer.getTitle(), id) != null)
-            throw new Exception("Cultural offer with given name already exists");
+            throw new Exception("Cultural offer with given title already exists");
         offer.setId(id);
         return repository.save(offer);
     }
