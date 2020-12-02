@@ -7,4 +7,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OfferNewsRepository extends JpaRepository<OfferNews, Integer> {
 
+    OfferNews findByTitle(String title);
+
+    OfferNews findByTitleAndIdNot(String title, Integer integer);
+
 }

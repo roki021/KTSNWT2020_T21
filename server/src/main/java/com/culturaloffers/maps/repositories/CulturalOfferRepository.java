@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CulturalOfferRepository extends JpaRepository<CulturalOffer, Integer> {
 
+    CulturalOffer findByTitle(String title);
+
+    CulturalOffer findByTitleAndIdNot(String title, Integer integer);
 }
