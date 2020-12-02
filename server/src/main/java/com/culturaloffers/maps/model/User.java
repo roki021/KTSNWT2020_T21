@@ -7,7 +7,7 @@ import javax.persistence.*;
 public abstract class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "book_generator")
     protected Integer id;
 
     @Column(unique = true, nullable = false)
@@ -15,6 +15,13 @@ public abstract class User {
 
     @Column
     protected String password;
+
+    public User() {}
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     public Integer getId() {
         return id;
