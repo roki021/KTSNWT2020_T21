@@ -2,6 +2,7 @@ package com.culturaloffers.maps.controllers;
 
 import com.culturaloffers.maps.dto.CommentDTO;
 import com.culturaloffers.maps.dto.GradeDTO;
+import com.culturaloffers.maps.helper.GradeMapper;
 import com.culturaloffers.maps.model.Comment;
 import com.culturaloffers.maps.model.Grade;
 import com.culturaloffers.maps.services.CommentService;
@@ -21,11 +22,13 @@ public class GradeController {
     @Autowired
     GradeService gradeService;
 
+    private GradeMapper gradeMapper = new GradeMapper();
+
     @GetMapping("/culturaloffer/{id}")
     public ResponseEntity<List<GradeDTO>> findByCulturalOfferId(@PathVariable int id)
     {
         try {
-            List<GradeDTO> offerGrades = gradeService.findByCulturalOfferId(id);
+            List<GradeDTO> offerGrades = gradeMapper.toDtoList(gradeService.findByCulturalOfferId(id));
 
             if (offerGrades.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -40,7 +43,7 @@ public class GradeController {
     public ResponseEntity<List<GradeDTO>> findByUserId(@PathVariable int id)
     {
         try {
-            List<GradeDTO> userGrades = gradeService.findByUserId(id);
+            List<GradeDTO> userGrades = gradeMapper.toDtoList(gradeService.findByUserId(id));
 
             if (userGrades.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -52,9 +55,9 @@ public class GradeController {
     }
 
     @PostMapping
-    public Grade addGrade(@RequestBody Grade grade)
+    public GradeDTO addGrade(@RequestBody Grade grade)
     {
-        return gradeService.addGrade(grade);
+        return gradeMapper.toDto(gradeService.addGrade(grade));
     }
 
     @DeleteMapping("/{id}")
@@ -66,6 +69,6 @@ public class GradeController {
     @PutMapping("/{id}")
     public ResponseEntity <GradeDTO> updateGrade(@PathVariable(value = "id") Integer gradeId, @RequestBody Grade gradeDetails)
     {
-        return ResponseEntity.ok(gradeService.updateGrade(gradeId, gradeDetails));
+        return ResponseEntity.ok(gradeMapper.toDto(gradeService.updateGrade(gradeId, gradeDetails)));
     }
 }

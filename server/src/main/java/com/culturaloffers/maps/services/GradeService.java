@@ -20,24 +20,14 @@ public class GradeService {
     @Autowired
     GradeRepository gradeRepository;
 
-    public List<GradeDTO> findByCulturalOfferId(int id)
+    public List<Grade> findByCulturalOfferId(int id)
     {
-        List<GradeDTO> gradeDTOS = new ArrayList<>();
-
-        for (Grade g: gradeRepository.findByCulturalOfferId(id)) {
-            gradeDTOS.add(new GradeDTO(g));
-        }
-        return gradeDTOS;
+        return gradeRepository.findByCulturalOfferId(id);
     }
 
-    public List<GradeDTO> findByUserId(int id)
+    public List<Grade> findByUserId(int id)
     {
-        List<GradeDTO> gradeDTOS = new ArrayList<>();
-
-        for (Grade g: gradeRepository.findByUserId(id)) {
-            gradeDTOS.add(new GradeDTO(g));
-        }
-        return gradeDTOS;
+        return gradeRepository.findByUserId(id);
     }
 
     public Grade addGrade(Grade grade)
@@ -56,7 +46,7 @@ public class GradeService {
         return response;
     }
 
-    public GradeDTO updateGrade(int gradeId, Grade gradeDetails) throws ResourceNotFoundException {
+    public Grade updateGrade(int gradeId, Grade gradeDetails) throws ResourceNotFoundException {
         Grade grade = gradeRepository.findById(gradeId)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + gradeId));
 
@@ -64,8 +54,7 @@ public class GradeService {
         grade.setGradedOn(gradeDetails.getGradedOn());
 
         final Grade updatedGrade = gradeRepository.save(grade);
-        GradeDTO updatedGradeDTO = new GradeDTO(updatedGrade);
 
-        return updatedGradeDTO;
+        return updatedGrade;
     }
 }

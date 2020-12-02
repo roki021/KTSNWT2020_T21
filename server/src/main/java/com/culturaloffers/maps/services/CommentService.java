@@ -18,24 +18,14 @@ public class CommentService {
     @Autowired
     CommentRepository commentRepository;
 
-    public List<CommentDTO> findByCulturalOfferId(int id)
+    public List<Comment> findByCulturalOfferId(int id)
     {
-        List<CommentDTO> commentDTOS = new ArrayList<>();
-
-        for (Comment c: commentRepository.findByCulturalOfferId(id)) {
-            commentDTOS.add(new CommentDTO(c));
-        }
-        return commentDTOS;
+        return commentRepository.findByCulturalOfferId(id);
     }
 
-    public List<CommentDTO> findByUserId(int id)
+    public List<Comment> findByUserId(int id)
     {
-        List<CommentDTO> commentDTOS = new ArrayList<>();
-
-        for (Comment c: commentRepository.findByUserId(id)) {
-            commentDTOS.add(new CommentDTO(c));
-        }
-        return commentDTOS;
+        return commentRepository.findByUserId(id);
     }
 
     public Comment addComment(Comment comment)
@@ -54,7 +44,7 @@ public class CommentService {
         return response;
     }
 
-    public CommentDTO updateComment(int commentId, Comment commentDetails) throws ResourceNotFoundException {
+    public Comment updateComment(int commentId, Comment commentDetails) throws ResourceNotFoundException {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + commentId));
 
@@ -63,8 +53,7 @@ public class CommentService {
         comment.setCommentedOn(commentDetails.getCommentedOn());
 
         final Comment updatedComment = commentRepository.save(comment);
-        CommentDTO updatedCommentDTO = new CommentDTO(comment);
 
-        return updatedCommentDTO;
+        return updatedComment;
     }
 }
