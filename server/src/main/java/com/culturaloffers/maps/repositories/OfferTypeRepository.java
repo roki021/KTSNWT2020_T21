@@ -6,5 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OfferTypeRepository extends JpaRepository<OfferType, Integer> {
+    OfferType findByName(String name);
+
+    OfferType findByNameAndIdNot(String name, Integer id);
 
 }
