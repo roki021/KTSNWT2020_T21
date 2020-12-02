@@ -13,4 +13,28 @@ public class Subtype {
 
     @ManyToOne
     private OfferType offerType;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public OfferType getOfferType() {
+        return offerType;
+    }
+
+    public void setOfferType(OfferType offerType) {
+        this.offerType = offerType;
+    }
 }
