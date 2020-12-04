@@ -13,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/guests")
@@ -27,7 +29,7 @@ public class GuestController {
             consumes = { MediaType.APPLICATION_JSON_VALUE },
             produces = { MediaType.APPLICATION_JSON_VALUE }
     )
-        public ResponseEntity<GuestDTO> addGuest(@RequestBody GuestDTO guestDTO) {
+        public ResponseEntity<GuestDTO> addGuest(@Valid @RequestBody GuestDTO guestDTO) {
         Guest addedGuest;
         try {
             addedGuest = guestService.insert(guestMapper.toEntity(guestDTO));
@@ -48,9 +50,9 @@ public class GuestController {
         );
     }
 
-    @GetMapping("/{username}")
-    public ResponseEntity<GuestDTO> getGuest(@PathVariable String username) {
-        Guest guest = guestService.getGuestByUsername(username);
+    @GetMapping("/{id}")
+    public ResponseEntity<GuestDTO> getGuest(@PathVariable int id) {
+        Guest guest = guestService.getGuestById(id);
         if(guest == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -58,27 +60,32 @@ public class GuestController {
         return new ResponseEntity<>(guestMapper.toDto(guest), HttpStatus.OK);
     }
 
-    @PutMapping("/{username}")
-    public ResponseEntity<GuestDTO> updateGuest(@PathVariable String username, @RequestBody GuestDTO guestDTO) {
+    @PutMapping("/{id}")
+    public ResponseEntity<GuestDTO> updateGuest(@PathVariable Integer id, @Valid @RequestBody GuestDTO guestDTO) {
         Guest guest;
         try {
-            guest = guestService.update(username, guestMapper.toEntity(guestDTO));
+            guest = guestService.update(id, guestMapper.toEntity(guestDTO));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        if (guest == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(guestMapper.toDto(guest), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{username}")
-    public ResponseEntity<Void> deleteGuest(@PathVariable String username) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteGuest(@PathVariable Integer id) {
         try {
-            guestService.delete(username);
+            if(guestService.delete(id))
+                return new ResponseEntity<>(HttpStatus.OK);
+            else
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public GuestController() {

@@ -21,16 +21,19 @@ public class GuestService {
         return guestRepository.findByEmailAddress(emailAddress);
     }
 
+    public Guest getGuestById(int id) {
+        return guestRepository.findById(id).orElse(null);
+    }
+
     public Page<Guest> getGuests(Pageable pageable) {
         return guestRepository.findAll(pageable);
     }
 
-    public boolean delete(String username) {
-        Guest guest = guestRepository.findByUsername(username);
+    public boolean delete(Integer id) {
+        Guest guest = guestRepository.findById(id).orElse(null);
 
         if(guest != null) {
             guestRepository.delete(guest);
-
             return true;
         }
 
@@ -45,8 +48,8 @@ public class GuestService {
         return null;
     }
 
-    public Guest update(String username, Guest newGuest) {
-        Guest guest = guestRepository.findByUsername(username);
+    public Guest update(Integer id, Guest newGuest) {
+        Guest guest = guestRepository.findById(id).orElse(null);
 
         if(guest != null) {
             guest.setFirstName(newGuest.getFirstName());
