@@ -26,7 +26,7 @@ public class CulturalOfferController {
 
     private CulturalOfferMapper mapper = new CulturalOfferMapper();
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CulturalOfferDTO> addCulturalOffer(@RequestBody CulturalOfferDTO dto){
         CulturalOffer culturalOffer = mapper.toEntity(dto);
         try {
@@ -37,7 +37,7 @@ public class CulturalOfferController {
         return new ResponseEntity<>(mapper.toDto(culturalOffer), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/all", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<CulturalOfferDTO>> getAll(){
         List<CulturalOfferDTO> ret = mapper.toDtoList(service.findAll());
         for (CulturalOffer offer: service.findAll()){
@@ -48,7 +48,7 @@ public class CulturalOfferController {
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/page", method = RequestMethod.GET)
+    @RequestMapping(value="/by-page", method = RequestMethod.GET)
     public ResponseEntity<Page<CulturalOfferDTO>> getAllPageable(Pageable pageable){
         Page<CulturalOffer> page = service.findAll(pageable);
         List<CulturalOfferDTO> dtos = mapper.toDtoList(page.toList());
