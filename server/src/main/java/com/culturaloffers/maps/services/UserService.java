@@ -13,20 +13,23 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User getUser(String username) {
+    public User getUserByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+    
+    public User getUserById(Integer id) {
+        return userRepository.findById(id).orElse(null);
     }
 
     public Page<User> getUsers(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
 
-    public boolean delete(String username) {
-        User user = userRepository.findByUsername(username);
+    public boolean delete(Integer id) {
+        User user = userRepository.findById(id).orElse(null);
 
         if(user != null) {
             userRepository.delete(user);
-
             return true;
         }
 

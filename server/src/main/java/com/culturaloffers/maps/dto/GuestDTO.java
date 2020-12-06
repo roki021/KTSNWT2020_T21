@@ -5,6 +5,8 @@ import javax.validation.constraints.NotBlank;
 
 public class GuestDTO {
 
+    private Integer id;
+
     @NotBlank(message = "First name cannot be empty.")
     private String firstName;
 
@@ -18,23 +20,30 @@ public class GuestDTO {
     @NotBlank(message = "Username name cannot be empty.")
     private String username;
 
-    @NotBlank(message = "Password name cannot be empty.")
     private String password;
 
     public GuestDTO() {}
 
     public GuestDTO(
+            Integer id,
             @NotBlank(message = "First name cannot be empty.") String firstName,
             @NotBlank(message = "Last name cannot be empty.") String lastName,
             @NotBlank(message = "Email name cannot be empty.")
             @Email(message = "Email format is not valid.") String emailAddress,
-            @NotBlank(message = "Username name cannot be empty.") String username,
-            @NotBlank(message = "Password name cannot be empty.") String password) {
+            @NotBlank(message = "Username name cannot be empty.") String username) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
         this.username = username;
-        this.password = password;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getFirstName() {

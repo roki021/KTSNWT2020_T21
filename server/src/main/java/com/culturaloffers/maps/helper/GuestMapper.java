@@ -27,11 +27,11 @@ public class GuestMapper implements MapperInterface<Guest, GuestDTO> {
     @Override
     public GuestDTO toDto(Guest entity) {
         return new GuestDTO(
+                entity.getId(),
                 entity.getFirstName(),
                 entity.getLastName(),
                 entity.getEmailAddress(),
-                entity.getUsername(),
-                entity.getPassword()
+                entity.getUsername()
         );
     }
 
