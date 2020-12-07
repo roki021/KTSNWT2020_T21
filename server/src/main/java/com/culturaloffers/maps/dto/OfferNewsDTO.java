@@ -1,17 +1,25 @@
 package com.culturaloffers.maps.dto;
 
-import com.culturaloffers.maps.model.OfferNews;
-
+import javax.validation.constraints.NotBlank;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class OfferNewsDTO {
 
     private Integer id;
+
+    @NotBlank(message = "Title cannot be empty")
     private String title;
+
+    @NotBlank(message = "Description cannot be empty")
     private String description;
+
     private List<String> imageUrls;
+
+    @NotBlank(message = "CulturalOfferId cannot be empty")
     private Integer culturalOfferId;
+
     private String date;
 
     public Integer getId() {
@@ -62,14 +70,20 @@ public class OfferNewsDTO {
         this.date = date;
     }
 
-    public OfferNewsDTO(OfferNews news){
-        this.culturalOfferId = news.getCulturalOffer().getId();
-        this.description = news.getDescription();
-        this.id = news.getId();
-        this.imageUrls = news.getImageUrls();
-        this.title = news.getTitle();
+    public OfferNewsDTO(
+            Integer id,
+            @NotBlank(message = "Title cannot be empty") String title,
+            @NotBlank(message = "Description cannot be empty") String description,
+            List<String> imageUrls,
+            @NotBlank(message = "CulturalOfferId cannot be empty") Integer culturalOfferId,
+            Date date) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.imageUrls = imageUrls;
+        this.culturalOfferId = culturalOfferId;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        this.date = sdf.format(news.getDate());
+        this.date = sdf.format(date);
     }
 
     public OfferNewsDTO(){}

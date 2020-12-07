@@ -75,12 +75,12 @@ public class OfferNews {
         this.culturalOffer = culturalOffer;
     }
 
-    public OfferNews(OfferNewsDTO dto){
-        this.id = dto.getId();
-        this.description = dto.getDescription();
-        this.title = dto.getTitle();
+    public OfferNews(Integer id, String title, String description, List<String> imageUrls) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.imageUrls = imageUrls;
         this.date = new Date();
-        this.imageUrls = dto.getImageUrls();
     }
 
     public OfferNews(){}

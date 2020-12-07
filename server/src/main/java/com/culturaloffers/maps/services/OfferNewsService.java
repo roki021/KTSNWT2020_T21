@@ -1,5 +1,6 @@
 package com.culturaloffers.maps.services;
 
+import com.culturaloffers.maps.model.CulturalOffer;
 import com.culturaloffers.maps.model.OfferNews;
 import com.culturaloffers.maps.repositories.OfferNewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,16 @@ public class OfferNewsService {
     @Autowired
     private OfferNewsRepository repository;
 
-    public OfferNews create(OfferNews news) throws Exception {
+    @Autowired
+    private CulturalOfferService offerService;
+
+    public OfferNews create(OfferNews news, Integer id) throws Exception {
         if (repository.findByTitle(news.getTitle()) != null)
             throw new Exception("Title of an offer news must be unique");
+        CulturalOffer offer = offerService.findOne(id);
+        if (offer == null)
+            throw new Exception("Cultural offer must be assigned");
+        news.setCulturalOffer(offer);
         return repository.save(news);
     }
 

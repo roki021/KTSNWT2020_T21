@@ -1,6 +1,5 @@
 package com.culturaloffers.maps.controllers;
 
-import com.culturaloffers.maps.dto.CulturalOfferDTO;
 import com.culturaloffers.maps.dto.OfferNewsDTO;
 import com.culturaloffers.maps.helper.OfferNewsMapper;
 import com.culturaloffers.maps.model.CulturalOffer;
@@ -16,8 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -33,27 +30,24 @@ public class OfferNewsController {
 
     private OfferNewsMapper mapper = new OfferNewsMapper();
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferNewsDTO> addOfferNews(@RequestBody OfferNewsDTO dto){
         OfferNews offerNews = mapper.toEntity(dto);
         try {
-            offerNews.setCulturalOffer(culturalOfferService.findOne(dto.getCulturalOfferId()));
-            if (offerNews.getCulturalOffer() == null)
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            service.create(offerNews);
+            service.create(offerNews, dto.getCulturalOfferId());
         } catch (Exception exception){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(mapper.toDto(offerNews), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/all", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<OfferNewsDTO>> getAll(){
         List<OfferNewsDTO> ret = mapper.toDtoList(service.findAll());
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/page", method = RequestMethod.GET)
+    @RequestMapping(value="/by-page", method = RequestMethod.GET)
     public ResponseEntity<Page<OfferNewsDTO>> getAllPageable(Pageable pageable){
         Page<OfferNews> page = service.findAll(pageable);
         List<OfferNewsDTO> dtos = mapper.toDtoList(page.toList());
