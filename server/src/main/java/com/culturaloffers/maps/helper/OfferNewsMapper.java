@@ -10,7 +10,12 @@ public class OfferNewsMapper implements MapperInterface<OfferNews, OfferNewsDTO>
 
     @Override
     public OfferNews toEntity(OfferNewsDTO dto) {
-        return new OfferNews(dto);
+        return new OfferNews(
+                dto.getId(),
+                dto.getTitle(),
+                dto.getDescription(),
+                dto.getImageUrls()
+        );
     }
 
     @Override
@@ -25,7 +30,14 @@ public class OfferNewsMapper implements MapperInterface<OfferNews, OfferNewsDTO>
 
     @Override
     public OfferNewsDTO toDto(OfferNews entity) {
-        return new OfferNewsDTO(entity);
+        return new OfferNewsDTO(
+                entity.getId(),
+                entity.getTitle(),
+                entity.getDescription(),
+                entity.getImageUrls(),
+                entity.getCulturalOffer().getId(),
+                entity.getDate()
+        );
     }
 
     @Override
