@@ -83,6 +83,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         BasicAuthenticationFilter.class);
         // zbog jednostavnosti primera
         http.csrf().disable();
+
+        // h2 console
+        http.headers().frameOptions().disable();
     }
 
     // Generalna bezbednost aplikacije
