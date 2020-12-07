@@ -1,3 +1,7 @@
+INSERT INTO authority (name) VALUES
+    ('ROLE_ADMIN'),
+    ('ROLE_GUEST');
+
 INSERT INTO guest (id, first_name, last_name, email_address, username, password, active) VALUES
     (1001, 'Petar', 'Petrović', 'ppetrovic@gmail.com', 'perica', '12345', true),
     (1002, 'Mika', 'Mikić', 'mmikic@gmail.com', 'mikica', '12345', true),
@@ -18,4 +22,25 @@ INSERT INTO guest (id, first_name, last_name, email_address, username, password,
 
 INSERT INTO admin (id, username, password) VALUES
     (1111, 'admin', 'admin');
+
+INSERT INTO user_authority (user_id, authority_id) VALUES
+    (1111, 1),
+    (1001, 2),
+    (1002, 2),
+    (1003, 2),
+    (1004, 2),
+    (1005, 2),
+    (1006, 2),
+    (1007, 2),
+    (1008, 2),
+    (1009, 2),
+    (1010, 2),
+    (1011, 2),
+    (1012, 2),
+    (1013, 2),
+    (1014, 2),
+    (1015, 2),
+    (1016, 2);
+
+
 
