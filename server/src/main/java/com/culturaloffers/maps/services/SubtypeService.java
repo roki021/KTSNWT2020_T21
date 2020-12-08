@@ -27,9 +27,9 @@ public class SubtypeService {
         return subtypeRepository.findAll(pageable);
     }
 
-    public Subtype findOne(String name) {
+    public Subtype findOne(Integer id) {
 
-        return subtypeRepository.findByName(name);
+        return subtypeRepository.findById(id).orElse(null);
     }
 
     public List<Subtype> findByOfferType(Integer offerTypeId) {
@@ -42,7 +42,7 @@ public class SubtypeService {
             throw new Exception("Subtype with given name already exists.");
         }
 
-        OfferType offerType = offerTypeService.findOne(offerTypeName);
+        OfferType offerType = offerTypeService.findOneName(offerTypeName);
         if(offerTypeService == null) {
             throw new Exception("Chosen offer type doesn't exist.");
         }
@@ -63,8 +63,8 @@ public class SubtypeService {
         return subtypeRepository.save(existingSubtype);
     }
 
-    public void delete(String name) throws Exception {
-        Subtype existingSubtype = subtypeRepository.findByName(name);
+    public void delete(Integer id) throws Exception {
+        Subtype existingSubtype = subtypeRepository.findById(id).orElse(null);
         if(existingSubtype == null){
             throw new Exception("Subtype with given name doesn't exist");
         }
