@@ -30,7 +30,7 @@ public class CulturalOfferController {
     public ResponseEntity<CulturalOfferDTO> addCulturalOffer(@RequestBody CulturalOfferDTO dto){
         CulturalOffer culturalOffer = mapper.toEntity(dto);
         try {
-            service.create(culturalOffer);
+            service.create(culturalOffer, dto.getAddress(), dto.getSubTypeName());
         } catch (Exception exception){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -66,9 +66,11 @@ public class CulturalOfferController {
 
     @RequestMapping(value="/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CulturalOfferDTO> updateOffer(@RequestBody CulturalOfferDTO dto, @PathVariable Integer id){
-        CulturalOffer culturalOffer;
+        CulturalOffer culturalOffer = mapper.toEntity(dto);
         try{
-            culturalOffer = service.update(id, mapper.toEntity(dto));
+            culturalOffer.setGeoLocation(service.findOne(id).getGeoLocation());
+            culturalOffer.setSubtype(service.findOne(id).getSubtype());
+            service.update(id, mapper.toEntity(dto));
         }catch (Exception exception){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
