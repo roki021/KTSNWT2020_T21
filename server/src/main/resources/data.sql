@@ -22,8 +22,8 @@ INSERT INTO guest (id, first_name, last_name, email_address, username, password,
     (1016, 'Zorana', 'Zoranić', 'zers61@gmail.com', 'zorat2', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', true);
 
 -- password for admin is 'admin'
-INSERT INTO admin (id, username, password, active) VALUES
-    (1111, 'admin', '$2a$04$5gn/3csNiz5C9S8E5SI.IO9gi8WF6AHofzUW0Ynk3.V2BzTu0sbGG', true);
+INSERT INTO admin (id, username, email_address, password, active) VALUES
+    (1111, 'admin', 'admin@gmail.com', '$2a$04$5gn/3csNiz5C9S8E5SI.IO9gi8WF6AHofzUW0Ynk3.V2BzTu0sbGG', true);
 
 INSERT INTO user_authority (user_id, authority_id) VALUES
     (1111, 1),

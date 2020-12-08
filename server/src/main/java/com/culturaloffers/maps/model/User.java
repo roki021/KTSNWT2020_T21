@@ -18,11 +18,14 @@ public abstract class User implements UserDetails {
     @Column(unique = true, nullable = false)
     protected String username;
 
+    @Column(unique = true, nullable = false)
+    protected String emailAddress;
+
     @Column
     protected String password;
 
     @Column
-    private Boolean active;
+    protected Boolean active;
 
     @Column(name = "last_password_reset_date")
     private Timestamp lastPasswordResetDate;
@@ -35,9 +38,10 @@ public abstract class User implements UserDetails {
 
     public User() {}
 
-    public User(String username, String password) {
+    public User(String username, String password, String emailAddress) {
         this.username = username;
         this.password = password;
+        this.emailAddress = emailAddress;
     }
 
     public Integer getId() {
@@ -55,6 +59,14 @@ public abstract class User implements UserDetails {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     @Override
