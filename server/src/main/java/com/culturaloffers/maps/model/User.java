@@ -12,7 +12,7 @@ import java.util.*;
 public abstract class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "book_generator")
+    @GeneratedValue(strategy = GenerationType.TABLE)
     protected Integer id;
 
     @Column(unique = true, nullable = false)
@@ -121,6 +121,6 @@ public abstract class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.active;
+        return this.active == null ? false : this.active;
     }
 }

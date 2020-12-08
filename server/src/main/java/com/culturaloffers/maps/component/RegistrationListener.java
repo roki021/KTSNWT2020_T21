@@ -33,7 +33,7 @@ public class RegistrationListener implements
         userDetailsService.createVerificationToken(user, token);
 
         String recipientAddress = user.getEmailAddress();
-        String subject = "Registration Confirmation";
+        String subject = "Potvrda registracije";
         String confirmationUrl
                 = event.getAppUrl() + "/auth/registrationConfirm?token=" + token;
         String message = "Za završetak registracije otvorite prosleđeni link: ";
