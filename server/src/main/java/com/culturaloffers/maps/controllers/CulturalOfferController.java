@@ -26,18 +26,18 @@ public class CulturalOfferController {
 
     private CulturalOfferMapper mapper = new CulturalOfferMapper();
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CulturalOfferDTO> addCulturalOffer(@RequestBody CulturalOfferDTO dto){
         CulturalOffer culturalOffer = mapper.toEntity(dto);
         try {
-            service.create(culturalOffer);
+            service.create(culturalOffer, dto.getAddress(), dto.getSubTypeName());
         } catch (Exception exception){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(mapper.toDto(culturalOffer), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/all", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<CulturalOfferDTO>> getAll(){
         List<CulturalOfferDTO> ret = mapper.toDtoList(service.findAll());
         for (CulturalOffer offer: service.findAll()){
@@ -48,7 +48,7 @@ public class CulturalOfferController {
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/page", method = RequestMethod.GET)
+    @RequestMapping(value="/by-page", method = RequestMethod.GET)
     public ResponseEntity<Page<CulturalOfferDTO>> getAllPageable(Pageable pageable){
         Page<CulturalOffer> page = service.findAll(pageable);
         List<CulturalOfferDTO> dtos = mapper.toDtoList(page.toList());
@@ -66,9 +66,11 @@ public class CulturalOfferController {
 
     @RequestMapping(value="/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CulturalOfferDTO> updateOffer(@RequestBody CulturalOfferDTO dto, @PathVariable Integer id){
-        CulturalOffer culturalOffer;
+        CulturalOffer culturalOffer = mapper.toEntity(dto);
         try{
-            culturalOffer = service.update(id, mapper.toEntity(dto));
+            culturalOffer.setGeoLocation(service.findOne(id).getGeoLocation());
+            culturalOffer.setSubtype(service.findOne(id).getSubtype());
+            service.update(id, mapper.toEntity(dto));
         }catch (Exception exception){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

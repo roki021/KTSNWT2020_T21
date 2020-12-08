@@ -10,14 +10,18 @@ public class CulturalOfferMapper implements MapperInterface<CulturalOffer, Cultu
 
     @Override
     public CulturalOffer toEntity(CulturalOfferDTO dto) {
-        return new CulturalOffer(dto);
+        return new CulturalOffer(
+                dto.getId(),
+                dto.getTitle(),
+                dto.getDescription(),
+                dto.getImageUrls());
     }
 
     @Override
     public List<CulturalOffer> toEntityList(List<CulturalOfferDTO> dtoList) {
         List<CulturalOffer> ret = new ArrayList<>();
         for (CulturalOfferDTO dto: dtoList){
-            CulturalOffer offer = toEntity(dto);
+            CulturalOffer offer = this.toEntity(dto);
             ret.add(offer);
         }
         return ret;
@@ -25,14 +29,21 @@ public class CulturalOfferMapper implements MapperInterface<CulturalOffer, Cultu
 
     @Override
     public CulturalOfferDTO toDto(CulturalOffer entity) {
-        return new CulturalOfferDTO(entity);
+        return new CulturalOfferDTO(
+                entity.getId(),
+                entity.getTitle(),
+                entity.getDescription(),
+                entity.getGeoLocation().getAddress(),
+                entity.getSubtype().getName(),
+                entity.getImageUrls()
+        );
     }
 
     @Override
     public List<CulturalOfferDTO> toDtoList(List<CulturalOffer> entityList) {
         List<CulturalOfferDTO> ret = new ArrayList<>();
         for (CulturalOffer offer: entityList){
-            CulturalOfferDTO dto = toDto(offer);
+            CulturalOfferDTO dto = this.toDto(offer);
             ret.add(dto);
         }
         return ret;

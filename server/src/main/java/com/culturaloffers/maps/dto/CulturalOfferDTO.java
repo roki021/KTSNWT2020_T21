@@ -1,16 +1,24 @@
 package com.culturaloffers.maps.dto;
 
-import com.culturaloffers.maps.model.CulturalOffer;
-
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 public class CulturalOfferDTO {
 
     private Integer id;
+
+    @NotBlank(message = "Title cannot be empty")
     private String title;
+
+    @NotBlank(message = "Description cannot be empty")
     private String description;
-    private Integer geoLocationId;
-    private Integer subTypeId;
+
+    @NotBlank(message = "GeoLocationId can not be empty")
+    private String address;
+
+    @NotBlank(message = "SubTypeId can not be empty")
+    private String subTypeName;
+
     private List<String> imageUrls;
 
     public Integer getId() {
@@ -37,20 +45,20 @@ public class CulturalOfferDTO {
         this.description = description;
     }
 
-    public Integer getGeoLocationId() {
-        return geoLocationId;
+    public String getAddress() {
+        return address;
     }
 
-    public void setGeoLocationId(Integer geoLocationId) {
-        this.geoLocationId = geoLocationId;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public Integer getSubTypeId() {
-        return subTypeId;
+    public String getSubTypeName() {
+        return subTypeName;
     }
 
-    public void setSubTypeId(Integer subTypeId) {
-        this.subTypeId = subTypeId;
+    public void setSubTypeName(String subTypeName) {
+        this.subTypeName = subTypeName;
     }
 
     public List<String> getImageUrls() {
@@ -61,13 +69,19 @@ public class CulturalOfferDTO {
         this.imageUrls = imageUrls;
     }
 
-    public CulturalOfferDTO(CulturalOffer offer){
-        this.id = offer.getId();
-        this.description = offer.getDescription();
-        //this.geoLocationId = offer.getGeoLocation().getId();
-        //this.subTypeId = offer.getSubtype().getId();
-        this.title = offer.getTitle();
-        this.imageUrls = offer.getImageUrls();
+    public CulturalOfferDTO(
+            Integer id,
+            @NotBlank(message = "Title cannot be empty") String title,
+            @NotBlank(message = "Description cannot be empty") String description,
+            @NotBlank(message = "GeoLocationId can not be empty") String address,
+            @NotBlank(message = "SubTypeId can not be empty") String subTypeName,
+            List<String> imageUrls){
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.imageUrls = imageUrls;
+        this.address = address;
+        this.subTypeName = subTypeName;
     }
 
     public CulturalOfferDTO() {
