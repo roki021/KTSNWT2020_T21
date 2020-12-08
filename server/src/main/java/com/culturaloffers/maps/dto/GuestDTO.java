@@ -13,13 +13,14 @@ public class GuestDTO {
     @NotBlank(message = "Last name cannot be empty.")
     private String lastName;
 
-    @NotBlank(message = "Email name cannot be empty.")
+    @NotBlank(message = "Email cannot be empty.")
     @Email(message = "Email format is not valid.")
     private String emailAddress;
 
-    @NotBlank(message = "Username name cannot be empty.")
+    @NotBlank(message = "Username cannot be empty.")
     private String username;
 
+    @NotBlank(message = "Password cannot be empty.")
     private String password;
 
     public GuestDTO() {}
