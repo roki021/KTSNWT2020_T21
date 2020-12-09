@@ -27,7 +27,12 @@ public class OfferTypeService {
         return offerTypeRepository.findAll(pageable);
     }
 
-    public OfferType findOne(String name) {
+    public OfferType findOne(Integer id) {
+
+        return offerTypeRepository.findById(id).orElse(null);
+    }
+
+    public OfferType findOneName(String name) {
 
         return offerTypeRepository.findByName(name);
     }
@@ -52,8 +57,8 @@ public class OfferTypeService {
         return offerTypeRepository.save(existingOfferType);
     }
 
-    public void delete(String name) throws Exception {
-        OfferType existingOfferType = offerTypeRepository.findByName(name);
+    public void delete(Integer id) throws Exception {
+        OfferType existingOfferType = offerTypeRepository.findById(id).orElse(null);
         if(existingOfferType == null){
             throw new Exception("Offer type with given name doesn't exist");
         }

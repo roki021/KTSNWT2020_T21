@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -37,6 +38,7 @@ public class OfferTypeController {
         return new ResponseEntity<>(offerTypeMapper.toDtoList(offerTypes), HttpStatus.OK);
     }
 
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value= "/by-page", method = RequestMethod.GET)
     public ResponseEntity<Page<OfferTypeDTO>> getAllOfferTypes(Pageable pageable) {
         Page<OfferType> offerTypesPage = offerTypeService.findAll(pageable);
@@ -45,10 +47,10 @@ public class OfferTypeController {
                 offerTypesPage.getPageable(),offerTypesPage.getTotalElements()), HttpStatus.OK);
     }
 
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value="/{name}", method=RequestMethod.GET)
-    public ResponseEntity<OfferTypeDTO> getOfferType(@PathVariable String name){
-        OfferType offerType = offerTypeService.findOne(name);
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value="/{id}", method=RequestMethod.GET)
+    public ResponseEntity<OfferTypeDTO> getOfferType(@PathVariable Integer id){
+        OfferType offerType = offerTypeService.findOne(id);
         if(offerType == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -56,7 +58,7 @@ public class OfferTypeController {
         return new ResponseEntity<>(offerTypeMapper.toDto(offerType), HttpStatus.OK);
     }
 
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferTypeDTO> createOfferType(@RequestBody OfferTypeDTO offerTypeDTO){
         OfferType offerType;
@@ -72,7 +74,7 @@ public class OfferTypeController {
         return new ResponseEntity<>(offerTypeMapper.toDto(offerType), HttpStatus.CREATED);
     }
 
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferTypeDTO> updateOfferType(
             @RequestBody OfferTypeDTO offerTypeDTO, @PathVariable Integer id){
@@ -86,11 +88,11 @@ public class OfferTypeController {
         return new ResponseEntity<>(offerTypeMapper.toDto(offerType), HttpStatus.OK);
     }
 
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value="/{name}", method=RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteOfferType(@PathVariable String name){
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteOfferType(@PathVariable Integer id){
         try {
-            offerTypeService.delete(name);
+            offerTypeService.delete(id);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
