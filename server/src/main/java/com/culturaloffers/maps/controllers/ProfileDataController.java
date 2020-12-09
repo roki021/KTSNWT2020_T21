@@ -10,6 +10,7 @@ import com.culturaloffers.maps.services.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -23,7 +24,8 @@ public class ProfileDataController {
     ProfileService profileService;
 
     private GuestMapper guestMapper;
-    //@PreAuthorize("hasRole('ROLE_USER')")
+
+    @PreAuthorize("hasRole('ROLE_GUEST')")
     @RequestMapping(value="/{id}", method= RequestMethod.GET)
     public ResponseEntity<GuestDTO> getGuestProfile(@PathVariable Integer id,Principal principal){
         Guest guest = null;
@@ -39,7 +41,7 @@ public class ProfileDataController {
         return new ResponseEntity<>(guestMapper.toDto(guest), HttpStatus.OK);
     }
 
-    //@PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_GUEST')")
     @RequestMapping(value="/{id}", method= RequestMethod.PUT)
     public ResponseEntity<GuestDTO> updateGuestProfile(@PathVariable Integer id, @RequestBody GuestDTO guestDTO,
                                                        Principal principal){
@@ -52,6 +54,7 @@ public class ProfileDataController {
         return new ResponseEntity<>(guestMapper.toDto(guest), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_GUEST')")
     @RequestMapping(value="/{id}/change-password", method= RequestMethod.PUT)
     public ResponseEntity<Void> changePassword(@PathVariable Integer id, @RequestBody PasswordDTO passwordDTO,
                                                Principal principal){
