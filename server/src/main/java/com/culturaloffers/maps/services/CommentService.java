@@ -47,7 +47,7 @@ public class CommentService {
 
         for(String s : comment.getImageUrls())
         {
-            imagePaths.add(ImageHandler.saveImage("src\\main\\resources\\images\\commentImages\\", s));
+            imagePaths.add(ImageHandler.saveImage("src\\main\\resources\\public\\images\\commentImages\\", s));
         }
 
         comment.setImageUrls(imagePaths);
