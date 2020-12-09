@@ -79,6 +79,7 @@ public class OfferNewsController {
         return new ResponseEntity<>(mapper.toDto(offerNews), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN)")
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteOffer(@PathVariable Integer id){
         try {
