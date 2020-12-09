@@ -12,23 +12,25 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/comments")
+@RequestMapping("/c")
 public class CommentController {
     @Autowired
     CommentService commentService;
 
     private CommentMapper commentMapper = new CommentMapper();
 
-    @GetMapping("/culturaloffer/{id}")
-    public ResponseEntity<List<CommentDTO>> findByCulturalOfferId(@PathVariable int id)
+    @GetMapping("/culturaloffer/comments/{id}")
+    public ResponseEntity<List<CommentDTO>> findByCulturalOfferId(@Valid @PathVariable int id)
     {
         try {
             List<Comment> offerComments = commentService.findByCulturalOfferId(id);
@@ -42,8 +44,8 @@ public class CommentController {
         }
     }
 
-    @GetMapping("/culturalofferpg/{id}")
-    public Page<CommentDTO> findByCulturalOfferIdPageable(@PathVariable int id, Pageable pageable)
+    @GetMapping("/culturalofferpg/comments/{id}")
+    public Page<CommentDTO> findByCulturalOfferIdPageable(@Valid @PathVariable int id, Pageable pageable)
     {
         Page<Comment> comments = commentService.findByCulturalOfferId(id, pageable);
         return new PageImpl<CommentDTO>(
@@ -51,8 +53,8 @@ public class CommentController {
         );
     }
 
-    @GetMapping("/usercomments/{id}")
-    public ResponseEntity<List<CommentDTO>> findByUserId(@PathVariable int id)
+    @GetMapping("/user/comments/{id}")
+    public ResponseEntity<List<CommentDTO>> findByUserId(@Valid @PathVariable int id)
     {
         try {
             List<Comment> userComments = commentService.findByUserId(id);
@@ -66,8 +68,8 @@ public class CommentController {
         }
     }
 
-    @GetMapping("/usercommentspg/{id}")
-    public Page<CommentDTO> findByUserIdPageable(@PathVariable int id, Pageable pageable)
+    @GetMapping("/user/commentspg/{id}")
+    public Page<CommentDTO> findByUserIdPageable(@Valid @PathVariable int id, Pageable pageable)
     {
         Page<Comment> comments = commentService.findByCulturalOfferId(id, pageable);
         return new PageImpl<CommentDTO>(
@@ -75,20 +77,23 @@ public class CommentController {
         );
     }
 
+    @PreAuthorize("hasRole('ROLE_GUEST')")
     @PostMapping
-    public CommentDTO addComment(@RequestBody Comment comment)
+    public CommentDTO addComment(@Valid @RequestBody Comment comment)
     {
         return commentMapper.toDto(commentService.addComment(comment));
     }
 
-    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_GUEST')")
+    @DeleteMapping("comment/{id}")
     public Map< String, Boolean > deleteComment(@PathVariable(value = "id") Integer commentId)
     {
         return commentService.deleteById(commentId);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity <CommentDTO> updateComment(@PathVariable(value = "id") Integer commentId, @RequestBody Comment commentDetails)
+    @PreAuthorize("hasRole('ROLE_GUEST')")
+    @PutMapping("comment/{id}")
+    public ResponseEntity <CommentDTO> updateComment(@Valid @PathVariable(value = "id") Integer commentId, @RequestBody Comment commentDetails)
     {
         return ResponseEntity.ok(commentMapper.toDto(commentService.updateComment(commentId, commentDetails)));
     }
