@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,6 +26,7 @@ public class GuestController {
 
     private GuestMapper guestMapper;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(
             consumes = { MediaType.APPLICATION_JSON_VALUE },
             produces = { MediaType.APPLICATION_JSON_VALUE }
@@ -40,6 +42,7 @@ public class GuestController {
         return new ResponseEntity<>(guestMapper.toDto(addedGuest), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     public Page<GuestDTO> getGuests(Pageable pageable) {
         Page<Guest> users = guestService.getGuests(pageable);
@@ -50,6 +53,7 @@ public class GuestController {
         );
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<GuestDTO> getGuest(@PathVariable int id) {
         Guest guest = guestService.getGuestById(id);
@@ -60,6 +64,7 @@ public class GuestController {
         return new ResponseEntity<>(guestMapper.toDto(guest), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<GuestDTO> updateGuest(@PathVariable Integer id, @Valid @RequestBody GuestDTO guestDTO) {
         Guest guest;
@@ -76,6 +81,7 @@ public class GuestController {
         return new ResponseEntity<>(guestMapper.toDto(guest), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGuest(@PathVariable Integer id) {
         try {
