@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class OfferNewsController {
 
     private OfferNewsMapper mapper = new OfferNewsMapper();
 
+    @PreAuthorize("hasRole('ROLE_ADMIN)")
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferNewsDTO> addOfferNews(@RequestBody OfferNewsDTO dto){
         OfferNews offerNews = mapper.toEntity(dto);
@@ -55,7 +57,7 @@ public class OfferNewsController {
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<OfferNewsDTO> findOfferNews(@PathVariable Integer id){
         OfferNews news = service.findOne(id);
         if (news == null)
@@ -63,6 +65,7 @@ public class OfferNewsController {
         return new ResponseEntity<>(mapper.toDto(news), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN)")
     @RequestMapping(value="/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferNewsDTO> updateNews(@RequestBody OfferNewsDTO dto, @PathVariable Integer id){
         OfferNews offerNews = mapper.toEntity(dto);
