@@ -12,10 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/profile")
-public class ProfileController {
+public class ProfileDataController {
 
     @Autowired
     ProfileService profileService;
@@ -23,8 +25,13 @@ public class ProfileController {
     private GuestMapper guestMapper;
     //@PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value="/{id}", method= RequestMethod.GET)
-    public ResponseEntity<GuestDTO> getGuestProfile(@PathVariable Integer id){
-        Guest guest = profileService.findProfile(id);
+    public ResponseEntity<GuestDTO> getGuestProfile(@PathVariable Integer id,Principal principal){
+        Guest guest = null;
+        try {
+            guest = profileService.findProfile(id, principal.getName());
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         if(guest == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -34,30 +41,34 @@ public class ProfileController {
 
     //@PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value="/{id}", method= RequestMethod.PUT)
-    public ResponseEntity<GuestDTO> updateGuestProfile(@PathVariable Integer id, @RequestBody GuestDTO guestDTO){
+    public ResponseEntity<GuestDTO> updateGuestProfile(@PathVariable Integer id, @RequestBody GuestDTO guestDTO,
+                                                       Principal principal){
         Guest guest = null;
         try {
-            guest = profileService.updateProfile(guestMapper.toEntity(guestDTO));
+            guest = profileService.updateProfile(id, guestMapper.toEntity(guestDTO), principal.getName());
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(guestMapper.toDto(guest), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/{id}", method= RequestMethod.PUT)
-    public ResponseEntity<Void> changePassword(@PathVariable Integer id, @RequestBody PasswordDTO passwordDTO){
+    @RequestMapping(value="/{id}/change-password", method= RequestMethod.PUT)
+    public ResponseEntity<Void> changePassword(@PathVariable Integer id, @RequestBody PasswordDTO passwordDTO,
+                                               Principal principal){
+
         try {
             if(!passwordDTO.getNewPassword().equals(passwordDTO.getRepetedPassword())){
                 throw new Exception("Repeted password doesnt match");
             }
-            profileService.ChangePassword(id, passwordDTO.getOldPassword(),passwordDTO.getNewPassword());
+            profileService.ChangePassword(id, passwordDTO.getOldPassword(),
+                    passwordDTO.getNewPassword(), principal.getName());
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public ProfileController() {
+    public ProfileDataController() {
         this.guestMapper = new GuestMapper();
     }
 }
