@@ -1,6 +1,7 @@
 package com.culturaloffers.maps.services;
 
 import com.culturaloffers.maps.dto.CommentDTO;
+import com.culturaloffers.maps.helper.ImageHandler;
 import com.culturaloffers.maps.model.Comment;
 import com.culturaloffers.maps.repositories.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,15 @@ public class CommentService {
 
     public Comment addComment(Comment comment)
     {
+        List<String> imagePaths = new ArrayList<String>();
+
+        for(String s : comment.getImageUrls())
+        {
+            imagePaths.add(ImageHandler.saveImage("src\\main\\resources\\images\\commentImages\\", s));
+        }
+
+        comment.setImageUrls(imagePaths);
+
         return commentRepository.save(comment);
     }
 

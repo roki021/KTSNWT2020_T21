@@ -20,7 +20,7 @@ public class GradeMapper implements MapperInterface<Grade, GradeDTO>{
 
     @Override
     public GradeDTO toDto(Grade entity) {
-        return new GradeDTO(entity);
+        return new GradeDTO(entity, entity.getValue(), entity.getGradedOn());
     }
 
     @Override

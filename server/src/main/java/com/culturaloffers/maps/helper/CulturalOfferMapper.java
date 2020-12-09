@@ -33,6 +33,8 @@ public class CulturalOfferMapper implements MapperInterface<CulturalOffer, Cultu
                 entity.getId(),
                 entity.getTitle(),
                 entity.getDescription(),
+                entity.getGeoLocation().getAddress(),
+                entity.getSubtype().getName(),
                 entity.getImageUrls()
         );
     }
