@@ -31,7 +31,7 @@ public class OfferNewsController {
 
     private OfferNewsMapper mapper = new OfferNewsMapper();
 
-    @PreAuthorize("hasRole('ROLE_ADMIN)")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferNewsDTO> addOfferNews(@RequestBody OfferNewsDTO dto){
         OfferNews offerNews = mapper.toEntity(dto);
@@ -65,7 +65,7 @@ public class OfferNewsController {
         return new ResponseEntity<>(mapper.toDto(news), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN)")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferNewsDTO> updateNews(@RequestBody OfferNewsDTO dto, @PathVariable Integer id){
         OfferNews offerNews = mapper.toEntity(dto);
@@ -79,7 +79,7 @@ public class OfferNewsController {
         return new ResponseEntity<>(mapper.toDto(offerNews), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN)")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteOffer(@PathVariable Integer id){
         try {

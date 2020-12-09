@@ -1,5 +1,6 @@
 package com.culturaloffers.maps.services;
 
+import com.culturaloffers.maps.helper.ImageHandler;
 import com.culturaloffers.maps.model.CulturalOffer;
 import com.culturaloffers.maps.model.OfferNews;
 import com.culturaloffers.maps.repositories.OfferNewsRepository;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,6 +28,14 @@ public class OfferNewsService {
         if (offer == null)
             throw new Exception("Cultural offer must be assigned");
         news.setCulturalOffer(offer);
+        List<String> imagePaths = new ArrayList<String>();
+
+        for(String s : news.getImageUrls())
+        {
+            imagePaths.add(ImageHandler.saveImage("src\\main\\resources\\images\\culturalOfferImages\\", s));
+        }
+
+        news.setImageUrls(imagePaths);
         return repository.save(news);
     }
 
@@ -53,6 +63,14 @@ public class OfferNewsService {
         if (repository.findByTitleAndIdNot(news.getTitle(), id) != null)
             throw new Exception("Offer news with given title already exists");
         news.setId(id);
+        List<String> imagePaths = new ArrayList<String>();
+
+        for(String s : news.getImageUrls())
+        {
+            imagePaths.add(ImageHandler.saveImage("src\\main\\resources\\images\\culturalOfferImages\\", s));
+        }
+
+        news.setImageUrls(imagePaths);
         return repository.save(news);
     }
 
