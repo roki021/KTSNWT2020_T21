@@ -2,18 +2,26 @@ package com.culturaloffers.maps.dto;
 
 import com.culturaloffers.maps.model.Grade;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class GradeDTO {
     private Integer id;
+
+    @NotNull(message = "Grade value can not be null")
     private int value;
+
+    @NotNull(message = "Grade date can not be null")
     private Date gradedOn;
     private int culturalOfferId;
     private String culturalOfferName;
     private int userId;
     private String userUsername;
 
-    public GradeDTO(Grade grade)
+    public GradeDTO(@NotNull Grade grade,
+                    @NotNull (message = "Value can't be null") int value,
+                    @NotNull (message = "Date can't be null") Date gradedOn)
     {
         this.id = grade.getId();
         this.value = grade.getValue();

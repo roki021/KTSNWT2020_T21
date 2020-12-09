@@ -1,6 +1,9 @@
 package com.culturaloffers.maps.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -10,9 +13,11 @@ public class Grade {
     private Integer id;
 
     @Column(nullable = false)
-    private int value;
+    @NotNull(message = "Grade value can't be null")
+    private Integer value;
 
     @Column(nullable = false)
+    @NotNull(message = "Date can't be null")
     private Date gradedOn;
 
     @ManyToOne

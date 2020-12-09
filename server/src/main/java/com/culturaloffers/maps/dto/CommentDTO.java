@@ -5,21 +5,30 @@ import com.culturaloffers.maps.model.CulturalOffer;
 import com.culturaloffers.maps.model.Guest;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
 public class CommentDTO {
 
     private Integer id;
+
+    @NotBlank (message = "Comment content can't be empty")
     private String content;
+
+    @NotNull(message = "Comment date can't be empty")
     private Date commentedOn;
+
     private List<String> imageUrls;
     private Integer userId;
     private Integer culturalOfferId;
     private String userUsername;
     private String culturalOfferName;
 
-    public CommentDTO(Comment comment)
+    public CommentDTO(@NotBlank (message = "Content can't be empty") String content,
+                      @NotNull (message = "Data can't be null") Date commentedOn,
+                      @NotNull (message = "Comment can't be null") Comment comment)
     {
         this.id = comment.getId();
         this.content = comment.getContent();
