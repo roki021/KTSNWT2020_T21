@@ -27,9 +27,9 @@ public class CulturalOfferService {
         if (geoLocationService.getByAddress(address) == null)
             throw new Exception("GeoLocation is not valid!");
         offer.setGeoLocation(geoLocationService.getByAddress(address));
-        if (subtypeService.findOne(subtypeName) == null)
+        if (subtypeService.findByName(subtypeName) == null)
             throw new Exception("Subtype is not valid!");
-        offer.setSubtype(subtypeService.findOne(subtypeName));
+        offer.setSubtype(subtypeService.findByName(subtypeName));
         return repository.save(offer);
     }
 

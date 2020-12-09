@@ -32,6 +32,11 @@ public class SubtypeService {
         return subtypeRepository.findById(id).orElse(null);
     }
 
+    public Subtype findByName(String name) {
+
+        return subtypeRepository.findByName(name);
+    }
+
     public List<Subtype> findByOfferType(Integer offerTypeId) {
 
         return subtypeRepository.findByOfferTypeId(offerTypeId);
