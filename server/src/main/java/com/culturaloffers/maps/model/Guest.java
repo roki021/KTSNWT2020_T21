@@ -12,12 +12,6 @@ public class Guest extends User {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(unique = true, nullable = false)
-    private String emailAddress;
-
-    @Column
-    private Boolean active;
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "subscribers")
     private Set<CulturalOffer> subscriptions;
 
@@ -30,10 +24,9 @@ public class Guest extends User {
     public Guest() {}
 
     public Guest(String firstName, String lastName, String emailAddress, String username, String password) {
-        super(username, password);
+        super(username, password, emailAddress);
         this.firstName = firstName;
         this.lastName = lastName;
-        this.emailAddress = emailAddress;
     }
 
     public String getFirstName() {
@@ -50,22 +43,6 @@ public class Guest extends User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
     }
 
     public Set<CulturalOffer> getSubscriptions() {
