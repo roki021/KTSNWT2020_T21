@@ -1,6 +1,9 @@
 package com.culturaloffers.maps.dto;
 
+import javax.validation.constraints.NotBlank;
+
 public class SubtypeDTO {
+    @NotBlank(message = "Name cannot be empty.")
     private String name;
     private Integer id;
     private String offerTypeName;
@@ -9,7 +12,7 @@ public class SubtypeDTO {
 
     }
 
-    public SubtypeDTO(Integer id, String name, String offerTypeName){
+    public SubtypeDTO(Integer id, @NotBlank(message = "Name cannot be empty.") String name, String offerTypeName){
         this.id = id;
         this.name = name;
         this.offerTypeName = offerTypeName;

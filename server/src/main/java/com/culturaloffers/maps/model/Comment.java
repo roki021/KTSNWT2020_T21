@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 @Entity
@@ -13,9 +15,11 @@ public class Comment {
     private Integer id;
 
     @Column(nullable = false)
+    @NotBlank(message = "Comment content can't be null")
     private String content;
 
     @Column(nullable = false)
+    @NotNull(message = "Date can't be null")
     private Date commentedOn;
 
     @ElementCollection
@@ -23,9 +27,11 @@ public class Comment {
     private List<String> imageUrls;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull(message = "Guest can't be null")
     private Guest user;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull(message = "Cultural offer can't be null")
     private CulturalOffer culturalOffer;
 
     public Integer getId() {

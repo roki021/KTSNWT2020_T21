@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,11 +27,12 @@ public class CulturalOfferController {
 
     private CulturalOfferMapper mapper = new CulturalOfferMapper();
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CulturalOfferDTO> addCulturalOffer(@RequestBody CulturalOfferDTO dto){
         CulturalOffer culturalOffer = mapper.toEntity(dto);
         try {
-            service.create(culturalOffer);
+            service.create(culturalOffer, dto.getAddress(), dto.getSubTypeName());
         } catch (Exception exception){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -56,7 +58,7 @@ public class CulturalOfferController {
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<CulturalOfferDTO> findCulturalOffer(@PathVariable Integer id){
         CulturalOffer offer = service.findOne(id);
         if (offer == null)
@@ -64,17 +66,21 @@ public class CulturalOfferController {
         return new ResponseEntity<>(mapper.toDto(offer), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CulturalOfferDTO> updateOffer(@RequestBody CulturalOfferDTO dto, @PathVariable Integer id){
-        CulturalOffer culturalOffer;
+        CulturalOffer culturalOffer = mapper.toEntity(dto);
         try{
-            culturalOffer = service.update(id, mapper.toEntity(dto));
+            culturalOffer.setGeoLocation(service.findOne(id).getGeoLocation());
+            culturalOffer.setSubtype(service.findOne(id).getSubtype());
+            service.update(id, mapper.toEntity(dto));
         }catch (Exception exception){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(mapper.toDto(culturalOffer), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteOffer(@PathVariable Integer id){
         try {

@@ -13,11 +13,11 @@ public class CulturalOfferDTO {
     @NotBlank(message = "Description cannot be empty")
     private String description;
 
-    //@NotBlank(message = "GeoLocationId can not be empty")
-    private Integer geoLocationId;
+    @NotBlank(message = "GeoLocationId can not be empty")
+    private String address;
 
-    //@NotBlank(message = "SubTypeId can not be empty")
-    private Integer subTypeId;
+    @NotBlank(message = "SubTypeId can not be empty")
+    private String subTypeName;
 
     private List<String> imageUrls;
 
@@ -45,20 +45,20 @@ public class CulturalOfferDTO {
         this.description = description;
     }
 
-    public Integer getGeoLocationId() {
-        return geoLocationId;
+    public String getAddress() {
+        return address;
     }
 
-    public void setGeoLocationId(Integer geoLocationId) {
-        this.geoLocationId = geoLocationId;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public Integer getSubTypeId() {
-        return subTypeId;
+    public String getSubTypeName() {
+        return subTypeName;
     }
 
-    public void setSubTypeId(Integer subTypeId) {
-        this.subTypeId = subTypeId;
+    public void setSubTypeName(String subTypeName) {
+        this.subTypeName = subTypeName;
     }
 
     public List<String> getImageUrls() {
@@ -73,15 +73,15 @@ public class CulturalOfferDTO {
             Integer id,
             @NotBlank(message = "Title cannot be empty") String title,
             @NotBlank(message = "Description cannot be empty") String description,
-            //Integer geoLocationId,
-            //Integer subTypeId,
+            @NotBlank(message = "GeoLocationId can not be empty") String address,
+            @NotBlank(message = "SubTypeId can not be empty") String subTypeName,
             List<String> imageUrls){
         this.id = id;
         this.title = title;
         this.description = description;
         this.imageUrls = imageUrls;
-        //this.geoLocationId = geoLocationId;
-        //this.subTypeId = subTypeId;
+        this.address = address;
+        this.subTypeName = subTypeName;
     }
 
     public CulturalOfferDTO() {

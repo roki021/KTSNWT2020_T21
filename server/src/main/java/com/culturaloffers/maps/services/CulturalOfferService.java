@@ -15,9 +15,21 @@ public class CulturalOfferService {
     @Autowired
     private CulturalOfferRepository repository;
 
-    public CulturalOffer create(CulturalOffer offer) throws Exception {
+    @Autowired
+    private GeoLocationService geoLocationService;
+
+    @Autowired
+    private SubtypeService subtypeService;
+
+    public CulturalOffer create(CulturalOffer offer, String address, String subtypeName) throws Exception {
         if (repository.findByTitle(offer.getTitle()) != null)
             throw new Exception("Title of a cultural offer must be unique");
+        if (geoLocationService.getByAddress(address) == null)
+            throw new Exception("GeoLocation is not valid!");
+        offer.setGeoLocation(geoLocationService.getByAddress(address));
+        if (subtypeService.findByName(subtypeName) == null)
+            throw new Exception("Subtype is not valid!");
+        offer.setSubtype(subtypeService.findByName(subtypeName));
         return repository.save(offer);
     }
 

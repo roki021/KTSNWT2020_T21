@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +23,7 @@ public class UserController {
 
     private UserMapper userMapper;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     public Page<UserDTO> getUsers(Pageable pageable) {
         Page<User> users = userService.getUsers(pageable);
@@ -32,6 +34,7 @@ public class UserController {
         );
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable Integer id) {
         User user = userService.getUserById(id);
@@ -42,6 +45,7 @@ public class UserController {
         return new ResponseEntity<>(userMapper.toDto(user), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
         try {

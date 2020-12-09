@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,14 +21,14 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/grades")
+@RequestMapping("/g")
 public class GradeController {
     @Autowired
     GradeService gradeService;
 
     private GradeMapper gradeMapper = new GradeMapper();
 
-    @GetMapping("/culturaloffer/{id}")
+    @GetMapping("/culturaloffer/grades/{id}")
     public ResponseEntity<List<GradeDTO>> findByCulturalOfferId(@PathVariable int id)
     {
         try {
@@ -42,7 +43,7 @@ public class GradeController {
         }
     }
 
-    @GetMapping("/culturalofferpg/{id}")
+    @GetMapping("/culturalofferpg/grades/{id}")
     public Page<GradeDTO> findByCulturalOfferIdPageable(@PathVariable int id, Pageable pageable)
     {
         Page<Grade> grades = gradeService.findByCulturalOfferId(id, pageable);
@@ -51,7 +52,7 @@ public class GradeController {
         );
     }
 
-    @GetMapping("/usergrades/{id}")
+    @GetMapping("/user/grades/{id}")
     public ResponseEntity<List<GradeDTO>> findByUserId(@PathVariable int id)
     {
         try {
@@ -66,7 +67,7 @@ public class GradeController {
         }
     }
 
-    @GetMapping("/usergradespg/{id}")
+    @GetMapping("/user/gradespg/{id}")
     public Page<GradeDTO> findByUserIdPageable(@PathVariable int id, Pageable pageable)
     {
         Page<Grade> grades = gradeService.findByCulturalOfferId(id, pageable);
@@ -75,19 +76,22 @@ public class GradeController {
         );
     }
 
+    @PreAuthorize("hasRole('ROLE_GUEST')")
     @PostMapping
     public GradeDTO addGrade(@RequestBody Grade grade)
     {
         return gradeMapper.toDto(gradeService.addGrade(grade));
     }
 
-    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_GUEST')")
+    @DeleteMapping("grade/{id}")
     public Map< String, Boolean > deleteGrade(@PathVariable(value = "id") Integer gradeId)
     {
         return gradeService.deleteById(gradeId);
     }
 
-    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_GUEST')")
+    @PutMapping("grade/{id}")
     public ResponseEntity <GradeDTO> updateGrade(@PathVariable(value = "id") Integer gradeId, @RequestBody Grade gradeDetails)
     {
         return ResponseEntity.ok(gradeMapper.toDto(gradeService.updateGrade(gradeId, gradeDetails)));
