@@ -35,7 +35,17 @@ public class ProfileService {
         if(!user.getUsername().equals(username)){
             throw new Exception("Unauthorized action");
         }
+        if(!user.getEmailAddress().equals(guest.getEmailAddress())){
+            if(guestRepository.findByEmailAddress(guest.getEmailAddress()) != null){
+                throw new Exception("Email taken");
+            }
+        }
 
+        if(!user.getUsername().equals(guest.getUsername())){
+            if(guestRepository.findByUsername(guest.getUsername()) != null){
+                throw new Exception("Username taken");
+            }
+        }
         user.setEmailAddress(guest.getEmailAddress());
         user.setFirstName(guest.getFirstName());
         user.setLastName(guest.getLastName());
