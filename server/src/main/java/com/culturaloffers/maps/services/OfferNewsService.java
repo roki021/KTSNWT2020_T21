@@ -29,12 +29,10 @@ public class OfferNewsService {
             throw new Exception("Cultural offer must be assigned");
         news.setCulturalOffer(offer);
         List<String> imagePaths = new ArrayList<String>();
-
         for(String s : news.getImageUrls())
         {
-            imagePaths.add(ImageHandler.saveImage("src\\main\\resources\\images\\culturalOfferImages\\", s));
+            imagePaths.add(ImageHandler.saveImage("src\\main\\images\\newsImages\\", s));
         }
-
         news.setImageUrls(imagePaths);
         return repository.save(news);
     }
@@ -64,12 +62,10 @@ public class OfferNewsService {
             throw new Exception("Offer news with given title already exists");
         news.setId(id);
         List<String> imagePaths = new ArrayList<String>();
-
         for(String s : news.getImageUrls())
         {
-            imagePaths.add(ImageHandler.saveImage("src\\main\\resources\\images\\culturalOfferImages\\", s));
+            imagePaths.add(ImageHandler.saveImage("src\\main\\images\\newsImages\\", s));
         }
-
         news.setImageUrls(imagePaths);
         return repository.save(news);
     }
