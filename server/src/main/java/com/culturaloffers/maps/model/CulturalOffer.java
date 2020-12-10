@@ -35,11 +35,8 @@ public class CulturalOffer {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "culturalOffer")
     private Set<OfferNews> offerNews;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "cultural_offer_subscribers",
-            joinColumns = @JoinColumn(name = "guest_id"),
-            inverseJoinColumns = @JoinColumn(name = "cultural_offer_id"))
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinTable
     private Set<Guest> subscribers;
 
     public Integer getId() {

@@ -12,7 +12,7 @@ public class Guest extends User {
     @Column(nullable = false)
     private String lastName;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "subscribers")
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "subscribers")
     private Set<CulturalOffer> subscriptions;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")

@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -78,7 +79,7 @@ public class GradeController {
 
     @PreAuthorize("hasRole('ROLE_GUEST')")
     @PostMapping
-    public GradeDTO addGrade(@RequestBody Grade grade)
+    public GradeDTO addGrade(@Valid @RequestBody Grade grade)
     {
         return gradeMapper.toDto(gradeService.addGrade(grade));
     }
@@ -92,7 +93,7 @@ public class GradeController {
 
     @PreAuthorize("hasRole('ROLE_GUEST')")
     @PutMapping("grade/{id}")
-    public ResponseEntity <GradeDTO> updateGrade(@PathVariable(value = "id") Integer gradeId, @RequestBody Grade gradeDetails)
+    public ResponseEntity <GradeDTO> updateGrade(@PathVariable(value = "id") Integer gradeId, @Valid @RequestBody Grade gradeDetails)
     {
         return ResponseEntity.ok(gradeMapper.toDto(gradeService.updateGrade(gradeId, gradeDetails)));
     }

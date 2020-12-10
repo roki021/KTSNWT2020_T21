@@ -21,7 +21,7 @@ public class CommentMapper implements MapperInterface<Comment, CommentDTO> {
 
     @Override
     public CommentDTO toDto(Comment entity) {
-        return new CommentDTO(entity.getContent(), entity.getCommentedOn(), entity);
+        return new CommentDTO(entity);
     }
 
     @Override
