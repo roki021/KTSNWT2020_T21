@@ -28,4 +28,5 @@ public class WebConfiguration implements WebMvcConfigurer {
                 .addResolver(new PathResourceResolver());
 
     }
+
 }
