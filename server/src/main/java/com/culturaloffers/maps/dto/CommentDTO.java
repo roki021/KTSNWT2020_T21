@@ -14,10 +14,10 @@ public class CommentDTO {
 
     private Integer id;
 
-    @NotBlank (message = "Comment content can't be empty")
+    @NotBlank(message = "Content can't be blank")
     private String content;
 
-    @NotNull(message = "Comment date can't be empty")
+    @NotNull(message = "Date can't be blank")
     private Date commentedOn;
 
     private List<String> imageUrls;
@@ -26,9 +26,7 @@ public class CommentDTO {
     private String userUsername;
     private String culturalOfferName;
 
-    public CommentDTO(@NotBlank (message = "Content can't be empty") String content,
-                      @NotNull (message = "Data can't be null") Date commentedOn,
-                      @NotNull (message = "Comment can't be null") Comment comment)
+    public CommentDTO(Comment comment)
     {
         this.id = comment.getId();
         this.content = comment.getContent();

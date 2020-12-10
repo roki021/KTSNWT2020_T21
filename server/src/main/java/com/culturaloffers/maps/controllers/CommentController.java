@@ -30,7 +30,7 @@ public class CommentController {
     private CommentMapper commentMapper = new CommentMapper();
 
     @GetMapping("/culturaloffer/comments/{id}")
-    public ResponseEntity<List<CommentDTO>> findByCulturalOfferId(@Valid @PathVariable int id)
+    public ResponseEntity<List<CommentDTO>> findByCulturalOfferId(@PathVariable int id)
     {
         try {
             List<Comment> offerComments = commentService.findByCulturalOfferId(id);
@@ -45,7 +45,7 @@ public class CommentController {
     }
 
     @GetMapping("/culturalofferpg/comments/{id}")
-    public Page<CommentDTO> findByCulturalOfferIdPageable(@Valid @PathVariable int id, Pageable pageable)
+    public Page<CommentDTO> findByCulturalOfferIdPageable(@PathVariable int id, Pageable pageable)
     {
         Page<Comment> comments = commentService.findByCulturalOfferId(id, pageable);
         return new PageImpl<CommentDTO>(
@@ -54,7 +54,7 @@ public class CommentController {
     }
 
     @GetMapping("/user/comments/{id}")
-    public ResponseEntity<List<CommentDTO>> findByUserId(@Valid @PathVariable int id)
+    public ResponseEntity<List<CommentDTO>> findByUserId(@PathVariable int id)
     {
         try {
             List<Comment> userComments = commentService.findByUserId(id);
@@ -69,7 +69,7 @@ public class CommentController {
     }
 
     @GetMapping("/user/commentspg/{id}")
-    public Page<CommentDTO> findByUserIdPageable(@Valid @PathVariable int id, Pageable pageable)
+    public Page<CommentDTO> findByUserIdPageable(@PathVariable int id, Pageable pageable)
     {
         Page<Comment> comments = commentService.findByCulturalOfferId(id, pageable);
         return new PageImpl<CommentDTO>(
@@ -77,23 +77,23 @@ public class CommentController {
         );
     }
 
-    @PreAuthorize("hasRole('ROLE_GUEST')")
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_GUEST')")
     public CommentDTO addComment(@Valid @RequestBody Comment comment)
     {
         return commentMapper.toDto(commentService.addComment(comment));
     }
 
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_GUEST')")
-    @DeleteMapping("comment/{id}")
-    public Map< String, Boolean > deleteComment(@PathVariable(value = "id") Integer commentId)
+    public Map< String, Boolean > deleteComment(@Valid @PathVariable(value = "id") Integer commentId)
     {
         return commentService.deleteById(commentId);
     }
 
+    @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_GUEST')")
-    @PutMapping("comment/{id}")
-    public ResponseEntity <CommentDTO> updateComment(@Valid @PathVariable(value = "id") Integer commentId, @RequestBody Comment commentDetails)
+    public ResponseEntity <CommentDTO> updateComment(@PathVariable(value = "id") Integer commentId, @Valid @RequestBody Comment commentDetails)
     {
         return ResponseEntity.ok(commentMapper.toDto(commentService.updateComment(commentId, commentDetails)));
     }
