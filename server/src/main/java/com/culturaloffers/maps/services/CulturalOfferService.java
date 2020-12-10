@@ -1,5 +1,6 @@
 package com.culturaloffers.maps.services;
 
+import com.culturaloffers.maps.helper.ImageHandler;
 import com.culturaloffers.maps.model.CulturalOffer;
 import com.culturaloffers.maps.repositories.CulturalOfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,6 +32,12 @@ public class CulturalOfferService {
         if (subtypeService.findByName(subtypeName) == null)
             throw new Exception("Subtype is not valid!");
         offer.setSubtype(subtypeService.findByName(subtypeName));
+        List<String> imagePaths = new ArrayList<String>();
+        for(String s : offer.getImageUrls())
+        {
+            imagePaths.add(ImageHandler.saveImage("src\\main\\images\\offerImages\\", s));
+        }
+        offer.setImageUrls(imagePaths);
         return repository.save(offer);
     }
 
@@ -57,6 +65,12 @@ public class CulturalOfferService {
         if (repository.findByTitleAndIdNot(offer.getTitle(), id) != null)
             throw new Exception("Cultural offer with given title already exists");
         offer.setId(id);
+        List<String> imagePaths = new ArrayList<String>();
+        for(String s : offer.getImageUrls())
+        {
+            imagePaths.add(ImageHandler.saveImage("src\\main\\images\\offerImages\\", s));
+        }
+        offer.setImageUrls(imagePaths);
         return repository.save(offer);
     }
 

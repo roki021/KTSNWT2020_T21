@@ -32,7 +32,7 @@ public class OfferNewsService {
 
         for(String s : news.getImageUrls())
         {
-            imagePaths.add(ImageHandler.saveImage("src\\main\\resources\\images\\culturalOfferImages\\", s));
+            imagePaths.add(ImageHandler.saveImage("src\\main\\images\\newsImages\\", s));
         }
 
         news.setImageUrls(imagePaths);
@@ -67,7 +67,7 @@ public class OfferNewsService {
 
         for(String s : news.getImageUrls())
         {
-            imagePaths.add(ImageHandler.saveImage("src\\main\\resources\\images\\culturalOfferImages\\", s));
+            imagePaths.add(ImageHandler.saveImage("src\\main\\images\\newsImages\\", s));
         }
 
         news.setImageUrls(imagePaths);
