@@ -21,7 +21,7 @@ public interface CulturalOfferRepository extends JpaRepository<CulturalOffer, In
     @Query("Select offer from CulturalOffer offer join offer.subtype subtype where subtype.name like  %:name%")
     List<CulturalOffer> findBySubtypeContaining(String name);
 
-    @Query("Select offer from CulturalOffer offer join offer.subscribers subscribers where size(subscribers) >= :amount")
+    @Query("Select distinct(offer) from CulturalOffer offer join offer.subscribers subscribers where size(subscribers) >= :amount")
     List<CulturalOffer> findBySubscriberAmountGreaterEq(Long amount);
 
     @Query("Select distinct(offer) from CulturalOffer offer join offer.userGrades grades where size(grades) > 0")
