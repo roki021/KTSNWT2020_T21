@@ -1,6 +1,7 @@
 package com.culturaloffers.maps.dto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +18,7 @@ public class OfferNewsDTO {
 
     private List<String> imageUrls;
 
-    @NotBlank(message = "CulturalOfferId cannot be empty")
+    @NotNull(message = "CulturalOfferId cannot be empty")
     private Integer culturalOfferId;
 
     private String date;
@@ -75,7 +76,7 @@ public class OfferNewsDTO {
             @NotBlank(message = "Title cannot be empty") String title,
             @NotBlank(message = "Description cannot be empty") String description,
             List<String> imageUrls,
-            @NotBlank(message = "CulturalOfferId cannot be empty") Integer culturalOfferId,
+            @NotNull(message = "CulturalOfferId cannot be empty") Integer culturalOfferId,
             Date date) {
         this.id = id;
         this.title = title;

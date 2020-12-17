@@ -1,6 +1,7 @@
 package com.culturaloffers.maps.controllers;
 
 import com.culturaloffers.maps.dto.CulturalOfferDTO;
+import com.culturaloffers.maps.dto.ZoomDTO;
 import com.culturaloffers.maps.helper.CulturalOfferMapper;
 import com.culturaloffers.maps.model.CulturalOffer;
 import com.culturaloffers.maps.model.OfferNews;
@@ -15,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.ValidationException;
 import java.util.List;
 
 @RestController
@@ -89,6 +92,16 @@ public class CulturalOfferController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // Accessible by all users
+    @RequestMapping(value="/filtering", method = RequestMethod.POST)
+    public ResponseEntity<List<CulturalOfferDTO>> getAllInCurrentZoom(@Valid @RequestBody ZoomDTO zoom) {
+        try {
+            return ResponseEntity.ok(mapper.toDtoList(service.getAllInCurrentZoom(zoom)));
+        } catch(ValidationException ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
