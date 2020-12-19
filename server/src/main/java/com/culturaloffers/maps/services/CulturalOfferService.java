@@ -3,6 +3,7 @@ package com.culturaloffers.maps.services;
 import com.culturaloffers.maps.dto.ZoomDTO;
 import com.culturaloffers.maps.helper.ImageHandler;
 import com.culturaloffers.maps.model.CulturalOffer;
+import com.culturaloffers.maps.model.Grade;
 import com.culturaloffers.maps.repositories.CulturalOfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -75,6 +76,52 @@ public class CulturalOfferService {
         return repository.save(offer);
     }
 
+    public List<CulturalOffer> search(String value, String field) throws Exception {
+        List<CulturalOffer> offers = null;
+
+        switch (field.toLowerCase()){
+            case "title":
+                offers = repository.findByTitleContaining(value);
+                break;
+            case "description":
+                offers = repository.findByDescriptionContaining(value);
+                break;
+            case "subtype":
+                offers = repository.findBySubtypeContaining(value);
+                break;
+            case "type":
+                offers = repository.findByTypeContaining(value);
+                break;
+            case "subscribers":
+                if(value.equals("0")){
+                    return repository.findAll();
+                }
+                offers = repository.findBySubscriberAmountGreaterEq(Long.parseLong(value));
+                break;
+            case "grade":
+                if(value.equals("0")){
+                    return repository.findAll();
+                }
+                else if(Double.parseDouble(value) < 0){
+                    throw new Exception("Positive value needed");
+                }
+                List<CulturalOffer> pom = repository.findGraded();
+                offers = new ArrayList<CulturalOffer>();
+                for(CulturalOffer offer : pom){
+                    double grade = 0;
+                    for(Grade userGrade : offer.getUserGrades()){
+                        grade += userGrade.getValue();
+                    }
+                    if(grade/offer.getUserGrades().size() >= Double.parseDouble(value)){
+                        offers.add(offer);
+                    }
+                }
+                break;
+            default: throw new Exception("Bad search field");
+        }
+        return offers;
+    }
+
     public List<CulturalOffer> getAllInCurrentZoom(ZoomDTO zoom) {
         return repository.findAllByZoom(
                 zoom.getlatitudeLowerCorner(),
@@ -83,4 +130,5 @@ public class CulturalOfferService {
                 zoom.getlongitudeLowerCorner()
         );
     }
+
 }

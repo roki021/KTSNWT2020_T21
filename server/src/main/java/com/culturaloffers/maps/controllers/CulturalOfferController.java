@@ -1,6 +1,7 @@
 package com.culturaloffers.maps.controllers;
 
 import com.culturaloffers.maps.dto.CulturalOfferDTO;
+import com.culturaloffers.maps.dto.SearchDTO;
 import com.culturaloffers.maps.dto.ZoomDTO;
 import com.culturaloffers.maps.helper.CulturalOfferMapper;
 import com.culturaloffers.maps.model.CulturalOffer;
@@ -94,6 +95,17 @@ public class CulturalOfferController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = "/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CulturalOfferDTO>> searchCulturalOffers(@RequestBody SearchDTO dto){
+        List<CulturalOffer> culturalOffers = null;
+        try {
+            culturalOffers = service.search(dto.getSearchValue(), dto.getSearchField());
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(mapper.toDtoList(culturalOffers), HttpStatus.OK);
+    }
     // Accessible by all users
     @RequestMapping(value="/filtering", method = RequestMethod.POST)
     public ResponseEntity<List<CulturalOfferDTO>> getAllInCurrentZoom(@Valid @RequestBody ZoomDTO zoom) {
