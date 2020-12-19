@@ -30,4 +30,15 @@ public interface CulturalOfferRepository extends JpaRepository<CulturalOffer, In
     @Query("Select offer from CulturalOffer offer join offer.subtype subtype where subtype.offerType.name like  %:name%")
     List<CulturalOffer> findByTypeContaining(String name);
 
+    @Query(
+            value = "SELECT * FROM CULTURAL_OFFER C JOIN GEO_LOCATION G ON C.GEO_LOCATION_ID=G.ID AND " +
+                    "G.LATITUDE BETWEEN ?1 AND ?2 AND G.LONGITUDE BETWEEN ?3 AND ?4",
+            nativeQuery = true
+    )
+    List<CulturalOffer> findAllByZoom(
+            double latitudeLowerCorner,
+            double latitudeUpperCorner,
+            double longitudeUpperCorner,
+            double longitudeLowerCorner
+    );
 }
