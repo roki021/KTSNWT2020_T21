@@ -1,5 +1,6 @@
 package com.culturaloffers.maps.services;
 
+import com.culturaloffers.maps.dto.ZoomDTO;
 import com.culturaloffers.maps.helper.ImageHandler;
 import com.culturaloffers.maps.model.CulturalOffer;
 import com.culturaloffers.maps.repositories.CulturalOfferRepository;
@@ -74,4 +75,12 @@ public class CulturalOfferService {
         return repository.save(offer);
     }
 
+    public List<CulturalOffer> getAllInCurrentZoom(ZoomDTO zoom) {
+        return repository.findAllByZoom(
+                zoom.getlatitudeLowerCorner(),
+                zoom.getlatitudeUpperCorner(),
+                zoom.getlongitudeUpperCorner(),
+                zoom.getlongitudeLowerCorner()
+        );
+    }
 }
