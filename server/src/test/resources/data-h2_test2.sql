@@ -69,3 +69,8 @@ INSERT INTO subtype (id, name, offer_type_id) VALUES
     (13, 'bar', 5),
     (14, 'hotel', 5),
     (15, 'vinarija', 5);
+
+    INSERT INTO geo_location (id, latitude, longitude, address) VALUES
+        (1, 43.28627472234662, 20.8102511883379, 'Kopaonik 36354');
+    INSERT INTO cultural_offer (id, title, description, subtype_id, geo_location_id) VALUES
+        (1, 'Kopaonik nacionalni park', 'Planinski venac u čijem se središtu nalazi istoimeni ski-centar', 1, 1);

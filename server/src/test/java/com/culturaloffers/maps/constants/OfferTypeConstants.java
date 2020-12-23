@@ -16,4 +16,11 @@ public class OfferTypeConstants {
     public static final Integer PAGEABLE_TOTAL_ELEMENTS = 3;
 
     public static final Integer OFFER_ID = 3;
+    public static final Integer OFFER_ID2 = 5;
+    public static final Integer BAD_ID = 4;
+
+    public static final String DB_SUBTYPE = "nacionalni";
+
+    public static final String OFFER_TITLE = "EXIT";
+    public static final String OFFER_DES = "Festival u Petrovaradinu";
 }

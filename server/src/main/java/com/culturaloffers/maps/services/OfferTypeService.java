@@ -62,6 +62,7 @@ public class OfferTypeService {
         if(existingOfferType == null){
             throw new Exception("Offer type with given name doesn't exist");
         }
+
         for(Subtype subtype : subtypeService.findByOfferType(existingOfferType.getId())){
             if(subtype.getCulturalOffers() != null && subtype.getCulturalOffers().size() != 0){
                 throw new Exception("There exists a cultural offer of the given offer type");

@@ -1,5 +1,7 @@
 package com.culturaloffers.maps.services;
 
+import com.culturaloffers.maps.model.CulturalOffer;
+import com.culturaloffers.maps.model.GeoLocation;
 import com.culturaloffers.maps.model.OfferType;
 import com.culturaloffers.maps.model.Subtype;
 import com.culturaloffers.maps.repositories.OfferTypeRepository;
@@ -17,12 +19,13 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.culturaloffers.maps.constants.OfferTypeConstants.*;
-import static com.culturaloffers.maps.constants.SubtypeConstants.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+//import static com.culturaloffers.maps.constants.SubtypeConstants.*;
+import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -56,7 +59,6 @@ public class OfferTypeServiceUnitTest {
         Pageable pageable = PageRequest.of(PAGEABLE_PAGE,PAGEABLE_SIZE);
         Page<OfferType> offerTypePage = new PageImpl<>(offerTypes,pageable,PAGEABLE_TOTAL_ELEMENTS);
 
-        // Definisanje ponasanja test dvojnika culturalContentCategoryRepository za findAll metodu
         given(offerTypeRepository.findAll()).willReturn(offerTypes);
 
         given(offerTypeRepository.findAll(pageable)).willReturn(offerTypePage);
@@ -69,6 +71,8 @@ public class OfferTypeServiceUnitTest {
 
         given(offerTypeRepository.findById(OFFER_ID)).willReturn(java.util.Optional.of(savedOffer));
 
+        given(offerTypeRepository.findById(BAD_ID)).willReturn(java.util.Optional.empty());
+
         given(offerTypeRepository.findByName(NEW_OFFER_TYPE1)).willReturn(null);
 
         OfferType offerTypeFound = new OfferType();
@@ -76,17 +80,30 @@ public class OfferTypeServiceUnitTest {
         offerTypeFound.setName(DB_OFFER_TYPE);
         given(offerTypeRepository.findByName(DB_OFFER_TYPE)).willReturn(offerTypeFound);
 
-        given(offerTypeRepository.findByNameAndIdNot(NEW_OFFER_TYPE1,OFFER_ID)).willReturn(null);
-        given(offerTypeRepository.save(offerType)).willReturn(savedOffer);
+        given(offerTypeRepository.findByNameAndIdNot(DB_OFFER_TYPE,OFFER_ID)).willReturn(offerTypeFound);
+        given(offerTypeRepository.save(offer)).willReturn(savedOffer);
 
         List<Subtype> subtypes = new ArrayList<>();
         Subtype subtype = new Subtype();
         subtype.setName(DB_SUBTYPE);
         subtype.setOfferType(offerTypeFound);
+        CulturalOffer culturalOffer = new CulturalOffer();
+        culturalOffer.setSubtype(subtype);
+        culturalOffer.setTitle(OFFER_TITLE);
+        culturalOffer.setDescription(OFFER_DES);
+        GeoLocation location = new GeoLocation();
+        location.setLatitude(43.);
+        location.setLongitude(20.);
+        culturalOffer.setGeoLocation(location);
+        Set<CulturalOffer> culturalOfferSet = new HashSet<CulturalOffer>();
+        culturalOfferSet.add(culturalOffer);
+        subtype.setCulturalOffers(culturalOfferSet);
+        subtypes.add(subtype);
         given(subtypeService.findByOfferType(VALID_DB_OFFER_TYPE_ID)).willReturn(subtypes);
 
-        given(subtypeService.findByOfferType(OFFER_ID)).willReturn(null);
+        given(subtypeService.findByOfferType(OFFER_ID)).willReturn(new ArrayList<Subtype>());
 
+        given(offerTypeRepository.findById(VALID_DB_OFFER_TYPE_ID)).willReturn(java.util.Optional.of(offerTypeFound));
         doNothing().when(offerTypeRepository).delete(savedOffer);
     }
 
@@ -96,34 +113,93 @@ public class OfferTypeServiceUnitTest {
         offerType.setName(NEW_OFFER_TYPE1);
         OfferType created = offerTypeService.create(offerType);
 
+
         verify(offerTypeRepository, times(1)).findByName(NEW_OFFER_TYPE1);
         verify(offerTypeRepository, times(1)).save(offerType);
 
-        //assertEquals(NEW_OFFER_TYPE1, created.getName());
+        assertEquals(NEW_OFFER_TYPE1, created.getName());
+    }
+
+    @Test(expected = Exception.class)
+    public void nameExistsTestCreate()  throws Exception{
+        OfferType offerType = new OfferType();
+        offerType.setName(DB_OFFER_TYPE);
+        OfferType created = null;
+        created = offerTypeService.create(offerType);
+
+        verify(offerTypeRepository, times(1)).findByName(DB_OFFER_TYPE);
+
         assertNull(created);
     }
 
     @Test
-    public void failTestCreate() throws Exception{
-
-    }
-
-    @Test
     public void okTestUpdate() throws Exception{
+        OfferType offerType = new OfferType();
+        offerType.setName(NEW_OFFER_TYPE1);
+        OfferType created = offerTypeService.update(offerType, OFFER_ID);
 
+
+        verify(offerTypeRepository, times(1)).findById(OFFER_ID);
+        verify(offerTypeRepository, times(1)).findByNameAndIdNot(NEW_OFFER_TYPE1, OFFER_ID);
+
+        assertEquals(NEW_OFFER_TYPE1, created.getName());
     }
 
-    @Test
-    public void failTestUpdate() throws Exception{
+    @Test(expected = Exception.class)
+    public void nameExistsTestUpdate() throws Exception{
+        OfferType offerType = new OfferType();
+        offerType.setName(DB_OFFER_TYPE);
+        OfferType created = null;
+        created = offerTypeService.update(offerType, OFFER_ID);
 
+        verify(offerTypeRepository, times(1)).findById(OFFER_ID);
+        verify(offerTypeRepository, times(1)).findByNameAndIdNot(DB_OFFER_TYPE, OFFER_ID);
+
+        assertNull(created);
+    }
+
+    @Test(expected = Exception.class)
+    public void notFoundTestUpdate() throws Exception{
+        OfferType offerType = new OfferType();
+        //offerType.setId(BAD_ID);
+        offerType.setName(NEW_OFFER_TYPE1);
+        OfferType created = null;
+        created = offerTypeService.update(offerType, BAD_ID);
+
+        verify(offerTypeRepository, times(1)).findById(BAD_ID);
+
+        assertNull(created);
     }
 
     @Test
     public void okTestDelete() throws Exception{
+        offerTypeService.delete(OFFER_ID);
 
+        OfferType savedOfferType = new OfferType();
+        savedOfferType.setName(NEW_OFFER_TYPE1);
+        savedOfferType.setId(OFFER_ID);
+
+        verify(offerTypeRepository, times(1)).findById(OFFER_ID);
+        verify(offerTypeRepository, times(1)).delete(savedOfferType);
     }
 
-    public void failTestDelete() throws Exception{
+    @Test(expected = Exception.class)
+    public void subtypeWithOfferExistTestDelete() throws Exception{
+        offerTypeService.delete(VALID_DB_OFFER_TYPE_ID);
 
+        verify(offerTypeRepository, times(1)).findById(VALID_DB_OFFER_TYPE_ID);
+
+        OfferType offerType = offerTypeRepository.findById(VALID_DB_OFFER_TYPE_ID).orElse(null);
+
+        verify(offerTypeRepository, times(0)).delete(offerType);
+    }
+
+    @Test(expected = Exception.class)
+    public void notFoundTestDelete() throws Exception{
+        offerTypeService.delete(BAD_ID);
+
+        verify(offerTypeRepository, times(1)).findById(BAD_ID);
+
+        //OfferType offerType = offerTypeRepository.findById(BAD_ID).orElse(null);
     }
 }
