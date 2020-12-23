@@ -3,6 +3,7 @@ package com.culturaloffers.maps.services;
 import com.culturaloffers.maps.model.Authority;
 import com.culturaloffers.maps.model.Guest;
 import com.culturaloffers.maps.repositories.GuestRepository;
+import com.culturaloffers.maps.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,9 @@ public class GuestService {
 
     @Autowired
     private GuestRepository guestRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -51,13 +55,11 @@ public class GuestService {
     }
 
     public Guest insert(Guest newGuest) {
-        Guest guest = guestRepository.findByUsername(newGuest.getUsername());
-        if(guest == null) {
-            // pre nego sto postavimo lozinku u atribut hesiramo je
+        if(checkUsernameAndEmailAddress(newGuest.getUsername(), newGuest.getEmailAddress())) {
+            // before password is placed it goes through hashing phase
             newGuest.setPassword(passwordEncoder.encode(newGuest.getPassword()));
 
             List<Authority> auth = authService.findByName("ROLE_GUEST");
-            // u primeru se registruju samo obicni korisnici i u skladu sa tim im se i dodeljuje samo rola USER
             newGuest.setAuthorities(auth);
             return guestRepository.save(newGuest);
         }
@@ -68,7 +70,7 @@ public class GuestService {
     public Guest update(Integer id, Guest newGuest) {
         Guest guest = guestRepository.findById(id).orElse(null);
 
-        if(guest != null) {
+        if(guest != null && checkUsernameAndEmailAddress(newGuest.getUsername(), newGuest.getEmailAddress())) {
             guest.setFirstName(newGuest.getFirstName());
             guest.setLastName(newGuest.getLastName());
             guest.setEmailAddress(newGuest.getEmailAddress());
@@ -79,5 +81,10 @@ public class GuestService {
         }
 
         return null;
+    }
+
+    private boolean checkUsernameAndEmailAddress(String username, String emailAddress) {
+        return userRepository.findByUsername(username) == null &&
+                userRepository.findByEmailAddress(emailAddress) == null;
     }
 }

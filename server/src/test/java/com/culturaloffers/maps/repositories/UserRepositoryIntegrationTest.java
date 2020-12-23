@@ -37,6 +37,12 @@ public class UserRepositoryIntegrationTest {
     }
 
     @Test
+    public void testFindByEmailAddress() {
+        User user = userRepository.findByEmailAddress(DB_GUEST_EMAIL_ADDRESS);
+        assertEquals(DB_GUEST_EMAIL_ADDRESS, user.getEmailAddress());
+    }
+
+    @Test
     public void testFindByUsernameAdmin() {
         User user = userRepository.findByUsername(DB_ADMIN_USERNAME);
         assertEquals(DB_ADMIN_USERNAME, user.getUsername());

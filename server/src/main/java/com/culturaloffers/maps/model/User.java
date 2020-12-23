@@ -123,4 +123,12 @@ public abstract class User implements UserDetails {
     public boolean isEnabled() {
         return this.active == null ? false : this.active;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(username, user.username);
+    }
 }
