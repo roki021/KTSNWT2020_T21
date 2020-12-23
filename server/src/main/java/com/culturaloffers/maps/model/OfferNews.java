@@ -1,7 +1,5 @@
 package com.culturaloffers.maps.model;
 
-import com.culturaloffers.maps.dto.OfferNewsDTO;
-
 import javax.persistence.*;
 import java.util.*;
 
@@ -11,7 +9,7 @@ public class OfferNews {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)

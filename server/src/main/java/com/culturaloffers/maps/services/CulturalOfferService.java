@@ -26,13 +26,15 @@ public class CulturalOfferService {
     public CulturalOffer create(CulturalOffer offer, String address, String subtypeName) throws Exception {
         if (repository.findByTitle(offer.getTitle()) != null)
             throw new Exception("Title of a cultural offer must be unique");
+        if (offer.getDescription().isBlank())
+            throw new Exception("Description of a cultural offer cannot be empty");
         if (geoLocationService.getByAddress(address) == null)
             throw new Exception("GeoLocation is not valid!");
         offer.setGeoLocation(geoLocationService.getByAddress(address));
         if (subtypeService.findByName(subtypeName) == null)
             throw new Exception("Subtype is not valid!");
         offer.setSubtype(subtypeService.findByName(subtypeName));
-        List<String> imagePaths = new ArrayList<String>();
+        List<String> imagePaths = new ArrayList<>();
         for(String s : offer.getImageUrls())
         {
             imagePaths.add(ImageHandler.saveImage("src\\main\\images\\offerImages\\", s));
@@ -65,7 +67,7 @@ public class CulturalOfferService {
         if (repository.findByTitleAndIdNot(offer.getTitle(), id) != null)
             throw new Exception("Cultural offer with given title already exists");
         offer.setId(id);
-        List<String> imagePaths = new ArrayList<String>();
+        List<String> imagePaths = new ArrayList<>();
         for(String s : offer.getImageUrls())
         {
             imagePaths.add(ImageHandler.saveImage("src\\main\\images\\offerImages\\", s));

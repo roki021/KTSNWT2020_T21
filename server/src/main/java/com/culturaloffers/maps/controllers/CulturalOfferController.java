@@ -73,6 +73,8 @@ public class CulturalOfferController {
         try{
             culturalOffer.setGeoLocation(service.findOne(id).getGeoLocation());
             culturalOffer.setSubtype(service.findOne(id).getSubtype());
+            if (culturalOffer.getDescription().isBlank())
+                culturalOffer.setDescription(service.findOne(id).getDescription());
             service.update(id, mapper.toEntity(dto));
         }catch (Exception exception){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

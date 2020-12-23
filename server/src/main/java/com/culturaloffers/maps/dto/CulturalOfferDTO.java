@@ -13,10 +13,10 @@ public class CulturalOfferDTO {
     @NotBlank(message = "Description cannot be empty")
     private String description;
 
-    @NotBlank(message = "GeoLocationId can not be empty")
+    @NotBlank(message = "Address can not be empty")
     private String address;
 
-    @NotBlank(message = "SubTypeId can not be empty")
+    @NotBlank(message = "SubTypeName can not be empty")
     private String subTypeName;
 
     private List<String> imageUrls;
@@ -73,8 +73,8 @@ public class CulturalOfferDTO {
             Integer id,
             @NotBlank(message = "Title cannot be empty") String title,
             @NotBlank(message = "Description cannot be empty") String description,
-            @NotBlank(message = "GeoLocationId can not be empty") String address,
-            @NotBlank(message = "SubTypeId can not be empty") String subTypeName,
+            @NotBlank(message = "Address can not be empty") String address,
+            @NotBlank(message = "SubTypeName can not be empty") String subTypeName,
             List<String> imageUrls){
         this.id = id;
         this.title = title;

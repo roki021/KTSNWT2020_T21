@@ -1,13 +1,19 @@
 package com.culturaloffers.maps;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import com.culturaloffers.maps.controllers.CulturalOfferControllerTest;
+import com.culturaloffers.maps.repositories.CulturalOfferRepositoryTest;
+import com.culturaloffers.maps.services.CulturalOfferServiceTest;
+import com.culturaloffers.maps.services.OfferNewsServiceTest;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
-@SpringBootTest
+@RunWith(Suite.class)
+@SuiteClasses({
+		CulturalOfferServiceTest.class,
+		CulturalOfferRepositoryTest.class,
+		OfferNewsServiceTest.class
+})
 class MapsApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
 
 }
