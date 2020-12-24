@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/users")
@@ -25,13 +27,9 @@ public class UserController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
-    public Page<UserDTO> getUsers(Pageable pageable) {
+    public ResponseEntity<List<UserDTO>> getUsers(Pageable pageable) {
         Page<User> users = userService.getUsers(pageable);
-        return new PageImpl<UserDTO>(
-                userMapper.toDtoList(users.getContent()),
-                pageable,
-                users.getTotalElements()
-        );
+        return ResponseEntity.ok(userMapper.toDtoList(users.getContent()));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
