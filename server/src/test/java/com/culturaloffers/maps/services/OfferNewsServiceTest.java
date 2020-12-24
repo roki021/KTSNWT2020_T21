@@ -77,6 +77,15 @@ public class OfferNewsServiceTest {
         assertThat(service.findOne(id).getCulturalOffer().getId()).isEqualTo(ON_OFFER);
     }
 
+    @Test(expected = Exception.class)
+    @Transactional
+    @Rollback(true)
+    public void testCreateWithInvalidCulturalOffer() throws Exception {
+        ArrayList<String> imgs = new ArrayList<>();
+        OfferNews news = new OfferNews(null, ON_NEW_TITLE, ON_NEW_DESCRIPTION, imgs);
+        service.create(news, 50);
+    }
+
     @Test
     @Transactional
     @Rollback(true)
@@ -94,6 +103,15 @@ public class OfferNewsServiceTest {
         assertThat(service.findOne(id).getTitle()).isEqualTo(ON_NEW_TITLE);
     }
 
+    @Test(expected = Exception.class)
+    @Transactional
+    @Rollback(true)
+    public void testUpdateWithInvalidId() throws Exception {
+        ArrayList<String> imgs = new ArrayList<>();
+        OfferNews news = new OfferNews(null, ON_NEW_TITLE, ON_NEW_DESCRIPTION, imgs);
+        news = service.update(50, news);
+    }
+
     @Test
     @Transactional
     @Rollback(true)
@@ -103,6 +121,13 @@ public class OfferNewsServiceTest {
         service.delete(ON_ID);
         assertThat(service.findOne(ON_ID)).isNull();
         assertThat(service.findAll().size()).isLessThan(sizeBefore);
+    }
+
+    @Test(expected = Exception.class)
+    @Transactional
+    @Rollback(true)
+    public void testDeleteWithInvalidId() throws Exception {
+        service.delete(40);
     }
 
 }

@@ -1,15 +1,7 @@
 package com.culturaloffers.maps.services;
 
+import static com.culturaloffers.maps.constants.CulturalOfferConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
-
-import static com.culturaloffers.maps.constants.CulturalOfferConstants.CO_ID;
-import static com.culturaloffers.maps.constants.CulturalOfferConstants.CO_ADDRESS;
-import static com.culturaloffers.maps.constants.CulturalOfferConstants.CO_DESCRIPTION;
-import static com.culturaloffers.maps.constants.CulturalOfferConstants.CO_NEW_ADDRESS;
-import static com.culturaloffers.maps.constants.CulturalOfferConstants.CO_NEW_DESCRIPTION;
-import static com.culturaloffers.maps.constants.CulturalOfferConstants.CO_NEW_TITLE;
-import static com.culturaloffers.maps.constants.CulturalOfferConstants.CO_SUBTYPE;
-import static com.culturaloffers.maps.constants.CulturalOfferConstants.CO_TITLE;
 
 import com.culturaloffers.maps.model.CulturalOffer;
 import com.culturaloffers.maps.model.GeoLocation;
@@ -105,6 +97,73 @@ public class CulturalOfferServiceTest {
         assertThat(service.findAll().size()).isEqualTo(sizeBefore);
         assertThat(service.findOne(CO_ID)).isNotNull();
         assertThat(service.findOne(CO_ID)).isEqualTo(updated);
+    }
+
+    @Test(expected = Exception.class)
+    @Transactional
+    @Rollback(true)
+    public void testCreateCulturalOfferWithNonUniqueName() throws Exception{
+        GeoLocation geo = new GeoLocation(12.11, 13.11, CO_NEW_ADDRESS);
+        geoLocationService.insert(geo);
+        ArrayList<String> imgs = new ArrayList<>();
+        CulturalOffer offer = new CulturalOffer(null, CO_TITLE, CO_NEW_DESCRIPTION, imgs);
+        service.create(offer, CO_NEW_ADDRESS, CO_SUBTYPE);
+    }
+
+    @Test(expected = Exception.class)
+    @Transactional
+    @Rollback(true)
+    public void testCreateCulturalOfferWithInvalidGeoLocation() throws Exception{
+        ArrayList<String> imgs = new ArrayList<>();
+        CulturalOffer offer = new CulturalOffer(null, CO_NEW_TITLE, CO_NEW_DESCRIPTION, imgs);
+        service.create(offer, CO_NEW_ADDRESS, CO_SUBTYPE);
+    }
+
+    @Test(expected = Exception.class)
+    @Transactional
+    @Rollback(true)
+    public void testCreateCulturalOfferWithInvalidSubtype() throws Exception{
+        GeoLocation geo = new GeoLocation(12.11, 13.11, CO_NEW_ADDRESS);
+        geoLocationService.insert(geo);
+        ArrayList<String> imgs = new ArrayList<>();
+        CulturalOffer offer = new CulturalOffer(null, CO_NEW_TITLE, CO_NEW_DESCRIPTION, imgs);
+        service.create(offer, CO_NEW_ADDRESS, "invalid subtype");
+    }
+
+    @Test(expected = Exception.class)
+    @Transactional
+    @Rollback(true)
+    public void testCreateCulturalOfferWithBlankDesc() throws Exception{
+        GeoLocation geo = new GeoLocation(12.11, 13.11, CO_NEW_ADDRESS);
+        geoLocationService.insert(geo);
+        ArrayList<String> imgs = new ArrayList<>();
+        CulturalOffer offer = new CulturalOffer(null, CO_TITLE, "  ", imgs);
+        service.create(offer, CO_NEW_ADDRESS, CO_SUBTYPE);
+    }
+
+    @Test(expected = Exception.class)
+    @Transactional
+    @Rollback(true)
+    public void testUpdateCulturalOfferWithInvalidId() throws Exception{
+        List<String> images = new ArrayList<>();
+        CulturalOffer updated = new CulturalOffer(null, CO_NEW_TITLE, CO_NEW_DESCRIPTION, images);
+        service.update(50, updated);
+    }
+
+    @Test(expected = Exception.class)
+    @Transactional
+    @Rollback(true)
+    public void testUpdateCulturalOfferWithNonUniqueName() throws Exception{
+        List<String> images = new ArrayList<>();
+        CulturalOffer updated = new CulturalOffer(null, CO_TAKEN_TITLE, CO_NEW_DESCRIPTION, images);
+        service.update(CO_ID, updated);
+    }
+
+    @Test(expected = Exception.class)
+    @Transactional
+    @Rollback(true)
+    public void testRemoveCulturalOfferWithInvalidId() throws Exception {
+        service.delete(50);
     }
 
 }
