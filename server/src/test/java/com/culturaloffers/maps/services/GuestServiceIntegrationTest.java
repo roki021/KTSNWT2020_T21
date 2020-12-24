@@ -36,9 +36,15 @@ public class GuestServiceIntegrationTest {
     }
 
     @Test
+    public void testGetAllUsers() {
+        List<Guest> users = guestService.getAllGuests();
+        assertEquals(DB_GUEST_ALL, users.size());
+    }
+
+    @Test
     public void testGetUsers() {
         List<Guest> users = guestService.getGuests(PageRequest.of(DB_USER_PAGE, DB_USER_SIZE)).getContent();
-        assertEquals(DB_USER_EXPECTED, users.size());
+        assertEquals(DB_GUEST_EXPECTED, users.size());
     }
 
     @Test

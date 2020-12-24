@@ -60,7 +60,7 @@ public class GuestServiceUnitTest {
                 DB_GUEST_EMAIL_ADDRESS,
                 DB_GUEST_USERNAME,
                 NEW_GUEST_PASSWORD);
-        foundGuest.setId(NEW_GUEST_ID);
+        foundGuest.setId(DB_GUEST_ID);
         given(userRepository.findByUsername(DB_GUEST_USERNAME)).willReturn(foundGuest);
         given(userRepository.findByEmailAddress(DB_GUEST_EMAIL_ADDRESS)).willReturn(foundGuest);
 
@@ -154,7 +154,7 @@ public class GuestServiceUnitTest {
 
         verify(guestRepository, times(1)).findById(NEW_GUEST_ID);
         verify(userRepository, times(1)).findByUsername(DB_GUEST_USERNAME);
-        verify(userRepository, times(0)).findByEmailAddress(NEW_GUEST_EMAIL_ADDRESS);
+        verify(userRepository, times(1)).findByEmailAddress(NEW_GUEST_EMAIL_ADDRESS);
         verify(guestRepository, times(0)).save(guest);
 
         assertNull(updatedGuest);

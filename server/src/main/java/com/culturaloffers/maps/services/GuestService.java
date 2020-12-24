@@ -2,6 +2,7 @@ package com.culturaloffers.maps.services;
 
 import com.culturaloffers.maps.model.Authority;
 import com.culturaloffers.maps.model.Guest;
+import com.culturaloffers.maps.model.User;
 import com.culturaloffers.maps.repositories.GuestRepository;
 import com.culturaloffers.maps.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,8 @@ public class GuestService {
         return guestRepository.findById(id).orElse(null);
     }
 
+    public List<Guest> getAllGuests() { return guestRepository.findAll(); }
+
     public Page<Guest> getGuests(Pageable pageable) {
         return guestRepository.findAll(pageable);
     }
@@ -55,7 +58,7 @@ public class GuestService {
     }
 
     public Guest insert(Guest newGuest) {
-        if(checkUsernameAndEmailAddress(newGuest.getUsername(), newGuest.getEmailAddress())) {
+        if(checkUsername(newGuest.getUsername()) && checkEmailAddress(newGuest.getEmailAddress())) {
             // before password is placed it goes through hashing phase
             newGuest.setPassword(passwordEncoder.encode(newGuest.getPassword()));
 
@@ -70,21 +73,29 @@ public class GuestService {
     public Guest update(Integer id, Guest newGuest) {
         Guest guest = guestRepository.findById(id).orElse(null);
 
-        if(guest != null && checkUsernameAndEmailAddress(newGuest.getUsername(), newGuest.getEmailAddress())) {
-            guest.setFirstName(newGuest.getFirstName());
-            guest.setLastName(newGuest.getLastName());
-            guest.setEmailAddress(newGuest.getEmailAddress());
-            guest.setUsername(newGuest.getUsername());
-            guest.setPassword(newGuest.getPassword());
+        if(guest != null) {
+            User userOne = userRepository.findByUsername(newGuest.getUsername());
+            User userTwo = userRepository.findByEmailAddress(newGuest.getEmailAddress());
+            if(!((userOne != null && userOne.getId().intValue() != id) ||
+                (userTwo != null && userTwo.getId().intValue() != id))) {
+                guest.setFirstName(newGuest.getFirstName());
+                guest.setLastName(newGuest.getLastName());
+                guest.setEmailAddress(newGuest.getEmailAddress());
+                guest.setUsername(newGuest.getUsername());
+                guest.setPassword(newGuest.getPassword());
 
-            return guestRepository.save(guest);
+                return guestRepository.save(guest);
+            }
         }
 
         return null;
     }
 
-    private boolean checkUsernameAndEmailAddress(String username, String emailAddress) {
-        return userRepository.findByUsername(username) == null &&
-                userRepository.findByEmailAddress(emailAddress) == null;
+    private boolean checkUsername(String username) {
+        return userRepository.findByUsername(username) == null;
+    }
+
+    private boolean checkEmailAddress(String emailAddress) {
+        return userRepository.findByEmailAddress(emailAddress) == null;
     }
 }

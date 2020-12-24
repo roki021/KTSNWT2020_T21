@@ -43,6 +43,12 @@ public class UserServiceIntegrationTest {
     }
 
     @Test
+    public void testGetAllUsers() {
+        List<User> users = userService.getAllUsers();
+        assertEquals(DB_USER_ALL, users.size());
+    }
+
+    @Test
     @Transactional
     public void testDeleteOkGuest() {
         boolean deleted = userService.delete(DB_GUEST_ID);
