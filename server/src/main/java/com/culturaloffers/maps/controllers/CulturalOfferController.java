@@ -95,7 +95,7 @@ public class CulturalOfferController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CulturalOfferDTO>> searchCulturalOffers(@RequestBody SearchDTO dto){
         List<CulturalOffer> culturalOffers = null;
