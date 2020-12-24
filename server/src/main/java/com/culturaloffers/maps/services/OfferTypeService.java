@@ -60,7 +60,7 @@ public class OfferTypeService {
     public void delete(Integer id) throws Exception {
         OfferType existingOfferType = offerTypeRepository.findById(id).orElse(null);
         if(existingOfferType == null){
-            throw new Exception("Offer type with given name doesn't exist");
+            throw new Exception("Offer type with given id doesn't exist");
         }
 
         for(Subtype subtype : subtypeService.findByOfferType(existingOfferType.getId())){

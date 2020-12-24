@@ -56,12 +56,7 @@ public class OfferTypeServiceUnitTest {
         offerType3.setName(NEW_OFFER_TYPE3);
         offerTypes.add(offerType3);
 
-        Pageable pageable = PageRequest.of(PAGEABLE_PAGE,PAGEABLE_SIZE);
-        Page<OfferType> offerTypePage = new PageImpl<>(offerTypes,pageable,PAGEABLE_TOTAL_ELEMENTS);
-
         given(offerTypeRepository.findAll()).willReturn(offerTypes);
-
-        given(offerTypeRepository.findAll(pageable)).willReturn(offerTypePage);
 
         OfferType offer = new OfferType();
         offer.setName(NEW_OFFER_TYPE1);

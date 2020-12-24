@@ -70,7 +70,11 @@ INSERT INTO subtype (id, name, offer_type_id) VALUES
     (14, 'hotel', 5),
     (15, 'vinarija', 5);
 
-    INSERT INTO geo_location (id, latitude, longitude, address) VALUES
-        (1, 43.28627472234662, 20.8102511883379, 'Kopaonik 36354');
-    INSERT INTO cultural_offer (id, title, description, subtype_id, geo_location_id) VALUES
-        (1, 'Kopaonik nacionalni park', 'Planinski venac u čijem se središtu nalazi istoimeni ski-centar', 1, 1);
+INSERT INTO geo_location (id, latitude, longitude, address) VALUES
+    (1, 43.28627472234662, 20.8102511883379, 'Kopaonik 36354');
+INSERT INTO cultural_offer (id, title, description, subtype_id, geo_location_id) VALUES
+    (1, 'Kopaonik nacionalni park', 'Planinski venac u čijem se središtu nalazi istoimeni ski-centar', 1, 1);
+INSERT INTO geo_location (id, latitude, longitude, address) VALUES
+    (2, 43.64599952369584, 21.859188584394833, 'Ratarska, Sokobanja 018230');
+INSERT INTO cultural_offer (id, title, description, subtype_id, geo_location_id) VALUES
+    (2, 'Akva park Podina Sokobanja', 'Javni bazen', 2, 2);
