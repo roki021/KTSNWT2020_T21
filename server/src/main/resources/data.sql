@@ -133,13 +133,6 @@ INSERT INTO geo_location (id, latitude, longitude, address) VALUES
 INSERT INTO cultural_offer (id, title, description, subtype_id, geo_location_id) VALUES
     (15, 'VINARIJA GRABAK', 'Vinarija sa 4 zvezdice', 15, 15);
 
-INSERT INTO cultural_offer_user(cultural_offer_id, user_id) VALUES
-    (7, 1001),
-    (4, 1005),
-    (12, 1006),
-    (14, 1011),
-    (14, 1001);
-
 INSERT INTO offer_news (id, title, description, cultural_offer_id, date) VALUES
     (1, 'Ponovno otvaranje parka', 'Park se otvara opet od 15.01.2021.', 2, '2020-12-08 17:11:30'),
     (2, 'Najavljeno zatvaranje pozorista', 'Pozoriste se zatvara od 25.12.2020.', 3, '2020-12-08 17:12:20'),
@@ -160,3 +153,11 @@ INSERT INTO grade (id, value, graded_on, user_id, cultural_offer_id) VALUES
     (3, 5, '2020-12-08 22:46:00', 1006, 12),
     (4, 3, '2020-12-08 22:51:16', 1011, 14),
     (5, 2, '2020-12-08 23:11:42', 1001, 14);
+
+
+INSERT INTO cultural_offer_user(cultural_offer_id, user_id) VALUES
+    (7, 1001),
+    (4, 1005),
+    (12, 1006),
+    (14, 1011),
+    (14, 1001);
