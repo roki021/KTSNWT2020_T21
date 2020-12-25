@@ -154,5 +154,4 @@ INSERT INTO grade (id, value, graded_on, user_id, cultural_offer_id) VALUES
     (5, 2, '2020-12-08 23:11:42', 1001, 14);
 
 INSERT INTO cultural_offer_user (cultural_offer_id, user_id) VALUES
-    (1,1001),
-    (2,1001)
+    (1,1001)

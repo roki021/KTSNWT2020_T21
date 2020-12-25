@@ -36,7 +36,10 @@ public class CulturalOffer {
     private Set<OfferNews> offerNews;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinTable
+    @JoinTable(
+            name = "cultural_offer_user",
+            joinColumns = @JoinColumn(name = "cultural_offer_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<Guest> subscribers;
 
     public Integer getId() {
