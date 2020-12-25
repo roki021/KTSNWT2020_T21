@@ -2,7 +2,9 @@ package com.culturaloffers.maps.services;
 
 import com.culturaloffers.maps.model.Authority;
 import com.culturaloffers.maps.model.Guest;
+import com.culturaloffers.maps.model.User;
 import com.culturaloffers.maps.repositories.GuestRepository;
+import com.culturaloffers.maps.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,9 @@ public class GuestService {
 
     @Autowired
     private GuestRepository guestRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -35,6 +40,8 @@ public class GuestService {
         return guestRepository.findById(id).orElse(null);
     }
 
+    public List<Guest> getAllGuests() { return guestRepository.findAll(); }
+
     public Page<Guest> getGuests(Pageable pageable) {
         return guestRepository.findAll(pageable);
     }
@@ -51,13 +58,11 @@ public class GuestService {
     }
 
     public Guest insert(Guest newGuest) {
-        Guest guest = guestRepository.findByUsername(newGuest.getUsername());
-        if(guest == null) {
-            // pre nego sto postavimo lozinku u atribut hesiramo je
+        if(checkUsername(newGuest.getUsername()) && checkEmailAddress(newGuest.getEmailAddress())) {
+            // before password is placed it goes through hashing phase
             newGuest.setPassword(passwordEncoder.encode(newGuest.getPassword()));
 
             List<Authority> auth = authService.findByName("ROLE_GUEST");
-            // u primeru se registruju samo obicni korisnici i u skladu sa tim im se i dodeljuje samo rola USER
             newGuest.setAuthorities(auth);
             return guestRepository.save(newGuest);
         }
@@ -69,15 +74,28 @@ public class GuestService {
         Guest guest = guestRepository.findById(id).orElse(null);
 
         if(guest != null) {
-            guest.setFirstName(newGuest.getFirstName());
-            guest.setLastName(newGuest.getLastName());
-            guest.setEmailAddress(newGuest.getEmailAddress());
-            guest.setUsername(newGuest.getUsername());
-            guest.setPassword(newGuest.getPassword());
+            User userOne = userRepository.findByUsername(newGuest.getUsername());
+            User userTwo = userRepository.findByEmailAddress(newGuest.getEmailAddress());
+            if(!((userOne != null && userOne.getId().intValue() != id) ||
+                (userTwo != null && userTwo.getId().intValue() != id))) {
+                guest.setFirstName(newGuest.getFirstName());
+                guest.setLastName(newGuest.getLastName());
+                guest.setEmailAddress(newGuest.getEmailAddress());
+                guest.setUsername(newGuest.getUsername());
+                guest.setPassword(newGuest.getPassword());
 
-            return guestRepository.save(guest);
+                return guestRepository.save(guest);
+            }
         }
 
         return null;
+    }
+
+    private boolean checkUsername(String username) {
+        return userRepository.findByUsername(username) == null;
+    }
+
+    private boolean checkEmailAddress(String emailAddress) {
+        return userRepository.findByEmailAddress(emailAddress) == null;
     }
 }

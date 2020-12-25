@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -20,6 +22,8 @@ public class UserService {
     public User getUserById(Integer id) {
         return userRepository.findById(id).orElse(null);
     }
+
+    public List<User> getAllUsers() { return userRepository.findAll(); }
 
     public Page<User> getUsers(Pageable pageable) {
         return userRepository.findAll(pageable);
