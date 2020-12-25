@@ -1,6 +1,7 @@
 package com.culturaloffers.maps.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class GeoLocation {
@@ -15,7 +16,7 @@ public class GeoLocation {
     @Column(nullable = false)
     private Double longitude;
 
-    @Column
+    @Column(unique = true)
     private String address;
 
     public GeoLocation() {}
@@ -56,5 +57,13 @@ public class GeoLocation {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GeoLocation that = (GeoLocation) o;
+        return Objects.equals(address, that.address);
     }
 }
