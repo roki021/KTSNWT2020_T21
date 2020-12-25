@@ -20,6 +20,8 @@ public class ProfileService {
 
     public Guest findProfile(Integer id, String username) throws Exception {
         Guest user = guestRepository.findById(id).orElse(null);
+        if(user == null)
+            throw new Exception("Guest doesnt exist.");
         if(!user.getUsername().equals(username)){
             throw new Exception("Unauthorized action");
         }
