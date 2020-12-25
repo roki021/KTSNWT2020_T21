@@ -42,16 +42,17 @@ public class SubtypeController {
 
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value= "/by-page", method = RequestMethod.GET)
-    public ResponseEntity<Page<SubtypeDTO>> getAllSubtypes(Pageable pageable) {
+    public ResponseEntity<List<SubtypeDTO>> getAllSubtypes(Pageable pageable) {
         Page<Subtype> subtypesPage = subtypeService.findAll(pageable);
 
-        return new ResponseEntity<>(new PageImpl<>(subtypeMapper.toDtoList(subtypesPage.toList()),
-                subtypesPage.getPageable(),subtypesPage.getTotalElements()), HttpStatus.OK);
+        /*return new ResponseEntity<>(new PageImpl<>(subtypeMapper.toDtoList(subtypesPage.toList()),
+                subtypesPage.getPageable(),subtypesPage.getTotalElements()), HttpStatus.OK);*/
+        return new ResponseEntity<>(subtypeMapper.toDtoList(subtypesPage.toList()), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
-    public ResponseEntity<SubtypeDTO> getSubype(@PathVariable Integer id){
+    public ResponseEntity<SubtypeDTO> getSubtype(@PathVariable Integer id){
         Subtype subtype = subtypeService.findOne(id);
         if(subtype == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -85,6 +86,8 @@ public class SubtypeController {
         try {
             subtype = subtypeService.update(subtypeMapper.toEntity(subtypeDTO), id);
         } catch (Exception e) {
+            if(e.getMessage().equals("Subtype with given id doesn't exist"))
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -97,7 +100,10 @@ public class SubtypeController {
         try {
             subtypeService.delete(id);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            if(e.getMessage().equals("Subtype with given name doesn't exist"))
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            else
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);

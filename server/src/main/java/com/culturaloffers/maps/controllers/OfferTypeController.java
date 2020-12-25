@@ -40,11 +40,12 @@ public class OfferTypeController {
 
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value= "/by-page", method = RequestMethod.GET)
-    public ResponseEntity<Page<OfferTypeDTO>> getAllOfferTypes(Pageable pageable) {
+    public ResponseEntity<List<OfferTypeDTO>> getAllOfferTypes(Pageable pageable) {
         Page<OfferType> offerTypesPage = offerTypeService.findAll(pageable);
 
-        return new ResponseEntity<>(new PageImpl<>(offerTypeMapper.toDtoList(offerTypesPage.toList()),
-                offerTypesPage.getPageable(),offerTypesPage.getTotalElements()), HttpStatus.OK);
+        /*return new ResponseEntity<>(new PageImpl<>(offerTypeMapper.toDtoList(offerTypesPage.toList()),
+                offerTypesPage.getPageable(),offerTypesPage.getTotalElements()), HttpStatus.OK);*/
+        return new ResponseEntity<>(offerTypeMapper.toDtoList(offerTypesPage.toList()), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -83,6 +84,8 @@ public class OfferTypeController {
             offerType = offerTypeMapper.toEntity(offerTypeDTO);
             offerType = offerTypeService.update(offerType, id);
         } catch (Exception e) {
+            if(e.getMessage().equals("Offer type with given id doesn't exist"))
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(offerTypeMapper.toDto(offerType), HttpStatus.OK);
@@ -94,7 +97,9 @@ public class OfferTypeController {
         try {
             offerTypeService.delete(id);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            if(e.getMessage().equals("Offer type with given id doesn't exist"))
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);

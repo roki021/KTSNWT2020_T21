@@ -60,8 +60,9 @@ public class OfferTypeService {
     public void delete(Integer id) throws Exception {
         OfferType existingOfferType = offerTypeRepository.findById(id).orElse(null);
         if(existingOfferType == null){
-            throw new Exception("Offer type with given name doesn't exist");
+            throw new Exception("Offer type with given id doesn't exist");
         }
+
         for(Subtype subtype : subtypeService.findByOfferType(existingOfferType.getId())){
             if(subtype.getCulturalOffers() != null && subtype.getCulturalOffers().size() != 0){
                 throw new Exception("There exists a cultural offer of the given offer type");

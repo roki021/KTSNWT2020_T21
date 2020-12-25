@@ -6,10 +6,7 @@ import com.culturaloffers.maps.repositories.AdminRepositoryIntegrationTest;
 import com.culturaloffers.maps.repositories.GeoLocationRepositoryIntegrationTest;
 import com.culturaloffers.maps.repositories.GuestRepositoryIntegrationTest;
 import com.culturaloffers.maps.repositories.UserRepositoryIntegrationTest;
-import com.culturaloffers.maps.services.GuestServiceIntegrationTest;
-import com.culturaloffers.maps.services.GuestServiceUnitTest;
-import com.culturaloffers.maps.services.UserServiceIntegrationTest;
-import com.culturaloffers.maps.services.UserServiceUnitTest;
+import com.culturaloffers.maps.services.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -20,7 +17,8 @@ import org.springframework.test.context.TestPropertySource;
         AdminRepositoryIntegrationTest.class, GeoLocationRepositoryIntegrationTest.class,
         GuestServiceUnitTest.class, GuestServiceIntegrationTest.class,
         UserServiceUnitTest.class, UserServiceIntegrationTest.class,
-        GuestControllerIntegrationTest.class, UserControllerIntegrationTest.class
+        GuestControllerIntegrationTest.class, UserControllerIntegrationTest.class,
+        GeoLocationServiceUnitTest.class, GeoLocationServiceIntegrationTest.class
 })
 @TestPropertySource("classpath:test-1.properties")
 public class SuitePartOne {

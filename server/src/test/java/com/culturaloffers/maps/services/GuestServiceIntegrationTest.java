@@ -10,6 +10,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static com.culturaloffers.maps.constants.UserConstants.*;
@@ -48,6 +49,7 @@ public class GuestServiceIntegrationTest {
     }
 
     @Test
+    @Transactional
     @Rollback(true)
     public void testDeleteOk() {
         boolean deleted = guestService.delete(DB_GUEST_ID);
@@ -55,6 +57,7 @@ public class GuestServiceIntegrationTest {
     }
 
     @Test
+    @Transactional
     @Rollback(true)
     public void testDeleteAdminFail() {
         boolean deleted = guestService.delete(DB_ADMIN_ID);
@@ -62,6 +65,7 @@ public class GuestServiceIntegrationTest {
     }
 
     @Test
+    @Transactional
     @Rollback(true)
     public void testInsertOk() {
         Guest guest = new Guest(
@@ -77,6 +81,7 @@ public class GuestServiceIntegrationTest {
     }
 
     @Test
+    @Transactional
     @Rollback(true)
     public void testInsertFailAdminUserName() {
         Guest guest = new Guest(
@@ -92,6 +97,7 @@ public class GuestServiceIntegrationTest {
     }
 
     @Test
+    @Transactional
     @Rollback(true)
     public void testUpdateOk() {
         Guest guest = new Guest(
@@ -107,6 +113,7 @@ public class GuestServiceIntegrationTest {
     }
 
     @Test
+    @Transactional
     @Rollback(true)
     public void testUpdateFailExistUsername() {
         Guest guest = new Guest(
