@@ -48,7 +48,7 @@ public class SubtypeService {
         }
 
         OfferType offerType = offerTypeService.findOneName(offerTypeName);
-        if(offerTypeService == null) {
+        if(offerType == null) {
             throw new Exception("Chosen offer type doesn't exist.");
         }
         entity.setOfferType(offerType);
