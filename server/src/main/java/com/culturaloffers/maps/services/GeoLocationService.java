@@ -85,9 +85,9 @@ public class GeoLocationService {
                 geoLocation.setLatitude(newGeoLocation.getLatitude());
                 geoLocation.setLongitude(newGeoLocation.getLongitude());
                 geoLocation.setAddress(newGeoLocation.getAddress());
-            }
 
-            return geoLocationRepository.save(geoLocation);
+                return geoLocationRepository.save(geoLocation);
+            }
         }
 
         return null;

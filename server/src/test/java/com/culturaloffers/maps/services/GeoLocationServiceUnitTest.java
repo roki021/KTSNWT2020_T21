@@ -43,11 +43,13 @@ public class GeoLocationServiceUnitTest {
         );
         createdGeoLocation.setId(NEW_GEO_LOCATION_ID);
 
-        given(geoLocationRepository.findById(NEW_GEO_LOCATION_ID)).willReturn(Optional.empty());
+        given(geoLocationRepository.findById(NEW_GEO_LOCATION_ID)).willReturn(Optional.of(createdGeoLocation));
         given(geoLocationRepository.findByLatitudeAndLongitude(
                 NEW_GEO_LOCATION_LATITUDE, NEW_GEO_LOCATION_LONGITUDE)).willReturn(null);
         given(geoLocationRepository.findByAddress(NEW_GEO_LOCATION_ADDRESS)).willReturn(null);
         given(geoLocationRepository.save(geoLocation)).willReturn(createdGeoLocation);
+
+        given(geoLocationRepository.findById(BAD_GEO_LOCATION_ID)).willReturn(Optional.empty());
 
         GeoLocation found = new GeoLocation(
             DB_GEO_LOCATION_LATITUDE,
@@ -112,11 +114,41 @@ public class GeoLocationServiceUnitTest {
 
     @Test
     public void testDeleteBadId() {
-        boolean deleted = geoLocationService.delete(NEW_GEO_LOCATION_ID);
+        boolean deleted = geoLocationService.delete(BAD_GEO_LOCATION_ID);
 
-        verify(geoLocationRepository, times(1)).findById(NEW_GEO_LOCATION_ID);
+        verify(geoLocationRepository, times(1)).findById(BAD_GEO_LOCATION_ID);
 
         assertFalse(deleted);
+    }
+
+    @Test
+    public void testInsert() {
+        GeoLocation geoLocation = new GeoLocation(
+                NEW_GEO_LOCATION_LATITUDE,
+                NEW_GEO_LOCATION_LONGITUDE,
+                NEW_GEO_LOCATION_ADDRESS
+        );
+        GeoLocation created = geoLocationService.insert(geoLocation);
+
+        verify(geoLocationRepository, times(1)).findByAddress(NEW_GEO_LOCATION_ADDRESS);
+        verify(geoLocationRepository, times(1)).save(geoLocation);
+
+        assertEquals(NEW_GEO_LOCATION_ADDRESS, created.getAddress());
+    }
+
+    @Test
+    public void testInsertExistAddress() {
+        GeoLocation geoLocation = new GeoLocation(
+                NEW_GEO_LOCATION_LATITUDE,
+                NEW_GEO_LOCATION_LONGITUDE,
+                DB_GEO_LOCATION_ADDRESS
+        );
+        GeoLocation created = geoLocationService.insert(geoLocation);
+
+        verify(geoLocationRepository, times(1)).findByAddress(DB_GEO_LOCATION_ADDRESS);
+        verify(geoLocationRepository, times(0)).save(geoLocation);
+
+        assertNull(created);
     }
 
     @Test
@@ -137,20 +169,19 @@ public class GeoLocationServiceUnitTest {
         assertEquals(NEW_GEO_LOCATION_LONGITUDE, updatedGeoLocation.getLongitude(), DELTA);
     }
 
-    /*@Test
+    @Test
     public void testUpdateSameAddress() {
         GeoLocation geoLocation = new GeoLocation(
                 NEW_GEO_LOCATION_LATITUDE,
                 NEW_GEO_LOCATION_LONGITUDE,
                 DB_GEO_LOCATION_ADDRESS
         );
-        GeoLocation updatedGeoLocation = geoLocationService.update(DB_GEO_LOCATION_ID, geoLocation);
+        GeoLocation updatedGeoLocation = geoLocationService.update(NEW_GEO_LOCATION_ID, geoLocation);
 
-        verify(geoLocationRepository, times(1)).findById(DB_GEO_LOCATION_ID);
-        verify(geoLocationRepository, times(1)).save(geoLocation);
+        verify(geoLocationRepository, times(1)).findById(NEW_GEO_LOCATION_ID);
+        verify(geoLocationRepository, times(1)).findByAddress(DB_GEO_LOCATION_ADDRESS);
+        verify(geoLocationRepository, times(0)).save(geoLocation);
 
-        assertEquals(NEW_GEO_LOCATION_ADDRESS, updatedGeoLocation.getAddress());
-        assertEquals(NEW_GEO_LOCATION_LATITUDE, updatedGeoLocation.getLatitude(), DELTA);
-        assertEquals(NEW_GEO_LOCATION_LONGITUDE, updatedGeoLocation.getLongitude(), DELTA);
-    }*/
+        assertNull(updatedGeoLocation);
+    }
 }

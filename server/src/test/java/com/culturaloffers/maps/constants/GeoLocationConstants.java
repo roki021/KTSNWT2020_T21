@@ -12,7 +12,12 @@ public class GeoLocationConstants {
     public static final double NEW_GEO_LOCATION_LONGITUDE = 21.3913793;
     public static final int NEW_GEO_LOCATION_ID = 2;
 
+    public static final int BAD_GEO_LOCATION_ID = 12;
+
     public static final int DB_GEO_PAGE = 0;
+    public static final int DB_GEO_PAGE_TWO = 1;
     public static final int DB_GEO_SIZE = 10;
     public static final int DB_GEO_EXPECTED = 10;
+    public static final int DB_GEO_EXPECTED_TWO = 5;
+    public static final int DB_GEO_ALL = 15;
 }
