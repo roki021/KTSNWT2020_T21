@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -44,13 +45,9 @@ public class GuestController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
-    public Page<GuestDTO> getGuests(Pageable pageable) {
+    public ResponseEntity<List<GuestDTO>> getGuests(Pageable pageable) {
         Page<Guest> users = guestService.getGuests(pageable);
-        return new PageImpl<GuestDTO>(
-                guestMapper.toDtoList(users.getContent()),
-                pageable,
-                users.getTotalElements()
-        );
+        return ResponseEntity.ok(guestMapper.toDtoList(users.getContent()));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
