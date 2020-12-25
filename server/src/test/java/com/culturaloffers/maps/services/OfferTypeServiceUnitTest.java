@@ -31,7 +31,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource("classpath:test.properties")
+@TestPropertySource("classpath:test-types.properties")
 public class OfferTypeServiceUnitTest {
 
     @MockBean

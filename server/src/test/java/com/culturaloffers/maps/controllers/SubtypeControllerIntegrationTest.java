@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource("classpath:test.properties")
+@TestPropertySource("classpath:test-types.properties")
 public class SubtypeControllerIntegrationTest {
     @Autowired
     private TestRestTemplate restTemplate;
