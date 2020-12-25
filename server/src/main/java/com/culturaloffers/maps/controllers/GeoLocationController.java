@@ -68,15 +68,12 @@ public class GeoLocationController {
         return new ResponseEntity<>(geoLocationMapper.toDto(geoLocation), HttpStatus.OK);
     }
 
-    @PutMapping("/{coords}")
-    public ResponseEntity<GeoLocationDTO> updateGeoLocation(@PathVariable String coords,
+    @PutMapping("/{id}")
+    public ResponseEntity<GeoLocationDTO> updateGeoLocation(@PathVariable Integer id,
                                                             @RequestBody GeoLocationDTO geoLocationDTO) {
         GeoLocation geoLocation;
         try {
-            String[] splited = coords.split(",");
-            Double latitude = Double.parseDouble(splited[0]);
-            Double longitude = Double.parseDouble(splited[1]);
-            geoLocation = geoLocationService.update(latitude, longitude, geoLocationMapper.toEntity(geoLocationDTO));
+            geoLocation = geoLocationService.update(id, geoLocationMapper.toEntity(geoLocationDTO));
         } catch (NumberFormatException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
