@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource("classpath:test-1.properties")
+@TestPropertySource("classpath:test-user-geo.properties")
 public class GeoLocationServiceUnitTest {
 
     @Autowired

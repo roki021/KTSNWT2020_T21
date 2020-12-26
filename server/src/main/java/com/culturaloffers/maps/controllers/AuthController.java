@@ -77,18 +77,14 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> addUser(@Valid @RequestBody GuestDTO userRequest,
                                      HttpServletRequest request) {
-
-        Guest existUser = guestService.getGuestByUsername(userRequest.getUsername());
-        if (existUser != null) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
+        Guest existUser;
         try {
             existUser = guestService.insert(guestMapper.toEntity(userRequest));
             String appUrl = request.getContextPath();
             eventPublisher.publishEvent(new OnRegistrationCompleteEvent(existUser,
                     request.getLocale(), appUrl));
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(guestMapper.toDto(existUser), HttpStatus.CREATED);

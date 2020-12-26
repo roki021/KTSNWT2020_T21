@@ -19,7 +19,7 @@ INSERT INTO guest (id, first_name, last_name, email_address, username, password,
     (1013, 'Petar', 'Jokić', 'pjoka@gmail.com', 'joka261', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', null),
     (1014, 'Gorana', 'Jeftović', 'gojefta@gmail.com', 'goraje2', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', true),
     (1015, 'Vladimir', 'Rakić', 'vladar2@gmail.com', 'vladar21', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', true),
-    (1016, 'Zorana', 'Zoranić', 'zers61@gmail.com', 'zorat2', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', true);
+    (1016, 'Zorana', 'Zoranić', 'zers61@gmail.com', 'zorat2', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', null);
 
 -- password for admin is 'admin'
 INSERT INTO admin (id, username, email_address, password, active) VALUES
@@ -43,6 +43,10 @@ INSERT INTO user_authority (user_id, authority_id) VALUES
     (1014, 2),
     (1015, 2),
     (1016, 2);
+
+INSERT INTO verification_token(token, user_id, expiry_date) VALUES
+    ('token1', 1005, '2021-10-20T15:00'),
+    ('token2', 1013, '2020-06-20T15:00');
 
 INSERT INTO geo_location (id, latitude, longitude, address) VALUES
     (1, 43.28627472234662, 20.8102511883379, 'Kopaonik 36354');
