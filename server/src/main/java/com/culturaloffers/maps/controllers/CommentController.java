@@ -79,9 +79,9 @@ public class CommentController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_GUEST')")
-    public CommentDTO addComment(@Valid @RequestBody Comment comment)
+    public CommentDTO addComment(@Valid @RequestBody CommentDTO comment)
     {
-        return commentMapper.toDto(commentService.addComment(comment));
+        return commentService.addComment(comment);
     }
 
     @DeleteMapping("/{id}")
@@ -93,7 +93,7 @@ public class CommentController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_GUEST')")
-    public ResponseEntity <CommentDTO> updateComment(@PathVariable(value = "id") Integer commentId, @Valid @RequestBody Comment commentDetails)
+    public ResponseEntity <CommentDTO> updateComment(@PathVariable(value = "id") Integer commentId, @Valid @RequestBody CommentDTO commentDetails)
     {
         return ResponseEntity.ok(commentMapper.toDto(commentService.updateComment(commentId, commentDetails)));
     }

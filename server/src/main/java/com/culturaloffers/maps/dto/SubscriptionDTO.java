@@ -14,6 +14,13 @@ public class SubscriptionDTO {
 
     public SubscriptionDTO() {}
 
+    public SubscriptionDTO(int userId, int culturalOfferId)
+    {
+        this.guestId = userId;
+        this.culturalOfferId = culturalOfferId;
+    }
+
+
     public int getCulturalOfferId() {
         return culturalOfferId;
     }

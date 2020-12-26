@@ -26,7 +26,9 @@ public class CommentDTO {
     private String userUsername;
     private String culturalOfferName;
 
-    public CommentDTO(Comment comment)
+    public CommentDTO(){}
+
+    public CommentDTO(@NotNull Comment comment)
     {
         this.id = comment.getId();
         this.content = comment.getContent();
@@ -36,6 +38,18 @@ public class CommentDTO {
         this.culturalOfferId = comment.getCulturalOffer().getId();
         this.userUsername = comment.getUser().getUsername();
         this.culturalOfferName = comment.getCulturalOffer().getTitle();
+    }
+
+    public CommentDTO(int id, String content, Date commentedOn, List<String> imageUrls, int userId, int culturalOfferId,
+                      String userUsername, String culturalOfferName) {
+        this.id = id;
+        this.content = content;
+        this.commentedOn = commentedOn;
+        this.imageUrls = imageUrls;
+        this.userId = userId;
+        this.culturalOfferId = culturalOfferId;
+        this.userUsername = userUsername;
+        this.culturalOfferName = culturalOfferName;
     }
 
     public Integer getId() {

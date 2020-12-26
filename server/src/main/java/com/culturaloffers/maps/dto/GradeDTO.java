@@ -19,6 +19,8 @@ public class GradeDTO {
     private int userId;
     private String userUsername;
 
+    public GradeDTO(){}
+
     public GradeDTO(@NotNull Grade grade,
                     @NotNull (message = "Value can't be null") int value,
                     @NotNull (message = "Date can't be null") Date gradedOn)
@@ -30,6 +32,17 @@ public class GradeDTO {
         this.culturalOfferName = grade.getCulturalOffer().getTitle();
         this.userId = grade.getUser().getId();
         this.userUsername = grade.getUser().getUsername();
+    }
+
+    public GradeDTO(int id, int value, Date gradedOn, int offerId, String offerName, int userId, String userName)
+    {
+        this.id = id;
+        this.value = value;
+        this.gradedOn = gradedOn;
+        this.culturalOfferId = offerId;
+        this.culturalOfferName = offerName;
+        this.userId = userId;
+        this.userUsername = userName;
     }
 
     public Integer getId() {
