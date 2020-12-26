@@ -36,6 +36,9 @@ public class GuestController {
         Guest addedGuest;
         try {
             addedGuest = guestService.insert(guestMapper.toEntity(guestDTO));
+            if(addedGuest == null) {
+                throw new Exception("Entity could not be inserted");
+            }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
