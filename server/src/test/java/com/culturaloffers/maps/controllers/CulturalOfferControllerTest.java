@@ -6,6 +6,7 @@ import static com.culturaloffers.maps.constants.CulturalOfferConstants.*;
 import com.culturaloffers.maps.dto.CulturalOfferDTO;
 import com.culturaloffers.maps.dto.UserLoginDTO;
 import com.culturaloffers.maps.dto.UserTokenStateDTO;
+import com.culturaloffers.maps.dto.ZoomDTO;
 import com.culturaloffers.maps.model.GeoLocation;
 import com.culturaloffers.maps.services.CulturalOfferService;
 import com.culturaloffers.maps.services.GeoLocationService;
@@ -15,15 +16,17 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource("classpath:test-2.properties")
+@TestPropertySource("classpath:test-offer.properties")
 public class CulturalOfferControllerTest {
 
     @Autowired
@@ -226,4 +229,26 @@ public class CulturalOfferControllerTest {
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
+    @Test
+    public void testGetAllInCurrentZoom() {
+        ZoomDTO zoomDTO = new ZoomDTO(
+                UPPER_LATITUDE,
+                UPPER_LONGITUDE,
+                LOWER_LATITUDE,
+                LOWER_LONGITUDE
+        );
+
+        ResponseEntity<List<CulturalOfferDTO>> responseEntity =
+                restTemplate.exchange(
+                        "/offers/filtering",
+                        HttpMethod.POST,
+                        new HttpEntity<ZoomDTO>(zoomDTO),
+                        new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
+
+        List<CulturalOfferDTO> offers = responseEntity.getBody();
+
+        assertThat(HttpStatus.OK).isEqualTo(responseEntity.getStatusCode());
+        assertThat(offers).isNotNull();
+        assertThat(offers.size()).isEqualTo(EXPECTED_OFFERS);
+    }
 }
