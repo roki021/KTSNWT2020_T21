@@ -1,5 +1,6 @@
 package com.culturaloffers.maps;
 
+import com.culturaloffers.maps.controllers.AuthControllerIntegrationTest;
 import com.culturaloffers.maps.controllers.GuestControllerIntegrationTest;
 import com.culturaloffers.maps.controllers.UserControllerIntegrationTest;
 import com.culturaloffers.maps.repositories.AdminRepositoryIntegrationTest;
@@ -18,8 +19,10 @@ import org.springframework.test.context.TestPropertySource;
         GuestServiceUnitTest.class, GuestServiceIntegrationTest.class,
         UserServiceUnitTest.class, UserServiceIntegrationTest.class,
         GuestControllerIntegrationTest.class, UserControllerIntegrationTest.class,
-        GeoLocationServiceUnitTest.class, GeoLocationServiceIntegrationTest.class
+        GeoLocationServiceUnitTest.class, GeoLocationServiceIntegrationTest.class,
+        AuthorityServiceUnitTest.class, AuthorityServiceIntegrationTest.class,
+        UserDetailsServiceImplIntegrationTest.class, AuthControllerIntegrationTest.class
 })
-@TestPropertySource("classpath:test-1.properties")
-public class SuitePartOne {
+@TestPropertySource("classpath:test-user-geo.properties")
+public class SuiteUserGeo {
 }

@@ -77,12 +77,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> addUser(@Valid @RequestBody GuestDTO userRequest,
                                      HttpServletRequest request) {
-
-        Guest existUser = guestService.getGuestByUsername(userRequest.getUsername());
-        if (existUser != null) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
+        Guest existUser;
         try {
             existUser = guestService.insert(guestMapper.toEntity(userRequest));
             String appUrl = request.getContextPath();

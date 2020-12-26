@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@TestPropertySource("classpath:test-1.properties")
+@TestPropertySource("classpath:test-user-geo.properties")
 public class UserRepositoryIntegrationTest {
 
     @Autowired
