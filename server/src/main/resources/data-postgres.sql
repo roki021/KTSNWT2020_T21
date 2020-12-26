@@ -137,7 +137,8 @@ INSERT INTO offer_news (id, title, description, cultural_offer_id, date) VALUES
     (1, 'Ponovno otvaranje parka', 'Park se otvara opet od 15.01.2021.', 2, '2020-12-08 17:11:30'),
     (2, 'Najavljeno zatvaranje pozorista', 'Pozoriste se zatvara od 25.12.2020.', 3, '2020-12-08 17:12:20'),
     (3, 'Naredna liturgija', 'Naredna liturgija ce se odrzati 28.01.2021.', 9, '2020-12-08 17:18:38'),
-    (4, 'Novo vino', 'Najnovije vino iz Francuske stize u vinariju 20.12.2020.', 15, '2020-12-08 17:21:50');
+    (4, 'Posebna ponuda', 'Sva prenocista ce kostati upola cene od danas do 20.02.2021.', 14, '2020-12-19 11:00:02'),
+    (5, 'Novo vino', 'Najnovije vino iz Francuske stize u vinariju 20.12.2020.', 15, '2020-12-08 17:21:50');
 
 INSERT INTO comment (id, content, commented_on, user_id, cultural_offer_id) VALUES
     (1, 'Prelep pogled sa vrha', '2020-12-08 17:40:50', 1001, 7),
@@ -155,4 +156,9 @@ INSERT INTO grade (id, value, graded_on, user_id, cultural_offer_id) VALUES
 
 INSERT INTO cultural_offer_user (cultural_offer_id, user_id) VALUES
     (1,1001),
-    (2,1001)
+    (2,1001),
+    (7, 1001),
+    (4, 1005),
+    (12, 1006),
+    (14, 1011),
+    (14, 1001);

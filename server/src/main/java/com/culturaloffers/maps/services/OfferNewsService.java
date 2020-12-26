@@ -22,13 +22,15 @@ public class OfferNewsService {
     private CulturalOfferService offerService;
 
     public OfferNews create(OfferNews news, Integer id) throws Exception {
-        if (repository.findByTitle(news.getTitle()) != null)
-            throw new Exception("Title of an offer news must be unique");
+        if (news.getTitle().isBlank())
+            throw new Exception("Title of offer news cannot be empty");
+        if (news.getDescription().isBlank())
+            throw new Exception("Description of offer news cannot be empty");
         CulturalOffer offer = offerService.findOne(id);
         if (offer == null)
             throw new Exception("Cultural offer must be assigned");
         news.setCulturalOffer(offer);
-        List<String> imagePaths = new ArrayList<String>();
+        List<String> imagePaths = new ArrayList<>();
         for(String s : news.getImageUrls())
         {
             imagePaths.add(ImageHandler.saveImage("src\\main\\images\\newsImages\\", s));
@@ -58,10 +60,8 @@ public class OfferNewsService {
     public OfferNews update(Integer id, OfferNews news) throws Exception {
         if (repository.findById(id).orElse(null) == null)
             throw new Exception("Offer news with given id does not exist");
-        if (repository.findByTitleAndIdNot(news.getTitle(), id) != null)
-            throw new Exception("Offer news with given title already exists");
         news.setId(id);
-        List<String> imagePaths = new ArrayList<String>();
+        List<String> imagePaths = new ArrayList<>();
         for(String s : news.getImageUrls())
         {
             imagePaths.add(ImageHandler.saveImage("src\\main\\images\\newsImages\\", s));
