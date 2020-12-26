@@ -16,7 +16,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource("classpath:test-2.properties")
+@TestPropertySource("classpath:test-offer.properties")
 public class OfferNewsRepositoryTest {
 
     @Autowired

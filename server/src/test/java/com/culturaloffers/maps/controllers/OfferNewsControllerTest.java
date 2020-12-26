@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource("classpath:test-2.properties")
+@TestPropertySource("classpath:test-offer.properties")
 public class OfferNewsControllerTest {
 
     @Autowired

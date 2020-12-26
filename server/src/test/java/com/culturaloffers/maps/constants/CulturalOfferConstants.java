@@ -16,4 +16,14 @@ public class CulturalOfferConstants {
     public static final String CO_ADDRESS = "Vrnjačka 42a, Vrnjačka Banja 36210";
     public static final String CO_SUBTYPE = "hotel";
 
+    // coordinates
+    public static final double UPPER_LATITUDE = 44;
+    public static final double UPPER_LONGITUDE = 20;
+
+    public static final double LOWER_LATITUDE = 20;
+    public static final double LOWER_LONGITUDE = 44;
+    public static final int EXPECTED_OFFERS = 7;
+    // between 0 and 6
+    public static final int ROW_NUM = 2;
+
 }

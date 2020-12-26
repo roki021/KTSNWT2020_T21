@@ -1,3 +1,5 @@
+package com.culturaloffers.maps;
+
 import com.culturaloffers.maps.controllers.OfferTypeControllerIntegrationTest;
 import com.culturaloffers.maps.controllers.SubtypeControllerIntegrationTest;
 import com.culturaloffers.maps.repositories.OfferTypeRepositoryIntegrationTest;

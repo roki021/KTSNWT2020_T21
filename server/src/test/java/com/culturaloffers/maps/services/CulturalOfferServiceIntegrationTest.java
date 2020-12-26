@@ -3,6 +3,7 @@ package com.culturaloffers.maps.services;
 import static com.culturaloffers.maps.constants.CulturalOfferConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.culturaloffers.maps.dto.ZoomDTO;
 import com.culturaloffers.maps.model.CulturalOffer;
 import com.culturaloffers.maps.model.GeoLocation;
 import org.junit.Test;
@@ -21,7 +22,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource("classpath:test-2.properties")
+@TestPropertySource("classpath:test-offer.properties")
 public class CulturalOfferServiceIntegrationTest {
 
     @Autowired
@@ -166,6 +167,22 @@ public class CulturalOfferServiceIntegrationTest {
     @Rollback(true)
     public void testRemoveCulturalOfferWithInvalidId() throws Exception {
         service.delete(50);
+    }
+
+    @Test
+    public void testGetAllInCurrentZoom() {
+        ZoomDTO zoomDTO = new ZoomDTO(
+                UPPER_LATITUDE,
+                UPPER_LONGITUDE,
+                LOWER_LATITUDE,
+                LOWER_LONGITUDE
+        );
+
+        List<CulturalOffer> culturalOffers = service.getAllInCurrentZoom(zoomDTO);
+
+        assertThat(culturalOffers.size()).isEqualTo(EXPECTED_OFFERS);
+        assertThat(culturalOffers.get(ROW_NUM).getGeoLocation().getLongitude())
+                .isBetween(UPPER_LONGITUDE, LOWER_LONGITUDE);
     }
 
 }

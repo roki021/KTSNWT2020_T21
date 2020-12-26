@@ -1,11 +1,7 @@
 package com.culturaloffers.maps.repositories;
 
+import static com.culturaloffers.maps.constants.CulturalOfferConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static com.culturaloffers.maps.constants.CulturalOfferConstants.CO_ID;
-import static com.culturaloffers.maps.constants.CulturalOfferConstants.CO_ADDRESS;
-import static com.culturaloffers.maps.constants.CulturalOfferConstants.CO_DESCRIPTION;
-import static com.culturaloffers.maps.constants.CulturalOfferConstants.CO_SUBTYPE;
-import static com.culturaloffers.maps.constants.CulturalOfferConstants.CO_TITLE;
 
 import com.culturaloffers.maps.model.CulturalOffer;
 import org.junit.Test;
@@ -19,7 +15,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource("classpath:test-2.properties")
+@TestPropertySource("classpath:test-offer.properties")
 public class CulturalOfferRepositoryTest {
 
     @Autowired
@@ -51,5 +47,17 @@ public class CulturalOfferRepositoryTest {
     public void testFindAll(){
         List<CulturalOffer> all = repository.findAll();
         assertThat(all.size()).isEqualTo(15);
+    }
+
+    @Test
+    public void testFindAllByZoom() {
+        List<CulturalOffer> culturalOffers = repository.findAllByZoom(
+                LOWER_LATITUDE,
+                UPPER_LATITUDE,
+                UPPER_LONGITUDE,
+                LOWER_LONGITUDE
+        );
+
+        assertThat(culturalOffers.size()).isEqualTo(EXPECTED_OFFERS);
     }
 }
