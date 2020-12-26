@@ -2,10 +2,15 @@ package com.culturaloffers.maps.services;
 
 import com.culturaloffers.maps.dto.CommentDTO;
 import com.culturaloffers.maps.dto.GradeDTO;
+import com.culturaloffers.maps.helper.GradeMapper;
 import com.culturaloffers.maps.model.Comment;
+import com.culturaloffers.maps.model.CulturalOffer;
 import com.culturaloffers.maps.model.Grade;
+import com.culturaloffers.maps.model.Guest;
 import com.culturaloffers.maps.repositories.CommentRepository;
+import com.culturaloffers.maps.repositories.CulturalOfferRepository;
 import com.culturaloffers.maps.repositories.GradeRepository;
+import com.culturaloffers.maps.repositories.GuestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +26,14 @@ import java.util.Map;
 public class GradeService {
     @Autowired
     GradeRepository gradeRepository;
+
+    @Autowired
+    CulturalOfferRepository culturalOfferRepository;
+
+    @Autowired
+    GuestRepository guestRepository;
+
+    GradeMapper gradeMapper = new GradeMapper();
 
     public List<Grade> findByCulturalOfferId(int id)
     {
@@ -42,9 +55,18 @@ public class GradeService {
         return gradeRepository.findByUserId(id, pageable);
     }
 
-    public Grade addGrade(Grade grade)
+    public GradeDTO addGrade(GradeDTO grade)
     {
-        return gradeRepository.save(grade);
+        Grade gradeToAdd = new Grade();
+        gradeToAdd.setValue(grade.getValue());
+        gradeToAdd.setGradedOn(grade.getGradedOn());
+        CulturalOffer co = culturalOfferRepository.findByTitle(grade.getCulturalOfferName());
+        Guest g = guestRepository.findByUsername(grade.getUserUsername());
+        gradeToAdd.setCulturalOffer(co);
+        gradeToAdd.setUser(g);
+
+        gradeRepository.save(gradeToAdd);
+        return gradeMapper.toDto(gradeToAdd);
     }
 
     public Map<String, Boolean> deleteById(int gradeId) throws ResourceNotFoundException
@@ -58,7 +80,7 @@ public class GradeService {
         return response;
     }
 
-    public Grade updateGrade(int gradeId, Grade gradeDetails) throws ResourceNotFoundException {
+    public Grade updateGrade(int gradeId, GradeDTO gradeDetails) throws ResourceNotFoundException {
         Grade grade = gradeRepository.findById(gradeId)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + gradeId));
 

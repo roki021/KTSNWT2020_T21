@@ -40,6 +40,7 @@ public class GradeController {
             }
             return new ResponseEntity<>(offerGrades, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -79,9 +80,9 @@ public class GradeController {
 
     @PreAuthorize("hasRole('ROLE_GUEST')")
     @PostMapping
-    public GradeDTO addGrade(@Valid @RequestBody Grade grade)
+    public GradeDTO addGrade(@Valid @RequestBody GradeDTO grade)
     {
-        return gradeMapper.toDto(gradeService.addGrade(grade));
+        return gradeService.addGrade(grade);
     }
 
     @PreAuthorize("hasRole('ROLE_GUEST')")
@@ -93,7 +94,7 @@ public class GradeController {
 
     @PreAuthorize("hasRole('ROLE_GUEST')")
     @PutMapping("grade/{id}")
-    public ResponseEntity <GradeDTO> updateGrade(@PathVariable(value = "id") Integer gradeId, @Valid @RequestBody Grade gradeDetails)
+    public ResponseEntity <GradeDTO> updateGrade(@PathVariable(value = "id") Integer gradeId, @Valid @RequestBody GradeDTO gradeDetails)
     {
         return ResponseEntity.ok(gradeMapper.toDto(gradeService.updateGrade(gradeId, gradeDetails)));
     }

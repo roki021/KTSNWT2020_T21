@@ -20,9 +20,10 @@ public class SubscriptionController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_GUEST')")
-    public void addSubscription(@Valid @RequestBody SubscriptionDTO subscriptionDTO)
+    public SubscriptionDTO addSubscription(@Valid @RequestBody SubscriptionDTO subscriptionDTO)
     {
         subscriptionService.addSubscription(subscriptionDTO);
+        return subscriptionDTO;
     }
 
     @DeleteMapping

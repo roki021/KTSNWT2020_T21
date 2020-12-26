@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class SubscriptionService {
@@ -25,7 +22,9 @@ public class SubscriptionService {
     @Autowired
     GuestRepository guestRepository;
 
-    public void addSubscription(SubscriptionDTO subscriptionDTO)
+
+
+    public SubscriptionDTO addSubscription(SubscriptionDTO subscriptionDTO)
     {
         List<CulturalOffer> culturalOffers = coRepository.findAll();
         CulturalOffer culturalOffer = coRepository.findById(subscriptionDTO.getCulturalOfferId())
@@ -43,6 +42,8 @@ public class SubscriptionService {
             System.out.println(g.getId());
 
         coRepository.save(culturalOffer);
+
+        return subscriptionDTO;
     }
 
     public Map<String, Boolean> deleteSubscription(SubscriptionDTO subscriptionDTO)
@@ -64,5 +65,35 @@ public class SubscriptionService {
         response.put("deleted", Boolean.TRUE);
 
         return response;
+    }
+
+    public List<SubscriptionDTO> getAllUserSubscriptions(int userId)
+    {
+        Guest g = guestRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Guest not found for this id :: "
+                        + userId));
+
+        List<SubscriptionDTO> subs = new ArrayList<SubscriptionDTO>();
+
+        for(CulturalOffer co : g.getSubscriptions())
+        {
+            subs.add(new SubscriptionDTO(userId, co.getId()));
+        }
+        return subs;
+    }
+
+    public List<SubscriptionDTO> getAllCulturalOfferSubscribers(int coId)
+    {
+        CulturalOffer co = coRepository.findById(coId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cultural offer not found for this id :: "
+                        + coId));
+
+        List<SubscriptionDTO> subs = new ArrayList<SubscriptionDTO>();
+
+        for(Guest g : co.getSubscribers())
+        {
+            subs.add(new SubscriptionDTO(g.getId(), coId));
+        }
+        return subs;
     }
 }

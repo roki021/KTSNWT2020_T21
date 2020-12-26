@@ -1,9 +1,14 @@
 package com.culturaloffers.maps.services;
 
 import com.culturaloffers.maps.dto.CommentDTO;
+import com.culturaloffers.maps.helper.CommentMapper;
 import com.culturaloffers.maps.helper.ImageHandler;
 import com.culturaloffers.maps.model.Comment;
+import com.culturaloffers.maps.model.CulturalOffer;
+import com.culturaloffers.maps.model.Guest;
 import com.culturaloffers.maps.repositories.CommentRepository;
+import com.culturaloffers.maps.repositories.CulturalOfferRepository;
+import com.culturaloffers.maps.repositories.GuestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +25,14 @@ public class CommentService {
 
     @Autowired
     CommentRepository commentRepository;
+
+    @Autowired
+    CulturalOfferRepository culturalOfferRepository;
+
+    @Autowired
+    GuestRepository guestRepository;
+
+    CommentMapper commentMapper = new CommentMapper();
 
     public List<Comment> findByCulturalOfferId(int id)
     {
@@ -41,7 +54,7 @@ public class CommentService {
         return commentRepository.findByUserId(id, pageable);
     }
 
-    public Comment addComment(Comment comment)
+    public CommentDTO addComment(CommentDTO comment)
     {
         List<String> imagePaths = new ArrayList<String>();
 
@@ -51,8 +64,17 @@ public class CommentService {
         }
 
         comment.setImageUrls(imagePaths);
+        CulturalOffer co = culturalOfferRepository.findByTitle(comment.getCulturalOfferName());
+        Guest g = guestRepository.findByUsername(comment.getUserUsername());
+        Comment toBeAdded = new Comment();
+        toBeAdded.setImageUrls(imagePaths);
+        toBeAdded.setCommentedOn(comment.getCommentedOn());
+        toBeAdded.setContent(comment.getContent());
+        toBeAdded.setCulturalOffer(co);
+        toBeAdded.setUser(g);
 
-        return commentRepository.save(comment);
+        commentRepository.save(toBeAdded);
+        return commentMapper.toDto(toBeAdded);
     }
 
     public Map<String, Boolean> deleteById(int commentId) throws ResourceNotFoundException
@@ -66,7 +88,7 @@ public class CommentService {
         return response;
     }
 
-    public Comment updateComment(int commentId, Comment commentDetails) throws ResourceNotFoundException {
+    public Comment updateComment(int commentId, CommentDTO commentDetails) throws ResourceNotFoundException {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + commentId));
 
