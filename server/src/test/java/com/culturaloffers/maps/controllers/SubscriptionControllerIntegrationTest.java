@@ -84,9 +84,9 @@ public class SubscriptionControllerIntegrationTest {
         subscriptionService.deleteSubscription(new SubscriptionDTO(1004, 1));
     }
 
-    /*@Test
+    @Test
     @Transactional
-    public void testDeleteGrade() {
+    public void testDeleteGradeSubscription() {
         HttpEntity<Object> httpEntity = new HttpEntity<Object>(new SubscriptionDTO(1001, 1), httpHeaders);
 
         subscriptionService.addSubscription(new SubscriptionDTO(1002, 1));
@@ -98,7 +98,5 @@ public class SubscriptionControllerIntegrationTest {
                         HttpMethod.DELETE, httpEntity, new ParameterizedTypeReference<Map<String, Boolean>>(){});
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        List<SubscriptionDTO> subs = subscriptionService.getAllCulturalOfferSubscribers(1);
-        assertEquals(size - 1, subs.size());
-    }*/
+    }
 }
