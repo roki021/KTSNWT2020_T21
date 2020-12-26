@@ -55,11 +55,10 @@ public class CulturalOfferController {
     }
 
     @RequestMapping(value="/by-page", method = RequestMethod.GET)
-    public ResponseEntity<Page<CulturalOfferDTO>> getAllPageable(Pageable pageable){
+    public ResponseEntity<List<CulturalOfferDTO>> getAllPageable(Pageable pageable){
         Page<CulturalOffer> page = service.findAll(pageable);
-        List<CulturalOfferDTO> dtos = mapper.toDtoList(page.toList());
-        Page<CulturalOfferDTO> ret = new PageImpl<>(dtos, page.getPageable(), page.getTotalElements());
-        return new ResponseEntity<>(ret, HttpStatus.OK);
+        List<CulturalOfferDTO> dtos = mapper.toDtoList(page.getContent());
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -79,7 +78,9 @@ public class CulturalOfferController {
             culturalOffer.setSubtype(service.findOne(id).getSubtype());
             if (culturalOffer.getDescription().isBlank())
                 culturalOffer.setDescription(service.findOne(id).getDescription());
-            service.update(id, mapper.toEntity(dto));
+            if (culturalOffer.getTitle().isBlank())
+                culturalOffer.setTitle(service.findOne(id).getTitle());
+            service.update(id, culturalOffer);
         }catch (Exception exception){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

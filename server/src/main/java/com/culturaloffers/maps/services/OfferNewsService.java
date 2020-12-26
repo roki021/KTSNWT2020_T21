@@ -22,6 +22,10 @@ public class OfferNewsService {
     private CulturalOfferService offerService;
 
     public OfferNews create(OfferNews news, Integer id) throws Exception {
+        if (news.getTitle().isBlank())
+            throw new Exception("Title of offer news cannot be empty");
+        if (news.getDescription().isBlank())
+            throw new Exception("Description of offer news cannot be empty");
         CulturalOffer offer = offerService.findOne(id);
         if (offer == null)
             throw new Exception("Cultural offer must be assigned");

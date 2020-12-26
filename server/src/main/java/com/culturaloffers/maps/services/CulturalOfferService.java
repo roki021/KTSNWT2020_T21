@@ -26,8 +26,8 @@ public class CulturalOfferService {
     private SubtypeService subtypeService;
 
     public CulturalOffer create(CulturalOffer offer, String address, String subtypeName) throws Exception {
-        if (repository.findByTitle(offer.getTitle()) != null)
-            throw new Exception("Title of a cultural offer must be unique");
+        if (repository.findByTitle(offer.getTitle()) != null || offer.getTitle().isBlank())
+            throw new Exception("Title of a cultural offer must be unique and cannot be empty");
         if (offer.getDescription().isBlank())
             throw new Exception("Description of a cultural offer cannot be empty");
         if (geoLocationService.getByAddress(address) == null)
