@@ -25,6 +25,8 @@ public class GeoLocationService {
         return geoLocationRepository.findByLatitudeAndLongitude(latitude, longitude);
     }
 
+    public List<GeoLocation> getAllGeoLocations() { return geoLocationRepository.findAll(); }
+
     public Page<GeoLocation> getGeoLocations(Pageable pageable) {
         return geoLocationRepository.findAll(pageable);
     }
@@ -53,10 +55,20 @@ public class GeoLocationService {
         return false;
     }
 
+    public boolean delete(int id) {
+        GeoLocation geoLocation = geoLocationRepository.findById(id).orElse(null);
+
+        if(geoLocation != null) {
+            geoLocationRepository.delete(geoLocation);
+
+            return true;
+        }
+
+        return false;
+    }
+
     public GeoLocation insert(GeoLocation newGeoLocation) {
-        GeoLocation geoLocation = geoLocationRepository.findByLatitudeAndLongitude(
-                newGeoLocation.getLatitude(),
-                newGeoLocation.getLongitude());
+        GeoLocation geoLocation = geoLocationRepository.findByAddress(newGeoLocation.getAddress());
 
         if(geoLocation == null)
             return geoLocationRepository.save(newGeoLocation);
@@ -64,17 +76,18 @@ public class GeoLocationService {
         return null;
     }
 
-    public GeoLocation update(Double latitude, Double longitude, GeoLocation newGeoLocation) {
-        GeoLocation geoLocation = geoLocationRepository.findByLatitudeAndLongitude(
-                latitude,
-                longitude);
+    public GeoLocation update(int id, GeoLocation newGeoLocation) {
+        GeoLocation geoLocation = geoLocationRepository.findById(id).orElse(null);
 
         if(geoLocation != null) {
-            geoLocation.setLatitude(newGeoLocation.getLatitude());
-            geoLocation.setLongitude(newGeoLocation.getLongitude());
-            geoLocation.setAddress(newGeoLocation.getAddress());
+            GeoLocation geoOne = geoLocationRepository.findByAddress(newGeoLocation.getAddress());
+            if(!(geoOne != null && geoOne.getId().intValue() != geoLocation.getId().intValue())) {
+                geoLocation.setLatitude(newGeoLocation.getLatitude());
+                geoLocation.setLongitude(newGeoLocation.getLongitude());
+                geoLocation.setAddress(newGeoLocation.getAddress());
 
-            return geoLocationRepository.save(geoLocation);
+                return geoLocationRepository.save(geoLocation);
+            }
         }
 
         return null;

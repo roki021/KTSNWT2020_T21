@@ -95,10 +95,7 @@ public class CulturalOfferService {
                 offers = repository.findByTypeContaining(value);
                 break;
             case "subscribers":
-                if(value.equals("0")){
-                    return repository.findAll();
-                }
-                offers = repository.findBySubscriberAmountGreaterEq(Long.parseLong(value));
+                offers = repository.findBySubscriberAmountGreaterEq(Integer.parseInt(value));
                 break;
             case "grade":
                 if(value.equals("0")){

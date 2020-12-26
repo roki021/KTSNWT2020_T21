@@ -32,11 +32,15 @@ public class ProfileDataController {
         try {
             guest = profileService.findProfile(id, principal.getName());
         } catch (Exception e) {
+            if(e.getMessage().equals("Guest doesnt exist."))
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            else if(e.getMessage().equals("Unauthorized action"))
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        if(guest == null){
+        /*if(guest == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        }*/
 
         return new ResponseEntity<>(guestMapper.toDto(guest), HttpStatus.OK);
     }
@@ -49,7 +53,11 @@ public class ProfileDataController {
         try {
             guest = profileService.updateProfile(id, guestMapper.toEntity(guestDTO), principal.getName());
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            if(e.getMessage().equals("Guest doesnt exist."))
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            else if(e.getMessage().equals("Unauthorized action"))
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(guestMapper.toDto(guest), HttpStatus.OK);
     }
@@ -58,7 +66,6 @@ public class ProfileDataController {
     @RequestMapping(value="/{id}/change-password", method= RequestMethod.PUT)
     public ResponseEntity<Void> changePassword(@PathVariable Integer id, @RequestBody PasswordDTO passwordDTO,
                                                Principal principal){
-
         try {
             if(!passwordDTO.getNewPassword().equals(passwordDTO.getRepetedPassword())){
                 throw new Exception("Repeted password doesnt match");
@@ -66,6 +73,12 @@ public class ProfileDataController {
             profileService.ChangePassword(id, passwordDTO.getOldPassword(),
                     passwordDTO.getNewPassword(), principal.getName());
         } catch (Exception e) {
+            if(e.getMessage().equals("User doesnt exist")) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            else if(e.getMessage().equals("Unauthorized changes")){
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
