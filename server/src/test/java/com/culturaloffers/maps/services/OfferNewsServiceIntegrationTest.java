@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:test-2.properties")
-public class OfferNewsServiceTest {
+public class OfferNewsServiceIntegrationTest {
 
     @Autowired
     private OfferNewsService service;

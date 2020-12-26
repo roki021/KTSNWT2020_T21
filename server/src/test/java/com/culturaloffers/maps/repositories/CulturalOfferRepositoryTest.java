@@ -15,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:test-2.properties")
@@ -43,5 +45,11 @@ public class CulturalOfferRepositoryTest {
         assertThat(offer.getDescription()).isEqualTo(CO_DESCRIPTION);
         offer = repository.findByTitleAndIdNot(CO_TITLE, CO_ID);
         assertThat(offer).isNull();
+    }
+
+    @Test
+    public void testFindAll(){
+        List<CulturalOffer> all = repository.findAll();
+        assertThat(all.size()).isEqualTo(15);
     }
 }
