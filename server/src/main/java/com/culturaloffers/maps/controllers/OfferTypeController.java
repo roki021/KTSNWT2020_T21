@@ -85,8 +85,10 @@ public class OfferTypeController {
             offerType = offerTypeMapper.toEntity(offerTypeDTO);
             offerType = offerTypeService.update(offerType, id);
         } catch (Exception e) {
-            if(e.getMessage().equals("Offer type with given id doesn't exist"))
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            if(e.getMessage() != null) {
+                if (e.getMessage().equals("Offer type with given id doesn't exist"))
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(offerTypeMapper.toDto(offerType), HttpStatus.OK);
@@ -98,8 +100,10 @@ public class OfferTypeController {
         try {
             offerTypeService.delete(id);
         } catch (Exception e) {
-            if(e.getMessage().equals("Offer type with given id doesn't exist"))
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            if(e.getMessage() != null) {
+                if (e.getMessage().equals("Offer type with given id doesn't exist"))
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

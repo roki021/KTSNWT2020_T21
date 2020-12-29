@@ -33,10 +33,12 @@ public class ProfileDataController {
         try {
             guest = profileService.findProfile(id, principal.getName());
         } catch (Exception e) {
-            if(e.getMessage().equals("Guest doesnt exist."))
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            else if(e.getMessage().equals("Unauthorized action"))
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            if(e.getMessage() != null) {
+                if (e.getMessage().equals("Guest doesnt exist."))
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                else if (e.getMessage().equals("Unauthorized action"))
+                    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         /*if(guest == null){
@@ -54,10 +56,12 @@ public class ProfileDataController {
         try {
             guest = profileService.updateProfile(id, guestMapper.toEntity(guestDTO), principal.getName());
         } catch (Exception e) {
-            if(e.getMessage().equals("Guest doesnt exist."))
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            else if(e.getMessage().equals("Unauthorized action"))
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            if(e.getMessage() != null) {
+                if (e.getMessage().equals("Guest doesnt exist."))
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                else if (e.getMessage().equals("Unauthorized action"))
+                    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(guestMapper.toDto(guest), HttpStatus.OK);
@@ -65,7 +69,7 @@ public class ProfileDataController {
 
     @PreAuthorize("hasRole('ROLE_GUEST')")
     @RequestMapping(value="/{id}/change-password", method= RequestMethod.PUT)
-    public ResponseEntity<Void> changePassword(@PathVariable Integer id, @Valid @RequestBody PasswordDTO passwordDTO,
+    public ResponseEntity<Void> changePassword(@PathVariable Integer id,@Valid @RequestBody PasswordDTO passwordDTO,
                                                Principal principal){
         try {
             if(!passwordDTO.getNewPassword().equals(passwordDTO.getRepetedPassword())){
@@ -74,11 +78,13 @@ public class ProfileDataController {
             profileService.ChangePassword(id, passwordDTO.getOldPassword(),
                     passwordDTO.getNewPassword(), principal.getName());
         } catch (Exception e) {
-            if(e.getMessage().equals("User doesnt exist")) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            else if(e.getMessage().equals("Unauthorized changes")){
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            if(e.getMessage() != null){
+                if(e.getMessage().equals("User doesnt exist")) {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
+                else if(e.getMessage().equals("Unauthorized changes")){
+                    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                }
             }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

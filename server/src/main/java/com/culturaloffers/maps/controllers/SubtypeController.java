@@ -87,8 +87,10 @@ public class SubtypeController {
         try {
             subtype = subtypeService.update(subtypeMapper.toEntity(subtypeDTO), id);
         } catch (Exception e) {
-            if(e.getMessage().equals("Subtype with given id doesn't exist"))
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            if(e.getMessage() != null) {
+                if (e.getMessage().equals("Subtype with given id doesn't exist"))
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -101,8 +103,10 @@ public class SubtypeController {
         try {
             subtypeService.delete(id);
         } catch (Exception e) {
-            if(e.getMessage().equals("Subtype with given name doesn't exist"))
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            if(e.getMessage() != null) {
+                if (e.getMessage().equals("Subtype with given name doesn't exist"))
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
             else
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
