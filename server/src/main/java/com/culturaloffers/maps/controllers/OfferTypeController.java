@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.*;
 
 @RestController
@@ -61,7 +62,7 @@ public class OfferTypeController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OfferTypeDTO> createOfferType(@RequestBody OfferTypeDTO offerTypeDTO){
+    public ResponseEntity<OfferTypeDTO> createOfferType(@Valid @RequestBody OfferTypeDTO offerTypeDTO){
         OfferType offerType;
         try {
 
@@ -78,7 +79,7 @@ public class OfferTypeController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferTypeDTO> updateOfferType(
-            @RequestBody OfferTypeDTO offerTypeDTO, @PathVariable Integer id){
+            @Valid @RequestBody OfferTypeDTO offerTypeDTO, @PathVariable Integer id){
         OfferType offerType;
         try {
             offerType = offerTypeMapper.toEntity(offerTypeDTO);

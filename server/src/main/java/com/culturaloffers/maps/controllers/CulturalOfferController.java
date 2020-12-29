@@ -100,7 +100,7 @@ public class CulturalOfferController {
 
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<CulturalOfferDTO>> searchCulturalOffers(@RequestBody SearchDTO dto){
+    public ResponseEntity<List<CulturalOfferDTO>> searchCulturalOffers(@Valid @RequestBody SearchDTO dto){
         List<CulturalOffer> culturalOffers = null;
         try {
             culturalOffers = service.search(dto.getSearchValue(), dto.getSearchField());

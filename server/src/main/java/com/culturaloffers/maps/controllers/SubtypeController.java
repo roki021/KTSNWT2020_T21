@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -63,7 +64,7 @@ public class SubtypeController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SubtypeDTO> createSubtype(@RequestBody SubtypeDTO subtypeDTO){
+    public ResponseEntity<SubtypeDTO> createSubtype(@Valid @RequestBody SubtypeDTO subtypeDTO){
         Subtype subtype;
         try {
             if(subtypeDTO.getOfferTypeName() == null){
@@ -81,7 +82,7 @@ public class SubtypeController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SubtypeDTO> updateSubtype(
-            @RequestBody SubtypeDTO subtypeDTO, @PathVariable Integer id){
+            @Valid @RequestBody SubtypeDTO subtypeDTO, @PathVariable Integer id){
         Subtype subtype;
         try {
             subtype = subtypeService.update(subtypeMapper.toEntity(subtypeDTO), id);

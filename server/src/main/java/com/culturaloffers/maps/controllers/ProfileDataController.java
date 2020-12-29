@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 @RestController
@@ -47,7 +48,7 @@ public class ProfileDataController {
 
     @PreAuthorize("hasRole('ROLE_GUEST')")
     @RequestMapping(value="/{id}", method= RequestMethod.PUT)
-    public ResponseEntity<GuestDTO> updateGuestProfile(@PathVariable Integer id, @RequestBody GuestDTO guestDTO,
+    public ResponseEntity<GuestDTO> updateGuestProfile(@PathVariable Integer id, @Valid @RequestBody GuestDTO guestDTO,
                                                        Principal principal){
         Guest guest = null;
         try {
@@ -64,7 +65,7 @@ public class ProfileDataController {
 
     @PreAuthorize("hasRole('ROLE_GUEST')")
     @RequestMapping(value="/{id}/change-password", method= RequestMethod.PUT)
-    public ResponseEntity<Void> changePassword(@PathVariable Integer id, @RequestBody PasswordDTO passwordDTO,
+    public ResponseEntity<Void> changePassword(@PathVariable Integer id, @Valid @RequestBody PasswordDTO passwordDTO,
                                                Principal principal){
         try {
             if(!passwordDTO.getNewPassword().equals(passwordDTO.getRepetedPassword())){
