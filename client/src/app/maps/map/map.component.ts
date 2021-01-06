@@ -27,7 +27,7 @@ export class MapComponent implements OnInit {
 
   ngOnInit(): void {
     this.initilizeMap();
-  }
+  }      
 
   initilizeMap(){
     var lineStyle = new Style({
@@ -58,18 +58,20 @@ export class MapComponent implements OnInit {
         this.vector
       ],
       view: new View({
-        center: fromLonLat([22, 44]),
-        zoom: 7
+        center: fromLonLat([22, 44.3]),
+        zoom: 7.1
       })
     });
     this.map.setView(
       new View({
-          center: fromLonLat([22, 44]),
-          zoom: 7,
+          center: fromLonLat([22, 44.3]),
+          zoom: 7.1,
           extent: this.map.getView().calculateExtent(this.map.getSize())   
         })
     );
 
+    this.map.on('moveend', function(e) {
+      console.log(e);
+    });
   }
-
 }
