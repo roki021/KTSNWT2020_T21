@@ -12,6 +12,7 @@ import Feature from 'ol/Feature';
 import LineString from 'ol/geom/LineString';
 import Vector from 'ol/layer/Vector';
 import * as source from 'ol/source';
+import {equals} from 'ol/extent';
 
 @Component({
   selector: 'app-map',
@@ -22,10 +23,14 @@ export class MapComponent implements OnInit {
 
   map;
   vector;
+  cashed_maps_extent = [];
+  cash_flow_id = 0;
+  curr_id = 0;
 
   constructor() { }
 
   ngOnInit(): void {
+    //this.cashed_maps = new Array<Map>();
     this.initilizeMap();
   }      
 
@@ -58,20 +63,61 @@ export class MapComponent implements OnInit {
         this.vector
       ],
       view: new View({
-        center: fromLonLat([22, 44.3]),
+        center: fromLonLat([22, 44.1]),
         zoom: 7.1
       })
     });
     this.map.setView(
       new View({
-          center: fromLonLat([22, 44.3]),
+          center: fromLonLat([22, 44.1]),
           zoom: 7.1,
           extent: this.map.getView().calculateExtent(this.map.getSize())   
         })
     );
 
-    this.map.on('moveend', function(e) {
+    
+    /*this.map.on('moveend', function(e) {
+      this.cash_map();
       console.log(e);
-    });
+    });*/
+
+    this.map.on('moveend', (e)=>this.cash_map(e))
+  }
+
+  cash_map(e){
+    //console.log(this.cashed_maps_extent);
+    let ind = 0;
+    for(let i = 0;i < this.cashed_maps_extent.length; i++){
+      if(equals(e.map.getView().calculateExtent(), this.cashed_maps_extent[i])){
+        console.log("usao");
+        this.curr_id = i;
+        ind = 1;
+        break;
+      }
+    }
+    if(ind == 0){
+      if(this.cashed_maps_extent.length < 3){
+        //console.log("dodao");
+        this.cashed_maps_extent.push(e.map.getView().calculateExtent());
+      }
+      else{
+        if(this.cash_flow_id < 3){
+          //console.log("full cash");
+          this.cashed_maps_extent[this.cash_flow_id] = e.map.getView().calculateExtent();
+        }
+        else{
+          //console.log("resetovao");
+          this.cash_flow_id = 0;
+          this.cashed_maps_extent[this.cash_flow_id] = e.map.getView().calculateExtent();
+        }
+        this.cash_flow_id = this.cash_flow_id + 1;
+      }
+    }
+
+    if(this.cashed_maps_extent.length == 0)
+    {
+      this.cashed_maps_extent.push(e.map.getView().calculateExtent());
+    }
+    //console.log(this.cashed_maps[0])
   }
 }
