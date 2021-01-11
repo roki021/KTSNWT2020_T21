@@ -97,6 +97,7 @@ public class ProfileDataControllerIntegrationService {
         guestDTO.setFirstName(NEW_FIRST_NAME);
         guestDTO.setLastName(USER_LAST_NAME);
         guestDTO.setEmailAddress(NEW_EMAIL);
+        guestDTO.setPassword(USER_PASSWORD);
         HttpEntity<Object> httpEntity = new HttpEntity<Object>(guestDTO, httpHeaders);
         ResponseEntity<GuestDTO> responseEntity =
                 restTemplate.exchange("/profile/" + USER_ID, HttpMethod.PUT, httpEntity,
@@ -126,6 +127,7 @@ public class ProfileDataControllerIntegrationService {
         guestDTO.setFirstName(NEW_FIRST_NAME);
         guestDTO.setLastName(USER_LAST_NAME);
         guestDTO.setEmailAddress(NEW_EMAIL);
+        guestDTO.setPassword(USER_PASSWORD);
         HttpEntity<Object> httpEntity = new HttpEntity<Object>(guestDTO, httpHeaders);
         ResponseEntity<GuestDTO> responseEntity =
                 restTemplate.exchange("/profile/" + FAKE_ID, HttpMethod.PUT, httpEntity,
@@ -143,6 +145,7 @@ public class ProfileDataControllerIntegrationService {
         guestDTO.setFirstName(NEW_FIRST_NAME);
         guestDTO.setLastName(USER_LAST_NAME);
         guestDTO.setEmailAddress(NEW_EMAIL);
+        guestDTO.setPassword(USER_PASSWORD);
         HttpEntity<Object> httpEntity = new HttpEntity<Object>(guestDTO, httpHeaders);
         ResponseEntity<GuestDTO> responseEntity =
                 restTemplate.exchange("/profile/" + DIFFERENT_USER_ID, HttpMethod.PUT, httpEntity,
@@ -160,6 +163,7 @@ public class ProfileDataControllerIntegrationService {
         guestDTO.setFirstName(NEW_FIRST_NAME);
         guestDTO.setLastName(USER_LAST_NAME);
         guestDTO.setEmailAddress(DIFFERENT_USER_EMAIL);
+        guestDTO.setPassword(USER_PASSWORD);
         HttpEntity<Object> httpEntity = new HttpEntity<Object>(guestDTO, httpHeaders);
         ResponseEntity<GuestDTO> responseEntity =
                 restTemplate.exchange("/profile/" + USER_ID, HttpMethod.PUT, httpEntity,
@@ -177,6 +181,7 @@ public class ProfileDataControllerIntegrationService {
         guestDTO.setFirstName(NEW_FIRST_NAME);
         guestDTO.setLastName(USER_LAST_NAME);
         guestDTO.setEmailAddress(USER_EMAIL);
+        guestDTO.setPassword(USER_PASSWORD);
         HttpEntity<Object> httpEntity = new HttpEntity<Object>(guestDTO, httpHeaders);
         ResponseEntity<GuestDTO> responseEntity =
                 restTemplate.exchange("/profile/" + USER_ID, HttpMethod.PUT, httpEntity,

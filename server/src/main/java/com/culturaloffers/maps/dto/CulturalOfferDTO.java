@@ -21,6 +21,26 @@ public class CulturalOfferDTO {
 
     private List<String> imageUrls;
 
+    private Double latitude;
+
+    private Double longitude;
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -82,6 +102,25 @@ public class CulturalOfferDTO {
         this.imageUrls = imageUrls;
         this.address = address;
         this.subTypeName = subTypeName;
+    }
+
+    public CulturalOfferDTO(
+            Integer id,
+            @NotBlank(message = "Title cannot be empty") String title,
+            @NotBlank(message = "Description cannot be empty") String description,
+            @NotBlank(message = "Address can not be empty") String address,
+            @NotBlank(message = "SubTypeName can not be empty") String subTypeName,
+            List<String> imageUrls,
+            Double longitude,
+            Double latitude){
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.imageUrls = imageUrls;
+        this.address = address;
+        this.subTypeName = subTypeName;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public CulturalOfferDTO() {
