@@ -34,18 +34,17 @@ export class MapComponent implements OnInit {
   curr_id = 0;
   cultural_offers:CulturalOffer[];
   zoom:Zoom;
+  cash_features:Feature[] = [];
 
   constructor(private cultural_offer_service:CulturalOfferService) { }
 
   ngOnInit(): void {
-    //this.cashed_maps = new Array<Map>();
     this.initilizeMap();
   }      
 
 
-  load(map){
-    //console.log(map.getView().calculateExtent());
-    var extent = map.getView().calculateExtent();
+  load(e){
+    var extent = e.map.getView().calculateExtent();
     var sides = olProj.transformExtent(extent,'EPSG:3857','EPSG:4326');
     this.zoom = {
       latitudeLowerCorner: sides[1],
@@ -54,18 +53,14 @@ export class MapComponent implements OnInit {
       longitudeUpperCorner: sides[0]
     }
     this.cultural_offer_service.filter(this.zoom).subscribe(data => {
-      //console.log(data[0]);
       this.cultural_offers = data;
-      this.createFeatures();
+      this.createFeatures(e);
     });
   }
 
-  createFeatures(){
-    //console.log(this.cultural_offers.length)
+  createFeatures(e){
     this.vector.getSource().clear()
     for(let i = 0; i < this.cultural_offers.length; i++){
-      //console.log("dodaj feature")
-      
       let coord1 = olProj.fromLonLat([this.cultural_offers[i].longitude, this.cultural_offers[i].latitude]);
       let marker1 = new Point(coord1);
       let featureMarker1 = new Feature(marker1);
@@ -91,8 +86,22 @@ export class MapComponent implements OnInit {
         });
       featureMarker1.setStyle(styleMarker);
       this.vector.getSource().addFeature(featureMarker1);
+
     }
-    //console.log(this.vector.getSource().getFeatures()[0].getGeometry().getCoordinates())
+
+    if(this.cashed_maps_extent.length < 3){
+      this.cashed_maps_extent.push(e.map.getView().calculateExtent());
+      this.cash_features.push(this.vector.getSource().getFeatures());
+    }
+    else{
+      if(this.cash_flow_id >= 3){
+        this.cash_flow_id = 0;
+      }
+
+      this.cashed_maps_extent[this.cash_flow_id] = e.map.getView().calculateExtent();
+      this.cash_features[this.cash_flow_id] = this.vector.getSource().getFeatures();
+      this.cash_flow_id = this.cash_flow_id + 1;
+    }
   }
 
   initilizeMap(){
@@ -112,7 +121,6 @@ export class MapComponent implements OnInit {
       style: [lineStyle, styleMarker],
     });
     
-    //console.log(featureMarker1.getGeometry().getCoordinates()[0])
     this.map = new Map({
       target: 'map',
       layers: [
@@ -136,43 +144,31 @@ export class MapComponent implements OnInit {
     );
 
     this.map.on('moveend', (e)=>this.cash_map(e))
+
+    this.map.on('click', (e) => {
+        this.map.forEachFeatureAtPixel(e.pixel,
+            (feature) => {
+                console.log("Feature pogodjen")
+                //OVDE POZIVATE PROZOR KAD SE PRITISNE CULTURAL OFFER!!!
+            },
+            { hitTolerance: 0 }
+        );
+    })
   }
 
   cash_map(e){
-    //console.log(this.cashed_maps_extent);
-    this.load(e.map);
     let ind = 0;
     for(let i = 0;i < this.cashed_maps_extent.length; i++){
       if(equals(e.map.getView().calculateExtent(), this.cashed_maps_extent[i])){
-        console.log("usao");
         this.curr_id = i;
+        this.vector.getSource().clear();
+        this.vector.getSource().addFeatures(this.cash_features[i]);
         ind = 1;
         break;
       }
     }
     if(ind == 0){
-      if(this.cashed_maps_extent.length < 3){
-        //console.log("dodao");
-        this.cashed_maps_extent.push(e.map.getView().calculateExtent());
-      }
-      else{
-        if(this.cash_flow_id < 3){
-          //console.log("full cash");
-          this.cashed_maps_extent[this.cash_flow_id] = e.map.getView().calculateExtent();
-        }
-        else{
-          //console.log("resetovao");
-          this.cash_flow_id = 0;
-          this.cashed_maps_extent[this.cash_flow_id] = e.map.getView().calculateExtent();
-        }
-        this.cash_flow_id = this.cash_flow_id + 1;
-      }
+      this.load(e);
     }
-
-    if(this.cashed_maps_extent.length == 0)
-    {
-      this.cashed_maps_extent.push(e.map.getView().calculateExtent());
-    }
-    //console.log(this.cashed_maps[0])
   }
 }
