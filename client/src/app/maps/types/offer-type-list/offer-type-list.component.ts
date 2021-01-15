@@ -36,9 +36,9 @@ export class OfferTypeListComponent implements OnInit {
 			res => {
         console.log(res)
 				this.offer_type_list = res.body as OfferType[];
-        this.totalSize = Number(res.headers.get('Total-pages'));
-        console.log(this.totalSize)
-        console.log(res.headers.get('Total-pages'))
+        		this.totalSize = Number(res.headers.get('Total-pages'));
+        		console.log(this.totalSize)
+        		console.log(res.headers.get('Total-pages'))
       }
       
     );

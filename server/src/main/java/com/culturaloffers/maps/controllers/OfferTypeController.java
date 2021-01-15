@@ -46,6 +46,7 @@ public class OfferTypeController {
         Page<OfferType> offerTypesPage = offerTypeService.findAll(pageable);
         HttpHeaders header = new HttpHeaders();
         header.add("Total-pages", Long.toString(offerTypesPage.getTotalPages()));
+        header.add("Access-Control-Expose-Headers", "*, Authorization");
         /*return new ResponseEntity<>(new PageImpl<>(offerTypeMapper.toDtoList(offerTypesPage.toList()),
                 offerTypesPage.getPageable(),offerTypesPage.getTotalElements()), HttpStatus.OK);*/
         return new ResponseEntity<>(offerTypeMapper.toDtoList(offerTypesPage.toList()), header, HttpStatus.OK);

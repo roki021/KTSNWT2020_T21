@@ -49,6 +49,7 @@ public class SubtypeController {
 
         HttpHeaders header = new HttpHeaders();
         header.add("Total-pages", Long.toString(subtypesPage.getTotalPages()));
+        header.add("Access-Control-Expose-Headers", "*, Authorization");
         /*return new ResponseEntity<>(new PageImpl<>(subtypeMapper.toDtoList(subtypesPage.toList()),
                 subtypesPage.getPageable(),subtypesPage.getTotalElements()), HttpStatus.OK);*/
         return new ResponseEntity<>(subtypeMapper.toDtoList(subtypesPage.toList()), HttpStatus.OK);

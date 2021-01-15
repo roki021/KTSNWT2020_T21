@@ -21,11 +21,8 @@ export class OfferTypeService {
 			headers: this.headers,
 			observe: 'response'
     };
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      observe: 'response' as 'response'
-    };
+    
     return this.http.get<OfferType[]>(this.port + this.path + "/by-page?page="+ page + "&size=" + size,
-     httpOptions);
+    queryParams);
   }
 }
