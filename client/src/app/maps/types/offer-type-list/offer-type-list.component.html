@@ -1,0 +1,13 @@
+<h1>WineListComponent</h1>
+<div class="row">
+	<div class="col">
+		<app-offer-type-table [offer_types]="offer_type_list"></app-offer-type-table>
+	</div>
+</div>
+<div class="row">
+	<div class="col">
+		<app-pagination [totalPages]="totalSize" [pageSize]="pageSize"
+			(pageSelected)="changePage($event)">
+		</app-pagination>
+	</div>
+</div>
