@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +47,8 @@ public class SubtypeController {
     public ResponseEntity<List<SubtypeDTO>> getAllSubtypes(Pageable pageable) {
         Page<Subtype> subtypesPage = subtypeService.findAll(pageable);
 
+        HttpHeaders header = new HttpHeaders();
+        header.add("Total-pages", Long.toString(subtypesPage.getTotalPages()));
         /*return new ResponseEntity<>(new PageImpl<>(subtypeMapper.toDtoList(subtypesPage.toList()),
                 subtypesPage.getPageable(),subtypesPage.getTotalElements()), HttpStatus.OK);*/
         return new ResponseEntity<>(subtypeMapper.toDtoList(subtypesPage.toList()), HttpStatus.OK);
@@ -107,8 +110,7 @@ public class SubtypeController {
                 if (e.getMessage().equals("Subtype with given name doesn't exist"))
                     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            else
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
