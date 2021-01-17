@@ -40,7 +40,9 @@ public class CommentDTO {
         this.culturalOfferName = comment.getCulturalOffer().getTitle();
     }
 
-    public CommentDTO(int id, String content, Date commentedOn, List<String> imageUrls, int userId, int culturalOfferId,
+    public CommentDTO(int id, @NotBlank(message = "Content can't be blank") String content,
+                      @NotNull(message = "Date can't be null") Date commentedOn,
+                      List<String> imageUrls, int userId, int culturalOfferId,
                       String userUsername, String culturalOfferName) {
         this.id = id;
         this.content = content;

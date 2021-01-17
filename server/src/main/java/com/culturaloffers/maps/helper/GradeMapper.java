@@ -10,17 +10,22 @@ public class GradeMapper implements MapperInterface<Grade, GradeDTO>{
 
     @Override
     public Grade toEntity(GradeDTO dto) {
-        return null;
+        Grade grade = new Grade();
+
+        grade.setGradedOn(dto.getGradedOn());
+        grade.setValue(dto.getValue());
+
+        return grade;
     }
 
     @Override
     public List<Grade> toEntityList(List<GradeDTO> dtoList) {
-        return null;
+        return dtoList.stream().map(this::toEntity).collect(Collectors.toList());
     }
 
     @Override
     public GradeDTO toDto(Grade entity) {
-        return new GradeDTO(entity, entity.getValue(), entity.getGradedOn());
+        return new GradeDTO(entity);
     }
 
     @Override

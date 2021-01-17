@@ -45,6 +45,12 @@ public class GradeController {
         }
     }
 
+    @GetMapping("/culturaloffer/averagegrade/{id}")
+    public int averageGradeOfCulturalOfferId(@PathVariable int offerId)
+    {
+        return gradeService.averageGradeOfCulturalOffer(offerId);
+    }
+
     @GetMapping("/culturalofferpg/grades/{id}")
     public Page<GradeDTO> findByCulturalOfferIdPageable(@PathVariable int id, Pageable pageable)
     {
@@ -80,9 +86,10 @@ public class GradeController {
 
     @PreAuthorize("hasRole('ROLE_GUEST')")
     @PostMapping
-    public GradeDTO addGrade(@Valid @RequestBody GradeDTO grade)
+    public Map< String, Boolean > addGrade(@Valid @RequestBody GradeDTO gradeDTO)
     {
-        return gradeService.addGrade(grade);
+        Grade grade = gradeMapper.toEntity(gradeDTO);
+        return gradeService.addGrade(grade, gradeDTO.getCulturalOfferId(), gradeDTO.getUserId());
     }
 
     @PreAuthorize("hasRole('ROLE_GUEST')")
@@ -96,6 +103,7 @@ public class GradeController {
     @PutMapping("grade/{id}")
     public ResponseEntity <GradeDTO> updateGrade(@PathVariable(value = "id") Integer gradeId, @Valid @RequestBody GradeDTO gradeDetails)
     {
-        return ResponseEntity.ok(gradeMapper.toDto(gradeService.updateGrade(gradeId, gradeDetails)));
+        Grade grade = gradeMapper.toEntity(gradeDetails);
+        return ResponseEntity.ok(gradeMapper.toDto(gradeService.updateGrade(gradeId, grade)));
     }
 }
