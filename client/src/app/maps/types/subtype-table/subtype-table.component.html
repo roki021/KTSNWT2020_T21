@@ -1,0 +1,15 @@
+<table class="table table-striped pera">
+    <thead>
+      <tr>
+        <th>Name <button class="btn btn-link"><span class="fa fa-sort"></span></button> </th>
+        <th>Number of offers <button class="btn btn-link"><span class="fa fa-sort"></span></button> </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let subtype of subtypes">
+        <td>{{subtype.name}}</td>
+        <td>{{subtype.offerNumber}}</td>
+      </tr>
+    </tbody>
+  </table>
+  

@@ -5,6 +5,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -55,5 +58,19 @@ public class SubtypeRepositoryIntegrationTest {
     public void failTestFindByOfferTypeId(){
         List<Subtype> subtype = subtypeRepository.findByOfferTypeId(NOT_DB_OFFER_TYPE_ID);
         assertEquals(0, subtype.size());
+    }
+
+    @Test
+    public void testFindAllByOfferTypeId(){
+        Pageable pageable = PageRequest.of(PAGEABLE_PAGE,PAGEABLE_SIZE);
+        Page<Subtype> subtypes = subtypeRepository.findAllByOfferTypeId(DB_OFFER_TYPE_ID, pageable);
+        assertEquals(PAGE_SIZE, subtypes.getNumberOfElements());
+    }
+
+    @Test
+    public void failFindAllByOfferTypeId(){
+        Pageable pageable = PageRequest.of(PAGEABLE_PAGE,PAGEABLE_SIZE);
+        Page<Subtype> subtypes = subtypeRepository.findAllByOfferTypeId(NOT_DB_OFFER_TYPE_ID, pageable);
+        assertEquals(0, subtypes.getNumberOfElements());
     }
 }

@@ -52,7 +52,7 @@ public class SubtypeControllerIntegrationTest {
 
     @Test
     public void testGetAllSubtypesPageable(){
-        ResponseEntity<SubtypeDTO[]> responseEntity = restTemplate.getForEntity("/subtypes/by-page?page=0&size=2", SubtypeDTO[].class);
+        ResponseEntity<SubtypeDTO[]> responseEntity = restTemplate.getForEntity("/subtypes/" + DB_OFFER_TYPE_ID + "/by-page?page=0&size=2", SubtypeDTO[].class);
 
         SubtypeDTO[] subtypeDTOS = responseEntity.getBody();
 

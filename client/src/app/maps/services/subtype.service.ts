@@ -14,7 +14,14 @@ export class SubtypeService {
 
   constructor(private http: HttpClient) { }
 
-  /*getPage(page:number, size:number, offer_type:string):Observable<Subtype[]> {
-    return this.http.get<Subtype[]>(this.port + this.path + offer_type + "/by-page?page="+ page + "&size=" + size);
-  }*/
+  getPage(page:number, size:number, offer_type:string):Observable<any> {
+    let queryParams = {};
+
+		queryParams = {
+			headers: this.headers,
+			observe: 'response'
+    };
+    return this.http.get<Subtype[]>(this.port + this.path + offer_type + "/by-page?page="+ 
+    page + "&size=" + size, queryParams);
+  }
 }

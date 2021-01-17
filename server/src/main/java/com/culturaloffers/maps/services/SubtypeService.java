@@ -22,9 +22,9 @@ public class SubtypeService {
         return subtypeRepository.findAll();
     }
 
-    public Page<Subtype> findAll(Pageable pageable) {
+    public Page<Subtype> findAll(Integer id, Pageable pageable) {
 
-        return subtypeRepository.findAll(pageable);
+        return subtypeRepository.findAllByOfferTypeId(id, pageable);
     }
 
     public Subtype findOne(Integer id) {

@@ -33,8 +33,8 @@ public class SubtypeServiceIntegrationTest {
     @Test
     public void testFindAllPageable(){
         Pageable pageable = PageRequest.of(PAGEABLE_PAGE,PAGEABLE_SIZE);
-        Page<Subtype> subtypes = subtypeService.findAll(pageable);
-        assertEquals(TOTAL_DB_SUBTYPES, subtypes.getNumberOfElements());
+        Page<Subtype> subtypes = subtypeService.findAll(DB_OFFER_TYPE_ID, pageable);
+        assertEquals(PAGE_SIZE, subtypes.getNumberOfElements());
     }
 
     @Test

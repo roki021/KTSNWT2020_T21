@@ -43,16 +43,16 @@ public class SubtypeController {
     }
 
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value= "/by-page", method = RequestMethod.GET)
-    public ResponseEntity<List<SubtypeDTO>> getAllSubtypes(Pageable pageable) {
-        Page<Subtype> subtypesPage = subtypeService.findAll(pageable);
+    @RequestMapping(value= "/{id}/by-page", method = RequestMethod.GET)
+    public ResponseEntity<List<SubtypeDTO>> getAllSubtypes(@PathVariable Integer id, Pageable pageable) {
+        Page<Subtype> subtypesPage = subtypeService.findAll(id, pageable);
 
         HttpHeaders header = new HttpHeaders();
         header.add("Total-pages", Long.toString(subtypesPage.getTotalPages()));
         header.add("Access-Control-Expose-Headers", "*, Authorization");
         /*return new ResponseEntity<>(new PageImpl<>(subtypeMapper.toDtoList(subtypesPage.toList()),
                 subtypesPage.getPageable(),subtypesPage.getTotalElements()), HttpStatus.OK);*/
-        return new ResponseEntity<>(subtypeMapper.toDtoList(subtypesPage.toList()), HttpStatus.OK);
+        return new ResponseEntity<>(subtypeMapper.toDtoList(subtypesPage.toList()), header, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

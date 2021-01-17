@@ -7,6 +7,7 @@ public class SubtypeDTO {
     private String name;
     private Integer id;
     private String offerTypeName;
+    private Integer offerNumber;
 
     public SubtypeDTO(){
 
@@ -40,5 +41,13 @@ public class SubtypeDTO {
 
     public void setOfferTypeName(String offerTypeName) {
         this.offerTypeName = offerTypeName;
+    }
+
+    public Integer getOfferNumber() {
+        return offerNumber;
+    }
+
+    public void setOfferNumber(Integer offerNumber) {
+        this.offerNumber = offerNumber;
     }
 }

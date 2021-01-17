@@ -9,6 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { PaginationComponent } from './maps/pagination/pagination.component';
 import { OfferTypeListComponent } from './maps/types/offer-type-list/offer-type-list.component';
 import { OfferTypeTableComponent } from './maps/types/offer-type-table/offer-type-table.component';
+import { SubtypeListComponent } from './maps/types/subtype-list/subtype-list.component';
+import { SubtypeTableComponent } from './maps/types/subtype-table/subtype-table.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { OfferTypeTableComponent } from './maps/types/offer-type-table/offer-typ
     MapComponent,
     PaginationComponent,
     OfferTypeListComponent,
-    OfferTypeTableComponent
+    OfferTypeTableComponent,
+    SubtypeListComponent,
+    SubtypeTableComponent
   ],
   imports: [
     BrowserModule,

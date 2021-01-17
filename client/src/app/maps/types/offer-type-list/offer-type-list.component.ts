@@ -3,13 +3,13 @@ import { OfferType } from '../../model/offer-type';
 import { OfferTypeService } from '../../services/offer-type.service';
 
 @Component({
-  selector: 'app-offer-type-list',
-  templateUrl: './offer-type-list.component.html',
-  styleUrls: ['./offer-type-list.component.sass']
+	selector: 'app-offer-type-list',
+	templateUrl: './offer-type-list.component.html',
+	styleUrls: ['./offer-type-list.component.sass']
 })
 export class OfferTypeListComponent implements OnInit {
 
-  pageSize: number;
+	pageSize: number;
 	currentPage: number;
 	totalSize: number;
 	offer_type_list: OfferType[];
@@ -26,23 +26,19 @@ export class OfferTypeListComponent implements OnInit {
 		this.offer_type_service.getPage(newPage - 1, this.pageSize).subscribe(
 			res => {
 				this.offer_type_list = res.body as OfferType[];
-        this.totalSize = Number(res.headers.get('Total-pages'));
+				this.totalSize = Number(res.headers.get('Total-pages'));
 			}
-    );
+		);
 	}
 
 	ngOnInit() {
 		this.offer_type_service.getPage(this.currentPage - 1, this.pageSize).subscribe(
 			res => {
-        console.log(res)
 				this.offer_type_list = res.body as OfferType[];
-        		this.totalSize = Number(res.headers.get('Total-pages'));
-        		console.log(this.totalSize)
-        		console.log(res.headers.get('Total-pages'))
-      }
-      
-    );
-    console.log(this.totalSize)
+				this.totalSize = Number(res.headers.get('Total-pages'));
+			}
+
+		);
 	}
 
 }
