@@ -15,4 +15,8 @@ export class OfferTypeTableComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  delete(id){
+    alert(id);
+  }
+
 }

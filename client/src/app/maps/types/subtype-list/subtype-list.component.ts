@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subtype } from '../../model/subtype';
 import { SubtypeService } from '../../services/subtype.service';
 
@@ -15,11 +16,11 @@ export class SubtypeListComponent implements OnInit {
   subtype_list: Subtype[];
   offer_type: string;
 
-  constructor(private subtypes_service: SubtypeService) {
+  constructor(private subtypes_service: SubtypeService, private route: ActivatedRoute) {
     this.pageSize = 2;
     this.currentPage = 1;
     this.totalSize = 1;
-    this.offer_type = "2";
+    this.offer_type = this.route.snapshot.paramMap.get('id');
   }
 
   changePage(newPage: number) {
@@ -39,6 +40,10 @@ export class SubtypeListComponent implements OnInit {
         console.log(res);
 			}
 		);
-	}
+  }
+  
+  add(){
+    alert("ADDED")
+  }
 
 }

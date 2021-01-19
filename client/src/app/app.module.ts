@@ -11,6 +11,7 @@ import { OfferTypeListComponent } from './maps/types/offer-type-list/offer-type-
 import { OfferTypeTableComponent } from './maps/types/offer-type-table/offer-type-table.component';
 import { SubtypeListComponent } from './maps/types/subtype-list/subtype-list.component';
 import { SubtypeTableComponent } from './maps/types/subtype-table/subtype-table.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { SubtypeTableComponent } from './maps/types/subtype-table/subtype-table.
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [CulturalOfferService],
   bootstrap: [AppComponent]

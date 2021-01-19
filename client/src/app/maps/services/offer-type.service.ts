@@ -25,4 +25,8 @@ export class OfferTypeService {
     return this.http.get<OfferType[]>(this.port + this.path + "/by-page?page="+ page + "&size=" + size,
     queryParams);
   }
+
+  delete(id:any){
+    return this.http.delete(this.port + this.path+`/${id}`);
+  }
 }

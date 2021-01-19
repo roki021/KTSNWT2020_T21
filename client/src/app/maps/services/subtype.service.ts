@@ -24,4 +24,8 @@ export class SubtypeService {
     return this.http.get<Subtype[]>(this.port + this.path + offer_type + "/by-page?page="+ 
     page + "&size=" + size, queryParams);
   }
+
+  delete(id:any):Observable<any>{
+    return this.http.delete(this.port + this.path+`${id}`,{observe: 'response'});
+  }
 }

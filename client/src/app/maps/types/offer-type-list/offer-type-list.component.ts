@@ -41,4 +41,8 @@ export class OfferTypeListComponent implements OnInit {
 		);
 	}
 
+	add(){
+		alert("added")
+	}
+
 }

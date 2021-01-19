@@ -101,7 +101,7 @@ public class SubtypeController {
         return new ResponseEntity<>(subtypeMapper.toDto(subtype), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
     public ResponseEntity<Void> deleteSubtype(@PathVariable Integer id){
         try {

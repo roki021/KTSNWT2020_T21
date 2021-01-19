@@ -131,7 +131,7 @@ INSERT INTO cultural_offer (id, title, description, subtype_id, geo_location_id)
 INSERT INTO geo_location (id, latitude, longitude, address) VALUES
     (15, 43.626487833559125, 20.886501896035345, 'Ive Andrića 20G, Vrnjačka Banja');
 INSERT INTO cultural_offer (id, title, description, subtype_id, geo_location_id) VALUES
-    (15, 'VINARIJA GRABAK', 'Vinarija sa 4 zvezdice', 15, 15);
+    (15, 'VINARIJA GRABAK', 'Vinarija sa 4 zvezdice', 14, 15);
 
 INSERT INTO offer_news (id, title, description, cultural_offer_id, date) VALUES
     (1, 'Ponovno otvaranje parka', 'Park se otvara opet od 15.01.2021.', 2, '2020-12-08 17:11:30'),
