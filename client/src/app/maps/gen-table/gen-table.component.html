@@ -13,7 +13,7 @@
         </thead>
         <tbody>
             <tr scope="row" *ngFor="let item of data">
-                <th *ngIf="rowNum">{{ item.id }}</th>
+                <th *ngIf="rowNum">{{ item.tableId }}</th>
                 <td *ngFor="let header of tableHeader" [innerHTML]="generateField(item, header) | safeHtml"></td>
                 <td *ngFor="let operation of operations">
                     <button class="btn" (click)="operation.operation()"><fa-icon [icon]="operationIcon(operation.icon)"></fa-icon></button>

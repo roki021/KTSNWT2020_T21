@@ -37,7 +37,7 @@ export class GenTableComponent<T> implements OnInit, DoCheck {
     this.data = this.tableData
       .map((item, i) => {
         if (this.rowNum) {
-          return { id: i + 1, ...item };
+          return { tableId: i + 1, ...item };
         } else {
           return item;
         }
