@@ -122,7 +122,7 @@ export class TestComponent implements OnInit {
     decoration: `<img src="https://upload.wikimedia.org/wikipedia/commons/{0}" class="mr-2" style="width: 20px"> {1}`
   };
 
-  operations: TableOperation[] = [
+  operations: TableOperation<Country>[] = [
     {
       operation: () => this.open(this.content),
       icon: Icons.preview

@@ -16,7 +16,7 @@ export class GenTableComponent<T> implements OnInit, DoCheck {
   @Input() tableHeader: TableHeader[];
   @Input() rowNum = false;
   @Input() fieldDecoration: FieldDecorator;
-  @Input() operations: TableOperation[];
+  @Input() operations: TableOperation<T>[];
   data: T[];
   page = 1;
   pageSize = 4;
