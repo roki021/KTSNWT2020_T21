@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Icons } from 'src/app/enums/icons.enum';
 import { FieldDecorator } from '../gen-table/field-decorator';
 import { TableHeader } from '../gen-table/table-header';
 
@@ -118,10 +120,23 @@ export class TestComponent implements OnInit {
     decoration: `<img src="https://upload.wikimedia.org/wikipedia/commons/{0}" class="mr-2" style="width: 20px"> {1}`
   };
 
-  constructor() {
-   }
+  icons: Icons[] = [Icons.preview, Icons.update, Icons.remove]
 
-  ngOnInit(): void {
+  constructor(private modalService: NgbModal) {}
+
+  ngOnInit(): void {}
+
+  addNew(): void {
+    this.countries.push({
+      name: 'testaa',
+      flag: 'f/fa/Flag_of_the_People%27s_Republic_of_China.svg',
+      area: 11111,
+      population: 11111
+    })
+  }
+
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
   }
 
 }

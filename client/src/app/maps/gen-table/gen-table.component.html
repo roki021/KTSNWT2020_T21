@@ -1,28 +1,35 @@
-<div class="table-responsive">
+<div class="table-responsive table-wrapper">
     <table class="table table-striped table-hover">
         <thead>
             <tr>
+                <th *ngIf="rowNum">#</th>
                 <th scope="col" *ngFor="let header of tableHeader">
                     {{ header.headerName }}
+                </th>
+                <th scope="col" *ngFor="let icon of operations">
+                    {{ icon }}
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of data">
-                <td scope="row" *ngFor="let header of tableHeader" [innerHTML]="generateField(item, header) | safeHtml">
+            <tr scope="row" *ngFor="let item of data">
+                <th *ngIf="rowNum">{{ item.id }}</th>
+                <td *ngFor="let header of tableHeader" [innerHTML]="generateField(item, header) | safeHtml"></td>
+                <td *ngFor="let icon of operations">
+                    <button class="btn"><fa-icon [icon]="operationIcon(icon)"></fa-icon></button>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
 
-<div class="d-flex justify-content-between p-2">
-    <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" (pageChange)="refreshCountries()">
+<!--<div class="d-flex justify-content-between p-2">
+    <ngb-pagination [maxSize]="4" [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" (pageChange)="refreshItems()">
     </ngb-pagination>
 
-    <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshCountries()">
+    <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshItems()">
       <option [ngValue]="2">2 items per page</option>
       <option [ngValue]="4">4 items per page</option>
       <option [ngValue]="6">6 items per page</option>
     </select>
-</div>
+</div>-->
