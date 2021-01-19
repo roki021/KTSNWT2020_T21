@@ -1,7 +1,7 @@
 import { Component, DoCheck, Input, OnInit } from '@angular/core';
 import { FieldDecorator } from './field-decorator';
 import { TableHeader } from './table-header';
-import { faPlus, faPencilAlt, faTrash, faNewspaper, faEye, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faPencilAlt, faTrash, faNewspaper, faEye, IconDefinition, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Icons } from 'src/app/enums/icons.enum';
 import { TableOperation } from './table-operation';
 
@@ -48,7 +48,7 @@ export class GenTableComponent<T> implements OnInit, DoCheck {
   generateField(item, headerInfo): string {
     let retVal: string;
     const rowValues: string[] = headerInfo.fieldName.map((elem, i) => item[elem] + '');
-    if (headerInfo.headerName === this.fieldDecoration.name) {
+    if (this.fieldDecoration && headerInfo.headerName === this.fieldDecoration.name) {
       retVal = this.fieldDecoration.decoration.replace(/\{(\d+)\}/g,
       (match, capture) => {
         return rowValues[1 * capture];
@@ -78,6 +78,9 @@ export class GenTableComponent<T> implements OnInit, DoCheck {
         break;
       case Icons.update:
         iconDef = faPencilAlt;
+        break;
+      case Icons.arrowRight:
+        iconDef = faArrowRight;
         break;
     }
 

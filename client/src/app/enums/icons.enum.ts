@@ -3,5 +3,6 @@ export enum Icons {
     update = 'Update',
     remove = 'Remove',
     news = 'News',
-    preview = 'Preview'
+    preview = 'Preview',
+    arrowRight = 'View subtypes'
 }
