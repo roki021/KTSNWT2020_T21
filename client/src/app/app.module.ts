@@ -26,8 +26,7 @@ import { SafeHtmlPipe } from './pipes/safe-html-pipe.pipe';
     OfferTypeListComponent,
     OfferTypeTableComponent,
     SubtypeListComponent,
-    SubtypeTableComponent
-    MapComponent,
+    SubtypeTableComponent,
     GenTableComponent,
     TestComponent,
     SafeHtmlPipe
