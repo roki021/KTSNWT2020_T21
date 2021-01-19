@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { MapComponent } from './maps/map/map.component';
 import { OfferTypeListComponent } from './maps/types/offer-type-list/offer-type-list.component';
 import { SubtypeListComponent } from './maps/types/subtype-list/subtype-list.component';
+import { TestComponent } from './maps/testC/test.component';
 
 
 const routes: Routes = [{
@@ -16,6 +17,10 @@ const routes: Routes = [{
 {
   path:'offer-types/:id/subtypes',
   component: SubtypeListComponent
+},
+{
+    path: 'table',
+    component: TestComponent
 }];
 
 @NgModule({

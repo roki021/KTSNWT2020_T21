@@ -2,6 +2,8 @@ package com.culturaloffers.maps.dto;
 
 import com.culturaloffers.maps.model.Grade;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -10,6 +12,8 @@ public class GradeDTO {
     private Integer id;
 
     @NotNull(message = "Grade value can not be null")
+    @Min(1)
+    @Max(5)
     private int value;
 
     @NotNull(message = "Grade date can not be null")
