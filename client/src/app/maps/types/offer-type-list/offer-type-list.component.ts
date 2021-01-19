@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { element } from 'protractor';
 import { Icons } from 'src/app/enums/icons.enum';
 import { TableHeader } from '../../gen-table/table-header';
 import { TableOperation } from '../../gen-table/table-operation';
@@ -11,18 +13,10 @@ import { OfferTypeService } from '../../services/offer-type.service';
 	styleUrls: ['./offer-type-list.component.sass']
 })
 export class OfferTypeListComponent implements OnInit {
-	open(content: any): void {
-		throw new Error('Method not implemented.');
-	}
-	content(content: any): void {
-		throw new Error('Method not implemented.');
-	}
-
 	pageSize: number;
 	currentPage: number;
 	totalSize: number;
 	offer_type_list: OfferType[] = [];
-	selected_offer_type_id;
 	tableHeader: TableHeader[] = [
 		{
 		  headerName: 'Name',
@@ -34,23 +28,24 @@ export class OfferTypeListComponent implements OnInit {
 		}
 	  ];
 
-	  operations: TableOperation[] = [
+	  operations: TableOperation<OfferType>[] = [
 		{
-		  operation: () => this.subtypesView(this.selected_offer_type_id),
+		  operation: (element) => this.subtypesView(element.id),
 		  icon: Icons.arrowRight
 		},
 		{
-		  operation: () => this.update(),
+		  operation: (element) => this.update(element.id),
 		  icon: Icons.update
 		},
 		{
-		  operation: () => this.delete(this.selected_offer_type_id),
+		  operation: (element) => this.delete(element.id),
 		  icon: Icons.remove
 		}
 	  ];
 
 	constructor(
-		private offer_type_service: OfferTypeService
+		private offer_type_service: OfferTypeService,private _router: Router,
+		private route: ActivatedRoute
 	) {
 		this.pageSize = 2;
 		this.currentPage = 1;
@@ -58,6 +53,7 @@ export class OfferTypeListComponent implements OnInit {
 	}
 
 	changePage(newPage: number) {
+		this.currentPage = newPage;
 		this.offer_type_service.getPage(newPage - 1, this.pageSize).subscribe(
 			res => {
 				this.offer_type_list = res.body as OfferType[];
@@ -80,16 +76,28 @@ export class OfferTypeListComponent implements OnInit {
 		alert("added")
 	}
 
-	update(){
-
+	update(id){
+		alert(id)
 	}
 
 	subtypesView(id){
-
+		let path = "./" + id + "/subtypes"
+		this._router.navigate([path], { relativeTo: this.route });
 	}
 
 	delete(id){
-		alert(id);
+		this.offer_type_service.delete(id).subscribe(res=>{
+			let page_num = this.currentPage;
+			console.log(page_num)
+			if(this.offer_type_list.length === 1){
+			  page_num = page_num - 1;
+			  console.log(page_num)
+			}
+			this.changePage(page_num)
+		  },
+		  error =>{
+			alert("Error")
+		  });
 	}
 
 }

@@ -97,7 +97,7 @@ public class OfferTypeController {
         return new ResponseEntity<>(offerTypeMapper.toDto(offerType), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
     public ResponseEntity<Void> deleteOfferType(@PathVariable Integer id){
         try {

@@ -54,8 +54,8 @@ INSERT INTO offer_type (id, name) VALUES
     (5, 'ugostiteljstvo');
 
 INSERT INTO subtype (id, name, offer_type_id) VALUES
-    (1, 'nacionalni', 1),
-    (2, 'akva', 1),
+    (1, 'nacionalni', 2),
+    (2, 'akva', 2),
     (3, 'pozoriste', 2),
     (4, 'muzej', 2),
     (5, 'biblioteka', 2),
@@ -123,7 +123,7 @@ INSERT INTO cultural_offer (id, title, description, subtype_id, geo_location_id)
 INSERT INTO geo_location (id, latitude, longitude, address) VALUES
     (13, 45.12657023305386, 19.78767464211861, 'Železnička 5, Vrdnik 022408');
 INSERT INTO cultural_offer (id, title, description, subtype_id, geo_location_id) VALUES
-    (13, 'Red Baron Pub', 'Irski pab', 13, 13);
+    (13, 'Red Baron Pub', 'Irski pab', 12, 13);
 INSERT INTO geo_location (id, latitude, longitude, address) VALUES
     (14, 43.612308109766715, 20.89215244206552, 'Vrnjačka 42a, Vrnjačka Banja 36210');
 INSERT INTO cultural_offer (id, title, description, subtype_id, geo_location_id) VALUES

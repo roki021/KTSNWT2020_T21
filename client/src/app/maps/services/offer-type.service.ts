@@ -26,7 +26,7 @@ export class OfferTypeService {
     queryParams);
   }
 
-  delete(id:any){
-    return this.http.delete(this.port + this.path+`/${id}`);
+  delete(id:any):Observable<any>{
+    return this.http.delete(this.port + this.path+`/${id}`,{observe: 'response'});
   }
 }

@@ -1,5 +1,5 @@
 export interface OfferType {
-    _id?:any;
+    id?:number;
     name:string;
     subtypesNumber:number;
     subtypes:string[];
