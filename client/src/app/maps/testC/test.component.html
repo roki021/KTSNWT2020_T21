@@ -1,8 +1,7 @@
 <div class="container">
-    <app-gen-table [rowNum]="true" [tableHeader]="tableHeader" [tableData]="countries" [fieldDecoration]="headerDecoration" [operations]="icons">
+    <app-gen-table [rowNum]="true" [tableHeader]="tableHeader" [tableData]="countries" [fieldDecoration]="headerDecoration" [operations]="operations">
     </app-gen-table>
     <button (click)="addNew()" type="button" class="btn btn-primary">Dodaj</button>
-    <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
 </div>
 
 <ng-template #content let-modal>

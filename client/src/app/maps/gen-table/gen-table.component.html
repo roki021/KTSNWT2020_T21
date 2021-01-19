@@ -6,8 +6,8 @@
                 <th scope="col" *ngFor="let header of tableHeader">
                     {{ header.headerName }}
                 </th>
-                <th scope="col" *ngFor="let icon of operations">
-                    {{ icon }}
+                <th scope="col" *ngFor="let operation of operations">
+                    {{ operation.icon }}
                 </th>
             </tr>
         </thead>
@@ -15,8 +15,8 @@
             <tr scope="row" *ngFor="let item of data">
                 <th *ngIf="rowNum">{{ item.id }}</th>
                 <td *ngFor="let header of tableHeader" [innerHTML]="generateField(item, header) | safeHtml"></td>
-                <td *ngFor="let icon of operations">
-                    <button class="btn"><fa-icon [icon]="operationIcon(icon)"></fa-icon></button>
+                <td *ngFor="let operation of operations">
+                    <button class="btn" (click)="operation.operation()"><fa-icon [icon]="operationIcon(operation.icon)"></fa-icon></button>
                 </td>
             </tr>
         </tbody>

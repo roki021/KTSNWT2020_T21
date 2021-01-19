@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Icons } from 'src/app/enums/icons.enum';
 import { FieldDecorator } from '../gen-table/field-decorator';
 import { TableHeader } from '../gen-table/table-header';
+import { TableOperation } from '../gen-table/table-operation';
 
 interface Country {
   id?: number;
@@ -100,6 +101,7 @@ const COUNTRIES: Country[] = [
 })
 export class TestComponent implements OnInit {
 
+  @ViewChild('content', { static: false }) private content;
   countries: Country[] = COUNTRIES;
   tableHeader: TableHeader[] = [
     {
@@ -120,7 +122,20 @@ export class TestComponent implements OnInit {
     decoration: `<img src="https://upload.wikimedia.org/wikipedia/commons/{0}" class="mr-2" style="width: 20px"> {1}`
   };
 
-  icons: Icons[] = [Icons.preview, Icons.update, Icons.remove]
+  operations: TableOperation[] = [
+    {
+      operation: () => this.open(this.content),
+      icon: Icons.preview
+    },
+    {
+      operation: () => this.open(this.content),
+      icon: Icons.update
+    },
+    {
+      operation: () => this.open(this.content),
+      icon: Icons.remove
+    }
+  ];
 
   constructor(private modalService: NgbModal) {}
 
@@ -132,7 +147,7 @@ export class TestComponent implements OnInit {
       flag: 'f/fa/Flag_of_the_People%27s_Republic_of_China.svg',
       area: 11111,
       population: 11111
-    })
+    });
   }
 
   open(content) {

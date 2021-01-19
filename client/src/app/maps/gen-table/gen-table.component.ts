@@ -3,6 +3,7 @@ import { FieldDecorator } from './field-decorator';
 import { TableHeader } from './table-header';
 import { faPlus, faPencilAlt, faTrash, faNewspaper, faEye, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Icons } from 'src/app/enums/icons.enum';
+import { TableOperation } from './table-operation';
 
 @Component({
   selector: 'app-gen-table',
@@ -15,7 +16,7 @@ export class GenTableComponent<T> implements OnInit, DoCheck {
   @Input() tableHeader: TableHeader[];
   @Input() rowNum = false;
   @Input() fieldDecoration: FieldDecorator;
-  @Input() operations: Icons[];
+  @Input() operations: TableOperation[];
   data: T[];
   page = 1;
   pageSize = 4;
@@ -41,7 +42,7 @@ export class GenTableComponent<T> implements OnInit, DoCheck {
           return item;
         }
       });
-      //.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
+      // .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
 
   generateField(item, headerInfo): string {
@@ -62,7 +63,7 @@ export class GenTableComponent<T> implements OnInit, DoCheck {
   operationIcon(iconName): IconDefinition {
     let iconDef: IconDefinition;
 
-    switch(iconName) {
+    switch (iconName) {
       case Icons.add:
         iconDef = faPlus;
         break;
