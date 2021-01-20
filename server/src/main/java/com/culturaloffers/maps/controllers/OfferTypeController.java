@@ -63,7 +63,7 @@ public class OfferTypeController {
         return new ResponseEntity<>(offerTypeMapper.toDto(offerType), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferTypeDTO> createOfferType(@Valid @RequestBody OfferTypeDTO offerTypeDTO){
         OfferType offerType;

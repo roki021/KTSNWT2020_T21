@@ -26,6 +26,11 @@ export class OfferTypeService {
     queryParams);
   }
 
+  create(offer_type:OfferType):Observable<any>{
+    console.log("dodaj")
+    return this.http.post<OfferType>(this.port + this.path, offer_type,{observe: 'response'});
+  }
+
   delete(id:any):Observable<any>{
     return this.http.delete(this.port + this.path+`/${id}`,{observe: 'response'});
   }

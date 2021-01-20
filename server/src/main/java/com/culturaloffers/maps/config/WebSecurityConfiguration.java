@@ -81,6 +81,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(HttpMethod.DELETE, "/subtypes/{id}").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/offer-types/{id}").permitAll()
+                .antMatchers(HttpMethod.POST, "/offer-types").permitAll()
 
 
                 .antMatchers(HttpMethod.GET, "/subtypes/{id}/by-page").permitAll()

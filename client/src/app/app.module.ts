@@ -17,6 +17,10 @@ import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TestComponent } from './maps/testC/test.component';
 import { SafeHtmlPipe } from './pipes/safe-html-pipe.pipe';
+import { AddOfferTypeComponent } from './maps/types/add-offer-type/add-offer-type.component';
+import { AddSubtypeComponent } from './maps/types/add-subtype/add-subtype.component';
+import { UpdateOfferTypeComponent } from './maps/types/update-offer-type/update-offer-type.component';
+import { UpdateSubtypeComponent } from './maps/types/update-subtype/update-subtype.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,11 @@ import { SafeHtmlPipe } from './pipes/safe-html-pipe.pipe';
     SubtypeTableComponent,
     GenTableComponent,
     TestComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    AddOfferTypeComponent,
+    AddSubtypeComponent,
+    UpdateOfferTypeComponent,
+    UpdateSubtypeComponent
   ],
   imports: [
     BrowserModule,

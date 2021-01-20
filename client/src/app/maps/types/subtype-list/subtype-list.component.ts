@@ -18,6 +18,9 @@ export class SubtypeListComponent implements OnInit {
   totalSize: number;
   subtype_list: Subtype[] = [];
   offer_type: string;
+  delete_validation:boolean = false;
+	delete_not_found_validation:boolean = false;
+	unauthorized:boolean = false;
 
   tableHeader: TableHeader[] = [
 		{
@@ -85,9 +88,21 @@ export class SubtypeListComponent implements OnInit {
         console.log(page_num)
       }
       this.changePage(page_num)
+      this.delete_validation = false;
+			this.delete_not_found_validation = false;
+			this.unauthorized = false;
     },
     error =>{
-      alert("Error")
+      console.log(error.status)
+			if(error.status == 400){
+				this.delete_validation = true;
+			}
+			else if(error.status == 404){
+				this.delete_not_found_validation = true;
+			}
+			else if(error.status == 401){
+				this.unauthorized = true;
+			}
     });
   }
 

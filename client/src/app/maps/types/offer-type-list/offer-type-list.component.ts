@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { element } from 'protractor';
 import { Icons } from 'src/app/enums/icons.enum';
 import { TableHeader } from '../../gen-table/table-header';
 import { TableOperation } from '../../gen-table/table-operation';
 import { OfferType } from '../../model/offer-type';
 import { OfferTypeService } from '../../services/offer-type.service';
+import { AddOfferTypeComponent } from '../add-offer-type/add-offer-type.component';
+import { UpdateOfferTypeComponent } from '../update-offer-type/update-offer-type.component';
 
 @Component({
 	selector: 'app-offer-type-list',
@@ -17,6 +20,12 @@ export class OfferTypeListComponent implements OnInit {
 	currentPage: number;
 	totalSize: number;
 	offer_type_list: OfferType[] = [];
+	delete_validation:boolean = false;
+	delete_not_found_validation:boolean = false;
+	unauthorized:boolean = false;
+	//@ViewChild('addContent', { static: false }) addContent;
+	addContent:AddOfferTypeComponent;
+	//@ViewChild('updateContent', { static: false }) updateContent;
 	tableHeader: TableHeader[] = [
 		{
 		  headerName: 'Name',
@@ -34,7 +43,7 @@ export class OfferTypeListComponent implements OnInit {
 		  icon: Icons.arrowRight
 		},
 		{
-		  operation: (element) => this.update(element.id),
+		  operation: (element) => this.update(element),
 		  icon: Icons.update
 		},
 		{
@@ -45,7 +54,7 @@ export class OfferTypeListComponent implements OnInit {
 
 	constructor(
 		private offer_type_service: OfferTypeService,private _router: Router,
-		private route: ActivatedRoute
+		private route: ActivatedRoute, private modalService: NgbModal
 	) {
 		this.pageSize = 2;
 		this.currentPage = 1;
@@ -53,6 +62,7 @@ export class OfferTypeListComponent implements OnInit {
 	}
 
 	changePage(newPage: number) {
+		console.log("refresh")
 		this.currentPage = newPage;
 		this.offer_type_service.getPage(newPage - 1, this.pageSize).subscribe(
 			res => {
@@ -60,6 +70,7 @@ export class OfferTypeListComponent implements OnInit {
 				this.totalSize = Number(res.headers.get('Total-pages'));
 			}
 		);
+		console.log(this);
 	}
 
 	ngOnInit() {
@@ -73,11 +84,15 @@ export class OfferTypeListComponent implements OnInit {
 	}
 
 	addNew(){
-		alert("added")
+		const modalRef = this.modalService.open(AddOfferTypeComponent, {ariaLabelledBy: 'add-offer-type', size: 'lg', scrollable: true});
+		//console.log(modalRef.componentInstance.nesto);
+		modalRef.componentInstance.pageNum = this.currentPage;
+		modalRef.componentInstance.refresh = ()=>{this.changePage(this.currentPage)};
 	}
 
-	update(id){
-		alert(id)
+	update(offer_type){
+		const modalRef = this.modalService.open(UpdateOfferTypeComponent, {ariaLabelledBy: 'update-offer-type', size: 'lg', scrollable: true});
+		modalRef.componentInstance.offer_type = offer_type;
 	}
 
 	subtypesView(id){
@@ -94,9 +109,21 @@ export class OfferTypeListComponent implements OnInit {
 			  console.log(page_num)
 			}
 			this.changePage(page_num)
+			this.delete_validation = false;
+			this.delete_not_found_validation = false;
+			this.unauthorized = false;
 		  },
 		  error =>{
-			alert("Error")
+			console.log(error.status)
+			if(error.status == 400){
+				this.delete_validation = true;
+			}
+			else if(error.status == 404){
+				this.delete_not_found_validation = true;
+			}
+			else if(error.status == 401){
+				this.unauthorized = true;
+			}
 		  });
 	}
 

@@ -7,5 +7,11 @@
 			(pageSelected)="changePage($event)">
 		</app-pagination>
 		<button (click)="addNew()" type="button" class="btn btn-primary">Add</button>
+		<small class="text-danger" *ngIf="delete_validation">
+			Cant delete subtype if there is an offer of that subtype</small>
+		<small class="text-danger" *ngIf="delete_not_found_validation">
+			Subtype doesnt exist</small>
+		<small class="text-danger" *ngIf="unauthorized">
+			Unauthorized action</small>
 	</div>
 </div>
