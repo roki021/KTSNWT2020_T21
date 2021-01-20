@@ -9,9 +9,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { GenTableComponent } from './maps/gen-table/gen-table.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule} from '@angular/forms'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TestComponent } from './maps/testC/test.component';
 import { SafeHtmlPipe } from './pipes/safe-html-pipe.pipe';
+import { LoginFormComponent } from './maps/login-form/login-form/login-form.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,8 @@ import { SafeHtmlPipe } from './pipes/safe-html-pipe.pipe';
     MapComponent,
     GenTableComponent,
     TestComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    LoginFormComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +30,8 @@ import { SafeHtmlPipe } from './pipes/safe-html-pipe.pipe';
     HttpClientModule,
     NgbModule,
     FormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    ReactiveFormsModule
   ],
   providers: [CulturalOfferService],
   bootstrap: [AppComponent]
