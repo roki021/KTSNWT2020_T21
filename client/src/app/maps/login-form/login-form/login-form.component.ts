@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginServiceService } from '../../services/login-service.service';
 import { LoginResponse } from '../../model/login-response';
 import { isNull } from '@angular/compiler/src/output/output_ast';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-login-form',
@@ -13,6 +14,7 @@ import { isNull } from '@angular/compiler/src/output/output_ast';
 export class LoginFormComponent implements OnInit {
 
   form:FormGroup;
+  public wrongUsernameOrPass:boolean;
 
   constructor(private fb:FormBuilder, 
               private loginService: LoginServiceService, 
@@ -33,11 +35,22 @@ export class LoginFormComponent implements OnInit {
     if (val.username && val.password) {
       this.loginService.login(val.username, val.password)
           .subscribe(
-              (response) => {
-                    localStorage.setItem('jwt', response.accessToken);
-                    console.log("jwt token: " + localStorage.getItem('jwt'));
+              (loggedIn:boolean) => {
+                  if(loggedIn){    
+                    console.log(this.loginService.getToken());
                     this.router.navigateByUrl('/');
                   }
+                  
+                },
+              (err:Error) => {
+                if(err.toString()==='Ilegal login'){
+                  this.wrongUsernameOrPass = true;
+                  console.log(err);
+                }
+                else{
+                  throwError(err);
+                }
+              }
           ); 
     }
 }
