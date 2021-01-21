@@ -12,6 +12,9 @@ import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TestComponent } from './maps/testC/test.component';
 import { SafeHtmlPipe } from './pipes/safe-html-pipe.pipe';
+import { AddCulturalOfferComponent } from './maps/add-cultural-offer/add-cultural-offer.component';
+import { AllOffersComponent } from './maps/all-offers/all-offers.component';
+import { EditCulturalOfferComponent } from './maps/edit-cultural-offer/edit-cultural-offer.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,10 @@ import { SafeHtmlPipe } from './pipes/safe-html-pipe.pipe';
     MapComponent,
     GenTableComponent,
     TestComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    AddCulturalOfferComponent,
+    AllOffersComponent,
+    EditCulturalOfferComponent
   ],
   imports: [
     BrowserModule,

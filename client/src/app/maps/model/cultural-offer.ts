@@ -4,6 +4,7 @@ export interface CulturalOffer {
     description:string;
     address:string;
     subtypeName:string;
+    offerType:string;
     imageUrls:string[];
     longitude:number;
     latitude:number;

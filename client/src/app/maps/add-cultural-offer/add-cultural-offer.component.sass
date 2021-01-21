@@ -1,0 +1,37 @@
+%right
+    height: 100%
+    width: 100%
+    font-size: 20px
+
+table
+    width: 96%
+    margin-left: 2%
+    margin-right: 2%
+    margin-bottom: 1%
+
+    h1
+        text-align: center
+
+    td
+        height: 30px
+
+        p
+            font-size: 20px
+            text-align: center
+
+        input, textarea
+            @extend %right
+            border: 2px solid black
+        
+        textarea
+            max-width: 600px
+
+        input, select, button
+            @extend %right
+            height: 30px
+            width: 100%
+
+        .add-btn
+            width: 50%
+            float: right
+            background-color: #00ff00
