@@ -66,7 +66,7 @@ public class SubtypeController {
         return new ResponseEntity<>(subtypeMapper.toDto(subtype), HttpStatus.OK);
     }
 
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SubtypeDTO> createSubtype(@Valid @RequestBody SubtypeDTO subtypeDTO){
         Subtype subtype;
@@ -83,7 +83,7 @@ public class SubtypeController {
         return new ResponseEntity<>(subtypeMapper.toDto(subtype), HttpStatus.CREATED);
     }
 
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SubtypeDTO> updateSubtype(
             @Valid @RequestBody SubtypeDTO subtypeDTO, @PathVariable Integer id){
@@ -101,7 +101,7 @@ public class SubtypeController {
         return new ResponseEntity<>(subtypeMapper.toDto(subtype), HttpStatus.OK);
     }
 
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
     public ResponseEntity<Void> deleteSubtype(@PathVariable Integer id){
         try {

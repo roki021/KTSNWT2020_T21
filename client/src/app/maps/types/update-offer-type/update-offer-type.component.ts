@@ -40,7 +40,7 @@ export class UpdateOfferTypeComponent implements OnInit {
         else if(error.status == 404){
           this.not_found = true;
         }
-        else if(error.status == 401){
+        else if(error.status == 401 || error.status == 403){
           this.unauthorized = true;
         }
       }

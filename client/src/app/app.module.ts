@@ -7,7 +7,6 @@ import { MapComponent } from './maps/map/map.component';
 import { CulturalOfferService } from './maps/services/cultural-offer.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { GenTableComponent } from './maps/gen-table/gen-table.component';
-import { HttpClientModule } from '@angular/common/http';
 import { PaginationComponent } from './maps/pagination/pagination.component';
 import { OfferTypeListComponent } from './maps/types/offer-type-list/offer-type-list.component';
 import { OfferTypeTableComponent } from './maps/types/offer-type-table/offer-type-table.component';

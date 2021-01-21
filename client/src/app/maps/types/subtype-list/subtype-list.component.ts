@@ -132,7 +132,7 @@ export class SubtypeListComponent implements OnInit {
 			else if(error.status == 404){
 				this.delete_not_found_validation = true;
 			}
-			else if(error.status == 401){
+			else if(error.status == 401 || error.status == 403){
 				this.unauthorized = true;
 			}
     });

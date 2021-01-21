@@ -40,7 +40,7 @@ export class AddSubtypeComponent implements OnInit {
           console.log("los req");
           this.bad_request = true;
         }
-        else if(error.status == 401){
+        else if(error.status == 401 || error.status == 403){
           this.unauthorized = true;
         }
       }

@@ -52,7 +52,7 @@ public class OfferTypeController {
         return new ResponseEntity<>(offerTypeMapper.toDtoList(offerTypesPage.toList()), header, HttpStatus.OK);
     }
 
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
     public ResponseEntity<OfferTypeDTO> getOfferType(@PathVariable Integer id){
         OfferType offerType = offerTypeService.findOne(id);
@@ -63,7 +63,7 @@ public class OfferTypeController {
         return new ResponseEntity<>(offerTypeMapper.toDto(offerType), HttpStatus.OK);
     }
 
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferTypeDTO> createOfferType(@Valid @RequestBody OfferTypeDTO offerTypeDTO){
         OfferType offerType;
@@ -79,7 +79,7 @@ public class OfferTypeController {
         return new ResponseEntity<>(offerTypeMapper.toDto(offerType), HttpStatus.CREATED);
     }
 
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferTypeDTO> updateOfferType(
             @Valid @RequestBody OfferTypeDTO offerTypeDTO, @PathVariable Integer id){
@@ -97,7 +97,7 @@ public class OfferTypeController {
         return new ResponseEntity<>(offerTypeMapper.toDto(offerType), HttpStatus.OK);
     }
 
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
     public ResponseEntity<Void> deleteOfferType(@PathVariable Integer id){
         try {
