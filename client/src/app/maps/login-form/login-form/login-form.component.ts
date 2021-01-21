@@ -33,8 +33,10 @@ export class LoginFormComponent implements OnInit {
 
   login() {
     const val = this.form.value;
+    this.wrongUsernameOrPass = false;
 
     if (val.username && val.password) {
+      this.invalidData = false;
       this.loginService.login(val.username, val.password)
           .subscribe(
               (loggedIn:boolean) => {
