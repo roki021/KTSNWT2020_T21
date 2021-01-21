@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -43,10 +44,12 @@ public class OfferTypeController {
     @RequestMapping(value= "/by-page", method = RequestMethod.GET)
     public ResponseEntity<List<OfferTypeDTO>> getAllOfferTypes(Pageable pageable) {
         Page<OfferType> offerTypesPage = offerTypeService.findAll(pageable);
-
+        HttpHeaders header = new HttpHeaders();
+        header.add("Total-pages", Long.toString(offerTypesPage.getTotalPages()));
+        header.add("Access-Control-Expose-Headers", "*, Authorization");
         /*return new ResponseEntity<>(new PageImpl<>(offerTypeMapper.toDtoList(offerTypesPage.toList()),
                 offerTypesPage.getPageable(),offerTypesPage.getTotalElements()), HttpStatus.OK);*/
-        return new ResponseEntity<>(offerTypeMapper.toDtoList(offerTypesPage.toList()), HttpStatus.OK);
+        return new ResponseEntity<>(offerTypeMapper.toDtoList(offerTypesPage.toList()), header, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

@@ -7,25 +7,39 @@ import { MapComponent } from './maps/map/map.component';
 import { CulturalOfferService } from './maps/services/cultural-offer.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { GenTableComponent } from './maps/gen-table/gen-table.component';
+import { PaginationComponent } from './maps/pagination/pagination.component';
+import { OfferTypeListComponent } from './maps/types/offer-type-list/offer-type-list.component';
+import { SubtypeListComponent } from './maps/types/subtype-list/subtype-list.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule} from '@angular/forms'
+import { ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TestComponent } from './maps/testC/test.component';
 import { SafeHtmlPipe } from './pipes/safe-html-pipe.pipe';
 import { LoginFormComponent } from './maps/login-form/login-form/login-form.component';
 import { TokenInterceptorService } from './maps/services/token-interceptor.service';
 import { RegistrationComponent } from './maps/registration/registration.component';
+import { AddOfferTypeComponent } from './maps/types/add-offer-type/add-offer-type.component';
+import { AddSubtypeComponent } from './maps/types/add-subtype/add-subtype.component';
+import { UpdateOfferTypeComponent } from './maps/types/update-offer-type/update-offer-type.component';
+import { UpdateSubtypeComponent } from './maps/types/update-subtype/update-subtype.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
+    PaginationComponent,
+    OfferTypeListComponent,
+    SubtypeListComponent,
     GenTableComponent,
     TestComponent,
     SafeHtmlPipe,
     LoginFormComponent,
     RegistrationComponent
+    AddOfferTypeComponent,
+    AddSubtypeComponent,
+    UpdateOfferTypeComponent,
+    UpdateSubtypeComponent
   ],
   imports: [
     BrowserModule,
