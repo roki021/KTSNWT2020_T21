@@ -1,1 +1,24 @@
-<p>add-subtype works!</p>
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="add-subtype">Add subtype</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <div class="input-group">
+                    <input id="name" name = "name" [(ngModel)]="subtype.name" class="form-control">
+                </div>
+                <small class="text-danger" *ngIf="bad_request">
+                    Cant create subtype name is already taken</small>
+                <small class="text-danger" *ngIf="unauthorized">
+                    Unauthorized action</small>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="add()">Create new</button>
+    </div>

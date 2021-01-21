@@ -12,9 +12,31 @@
                 <div class="input-group">
                     <input id="name" name = "name" [(ngModel)]="offer_type.name" class="form-control">
                 </div>
+                
+                <label for="subtypes">Subtype</label>
+                <div class="input-group">
+                    <input id="subtype" name="subtype" [(ngModel)]="subtype" class="form-control">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="addSubtype()" type="button"></button>
+                    </div>
+                </div>
+                <small class="text-danger" *ngIf="repeated_subtype">
+                    Subtype name already taken</small>
+                <div style="overflow-y: scroll; height:400px;">
+                    <ul >
+                        <li class="page-item" *ngFor="let i of subtypes index as j" (click)="remove(j)">
+                            <a class="page-link">{{i}}</a>
+                        </li>
+                      </ul>
+                </div>
             </div>
         </form>
     </div>
+    <small class="text-danger" *ngIf="bad_request">
+        Cant create type name and or 1 or more subtype name are already taken</small>
+    <small class="text-danger" *ngIf="unauthorized">
+        Unauthorized action</small>
     <div class="modal-footer">
         <button type="button" class="btn btn-outline-dark" (click)="add()">Add</button>
     </div>
+    

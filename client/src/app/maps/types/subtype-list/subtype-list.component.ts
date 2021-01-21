@@ -1,10 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { error } from 'protractor';
 import { Icons } from 'src/app/enums/icons.enum';
 import { TableHeader } from '../../gen-table/table-header';
 import { TableOperation } from '../../gen-table/table-operation';
+import { OfferType } from '../../model/offer-type';
 import { Subtype } from '../../model/subtype';
+import { OfferTypeService } from '../../services/offer-type.service';
 import { SubtypeService } from '../../services/subtype.service';
+import { AddSubtypeComponent } from '../add-subtype/add-subtype.component';
+import { UpdateSubtypeComponent } from '../update-subtype/update-subtype.component';
 
 @Component({
   selector: 'app-subtype-list',
@@ -20,7 +26,9 @@ export class SubtypeListComponent implements OnInit {
   offer_type: string;
   delete_validation:boolean = false;
 	delete_not_found_validation:boolean = false;
-	unauthorized:boolean = false;
+  unauthorized:boolean = false;
+  offer_not_found:boolean = false;
+  valid_offer_type:OfferType={id:null,name:"", subtypesNumber:0,subtypes:null};
 
   tableHeader: TableHeader[] = [
 		{
@@ -35,7 +43,7 @@ export class SubtypeListComponent implements OnInit {
     
     operations: TableOperation<Subtype>[] = [
       {
-        operation: (element) => this.update(element.id),
+        operation: (element) => this.update(element),
         icon: Icons.update
       },
       {
@@ -44,7 +52,8 @@ export class SubtypeListComponent implements OnInit {
       }
       ];
 
-  constructor(private subtypes_service: SubtypeService, private route: ActivatedRoute) {
+  constructor(private subtypes_service: SubtypeService, private route: ActivatedRoute,
+     private modalService: NgbModal, private offer_type_service: OfferTypeService) {
     this.pageSize = 2;
     this.currentPage = 1;
     this.totalSize = 1;
@@ -67,16 +76,39 @@ export class SubtypeListComponent implements OnInit {
 				this.subtype_list = res.body as Subtype[];
         this.totalSize = Number(res.headers.get('Total-pages'));
         console.log(res);
+        if(this.subtype_list.length > 0){
+          this.valid_offer_type.name = this.subtype_list[0].offerTypeName;
+          console.log("ima")
+          console.log(this.valid_offer_type.name)
+        }
+        else{
+          this.offer_type_service.getById(this.offer_type).subscribe(
+            res=>{
+              this.valid_offer_type = res.body as OfferType;
+              console.log("nema")
+              console.log(this.valid_offer_type.name)
+              this.offer_not_found = false;
+            },
+            error=>{
+              console.log("bad");
+              this.offer_not_found = true;
+            }
+          )
+        }
 			}
 		);
   }
   
   addNew(){
-    alert("ADDED")
+		const modalRef = this.modalService.open(AddSubtypeComponent, {ariaLabelledBy: 'add-offer-type', size: 'lg', scrollable: true});
+    modalRef.componentInstance.refresh = ()=>{this.changePage(this.currentPage)};
+    modalRef.componentInstance.offer_type_name = this.valid_offer_type.name;
   }
 
-  update(id){
-
+  update(subtype){
+		const modalRef = this.modalService.open(UpdateSubtypeComponent, {ariaLabelledBy: 'update-offer-type', size: 'lg', scrollable: true});
+		modalRef.componentInstance.subtype = subtype;
+		modalRef.componentInstance.refresh = ()=>{this.changePage(this.currentPage)};
   }
 
   delete(id){

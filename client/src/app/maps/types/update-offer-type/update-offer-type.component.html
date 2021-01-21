@@ -9,11 +9,17 @@
             <div class="form-group">
                 <label for="name">Name</label>
                 <div class="input-group">
-                    <input id="name" value="{{offer_type.name}}" class="form-control">
+                    <input id="name" name = "name" [(ngModel)]="offer_type.name" class="form-control">
                 </div>
+                <small class="text-danger" *ngIf="bad_request">
+                    Cant update new name is already taken</small>
+                <small class="text-danger" *ngIf="not_found">
+                    Type for updating was not found</small>
+                <small class="text-danger" *ngIf="unauthorized">
+                    Unauthorized action</small>
             </div>
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="update()">Add</button>
+        <button type="button" class="btn btn-outline-dark" (click)="update()">Update</button>
     </div>

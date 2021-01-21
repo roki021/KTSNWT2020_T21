@@ -85,14 +85,13 @@ export class OfferTypeListComponent implements OnInit {
 
 	addNew(){
 		const modalRef = this.modalService.open(AddOfferTypeComponent, {ariaLabelledBy: 'add-offer-type', size: 'lg', scrollable: true});
-		//console.log(modalRef.componentInstance.nesto);
-		modalRef.componentInstance.pageNum = this.currentPage;
 		modalRef.componentInstance.refresh = ()=>{this.changePage(this.currentPage)};
 	}
 
 	update(offer_type){
 		const modalRef = this.modalService.open(UpdateOfferTypeComponent, {ariaLabelledBy: 'update-offer-type', size: 'lg', scrollable: true});
 		modalRef.componentInstance.offer_type = offer_type;
+		modalRef.componentInstance.refresh = ()=>{this.changePage(this.currentPage)};
 	}
 
 	subtypesView(id){

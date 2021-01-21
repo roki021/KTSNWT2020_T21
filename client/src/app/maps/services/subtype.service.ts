@@ -25,6 +25,14 @@ export class SubtypeService {
     page + "&size=" + size, queryParams);
   }
 
+  create(subtype:Subtype):Observable<any>{
+    return this.http.post<Subtype>(this.port + "/subtypes", subtype,{observe: 'response'});
+  }
+
+  update(subtype:Subtype, id:number):Observable<any>{
+    return this.http.put<Subtype>(this.port + this.path +`${id}`, subtype,{observe: 'response'});
+  }
+
   delete(id:any):Observable<any>{
     return this.http.delete(this.port + this.path+`${id}`,{observe: 'response'});
   }
