@@ -15,6 +15,7 @@ import { TestComponent } from './maps/testC/test.component';
 import { SafeHtmlPipe } from './pipes/safe-html-pipe.pipe';
 import { LoginFormComponent } from './maps/login-form/login-form/login-form.component';
 import { TokenInterceptorService } from './maps/services/token-interceptor.service';
+import { RegistrationComponent } from './maps/registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { TokenInterceptorService } from './maps/services/token-interceptor.servi
     GenTableComponent,
     TestComponent,
     SafeHtmlPipe,
-    LoginFormComponent
+    LoginFormComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
