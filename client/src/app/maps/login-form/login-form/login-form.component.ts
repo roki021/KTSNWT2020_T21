@@ -15,6 +15,8 @@ export class LoginFormComponent implements OnInit {
 
   form:FormGroup;
   public wrongUsernameOrPass:boolean;
+  public errorMessage = "";
+  public invalidData = false;
 
   constructor(private fb:FormBuilder, 
               private loginService: LoginServiceService, 
@@ -52,6 +54,10 @@ export class LoginFormComponent implements OnInit {
                 }
               }
           ); 
+    }
+    else{
+      this.invalidData = true;
+      this.errorMessage = "Both username and password are required";
     }
 }
 }
