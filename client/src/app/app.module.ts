@@ -18,6 +18,7 @@ import { TestComponent } from './maps/testC/test.component';
 import { SafeHtmlPipe } from './pipes/safe-html-pipe.pipe';
 import { LoginFormComponent } from './maps/login-form/login-form/login-form.component';
 import { TokenInterceptorService } from './maps/services/token-interceptor.service';
+import { RegistrationComponent } from './maps/registration/registration.component';
 import { AddOfferTypeComponent } from './maps/types/add-offer-type/add-offer-type.component';
 import { AddSubtypeComponent } from './maps/types/add-subtype/add-subtype.component';
 import { UpdateOfferTypeComponent } from './maps/types/update-offer-type/update-offer-type.component';
@@ -34,6 +35,7 @@ import { UpdateSubtypeComponent } from './maps/types/update-subtype/update-subty
     TestComponent,
     SafeHtmlPipe,
     LoginFormComponent,
+    RegistrationComponent
     AddOfferTypeComponent,
     AddSubtypeComponent,
     UpdateOfferTypeComponent,
