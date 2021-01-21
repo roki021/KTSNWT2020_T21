@@ -22,6 +22,12 @@ public class SubtypeMapper implements MapperInterface<Subtype, SubtypeDTO> {
     @Override
     public SubtypeDTO toDto(Subtype entity) {
         SubtypeDTO subtypeDTO = new SubtypeDTO(entity.getId(), entity.getName(), entity.getOfferType().getName());
+        if(entity.getCulturalOffers() == null){
+            subtypeDTO.setOfferNumber(0);
+        }
+        else{
+            subtypeDTO.setOfferNumber(entity.getCulturalOffers().size());
+        }
         return subtypeDTO;
     }
 
@@ -29,7 +35,7 @@ public class SubtypeMapper implements MapperInterface<Subtype, SubtypeDTO> {
     public List<SubtypeDTO> toDtoList(List<Subtype> entityList) {
         List<SubtypeDTO> subtypeDTOS = new ArrayList<SubtypeDTO>();
         for(Subtype subtype : entityList){
-            SubtypeDTO subtypeDTO = new SubtypeDTO(subtype.getId(), subtype.getName(), subtype.getOfferType().getName());
+            SubtypeDTO subtypeDTO = this.toDto(subtype);//new SubtypeDTO(subtype.getId(), subtype.getName(), subtype.getOfferType().getName());
             subtypeDTOS.add(subtypeDTO);
         }
         return subtypeDTOS;

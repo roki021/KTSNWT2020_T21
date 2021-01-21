@@ -41,21 +41,27 @@ public class OfferTypeMapper implements MapperInterface<OfferType, OfferTypeDTO>
         for(Subtype subtype : entity.getSubtypes()){
             subtypes.add(subtype.getName());
         }
-
-        return new OfferTypeDTO(entity.getId(), entity.getName(), subtypes);
+        OfferTypeDTO offerTypeDTO = new OfferTypeDTO(entity.getId(), entity.getName(), subtypes);
+        if(entity.getSubtypes() == null){
+            offerTypeDTO.setSubtypesNumber(0);
+        }
+        else{
+            offerTypeDTO.setSubtypesNumber(entity.getSubtypes().size());
+        }
+        return offerTypeDTO;
     }
 
     @Override
     public List<OfferTypeDTO> toDtoList(List<OfferType> entityList) {
-        List<String> subtypes = new ArrayList<String>();
+        //List<String> subtypes = new ArrayList<String>();
         List<OfferTypeDTO> offerTypeDTOS = new ArrayList<OfferTypeDTO>();
         for(OfferType offerType : entityList){
-            for(Subtype subtype : offerType.getSubtypes()){
+            /*for(Subtype subtype : offerType.getSubtypes()){
                 subtypes.add(subtype.getName());
-            }
-            OfferTypeDTO dto = new OfferTypeDTO(offerType.getId(), offerType.getName(), subtypes);
+            }*/
+            OfferTypeDTO dto = this.toDto(offerType);//new OfferTypeDTO(offerType.getId(), offerType.getName(), subtypes);
             offerTypeDTOS.add(dto);
-            subtypes = new ArrayList<String>();
+            //subtypes = new ArrayList<String>();
 
         }
         return offerTypeDTOS;

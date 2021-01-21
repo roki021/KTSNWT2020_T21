@@ -1,0 +1,17 @@
+<h1>Offer types list</h1>
+<div class="row">
+	<div class="container">
+		<app-gen-table [rowNum]="true" [tableHeader]="tableHeader" [tableData]="offer_type_list"
+			[operations]="operations">
+		</app-gen-table>
+		<app-pagination [totalPages]="totalSize" [pageSize]="pageSize" (pageSelected)="changePage($event)">
+		</app-pagination>
+		<button (click)="addNew()" type="button" class="btn btn-primary">Add</button>
+		<small class="text-danger" *ngIf="delete_validation">
+			Cant delete type if there is an offer of that type</small>
+		<small class="text-danger" *ngIf="delete_not_found_validation">
+			Type doesnt exist</small>
+		<small class="text-danger" *ngIf="unauthorized">
+			Unauthorized action</small>
+	</div>
+</div>
