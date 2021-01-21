@@ -11,10 +11,10 @@ export class PaginationComponent implements OnInit, OnChanges {
 	@Output() pageSelected: EventEmitter<number>;
 	pages: number[];
 	activePage: number;
-	collectionSize:number;
+	collectionSize: number;
 
 	constructor(
-		
+
 	) {
 		this.pageSelected = new EventEmitter();
 		this.activePage = 1;
@@ -22,11 +22,9 @@ export class PaginationComponent implements OnInit, OnChanges {
 
 	ngOnInit() {
 		this.pages = [];
-		//console.log(this.totalPages)
 		for (let i = 1; i <= this.totalPages; i++) {
 			this.pages.push(i);
 		}
-		//console.log(this.pages.length)
 		this.collectionSize = this.totalPages * this.pageSize;
 	}
 

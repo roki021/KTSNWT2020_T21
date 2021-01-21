@@ -12,21 +12,21 @@ const routes: Routes = [{
   component: MapComponent
 },
 {
-  path:'offer-types',
+  path: 'offer-types',
   component: OfferTypeListComponent
 },
 {
-  path:'offer-types/:id/subtypes',
+  path: 'offer-types/:id/subtypes',
   component: SubtypeListComponent
 },
 {
-    path: 'table',
-    component: TestComponent
-  },
-  {
-    path: 'login',
-    component: LoginFormComponent
-  }
+  path: 'table',
+  component: TestComponent
+},
+{
+  path: 'login',
+  component: LoginFormComponent
+}
 ];
 
 @NgModule({

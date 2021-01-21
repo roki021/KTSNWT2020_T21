@@ -12,7 +12,7 @@ import { OfferTypeListComponent } from './maps/types/offer-type-list/offer-type-
 import { SubtypeListComponent } from './maps/types/subtype-list/subtype-list.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule} from '@angular/forms'
+import { ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TestComponent } from './maps/testC/test.component';
 import { SafeHtmlPipe } from './pipes/safe-html-pipe.pipe';
