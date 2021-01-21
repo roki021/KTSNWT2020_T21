@@ -9,9 +9,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { GenTableComponent } from './maps/gen-table/gen-table.component';
 import { PaginationComponent } from './maps/pagination/pagination.component';
 import { OfferTypeListComponent } from './maps/types/offer-type-list/offer-type-list.component';
-import { OfferTypeTableComponent } from './maps/types/offer-type-table/offer-type-table.component';
 import { SubtypeListComponent } from './maps/types/subtype-list/subtype-list.component';
-import { SubtypeTableComponent } from './maps/types/subtype-table/subtype-table.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule} from '@angular/forms'
@@ -31,9 +29,7 @@ import { UpdateSubtypeComponent } from './maps/types/update-subtype/update-subty
     MapComponent,
     PaginationComponent,
     OfferTypeListComponent,
-    OfferTypeTableComponent,
     SubtypeListComponent,
-    SubtypeTableComponent,
     GenTableComponent,
     TestComponent,
     SafeHtmlPipe,
