@@ -1,0 +1,29 @@
+<div class = "login-wrapper">
+    <form [formGroup]="form" class="loginForm">
+        <fieldset>
+            <legend>Login</legend>
+            <div class="form-field">
+                <label>Username:</label>
+                <input class="form-control" name="username" formControlName="username">
+            </div>
+            <div class="form-field">
+                <label>Password:</label>
+                <input name="password" formControlName="password" 
+                       type="password" class="form-control">
+            </div>
+        </fieldset>
+        <br>
+        <div *ngIf="invalidData"
+            class="alert alert-danger">
+            <div>Both username and email are required</div>
+        </div>
+        <div *ngIf="wrongUsernameOrPass"
+            class="alert alert-danger">
+            <div>Invalid username or password</div>
+        </div>
+        <div class="form-buttons">
+            <button class="button button-primary" 
+                    (click)="login()">Login</button>
+        </div>
+    </form>
+</div>
