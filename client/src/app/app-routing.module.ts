@@ -7,6 +7,8 @@ import { TestComponent } from './maps/testC/test.component';
 import { LoginFormComponent } from './maps/login-form/login-form/login-form.component';
 import { RolesGuard } from './guards/roles.guard';
 import { LoginGuard } from './guards/login.guard';
+import { RegistrationComponent } from './maps/registration/registration.component';
+
 
 
 const routes: Routes = [{
@@ -32,6 +34,11 @@ const routes: Routes = [{
 {
   path: 'login',
   component: LoginFormComponent,
+  canActivate: [LoginGuard]
+},
+{
+  path: 'register',
+  component: RegistrationComponent,
   canActivate: [LoginGuard]
 }
 ];
