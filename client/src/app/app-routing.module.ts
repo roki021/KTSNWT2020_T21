@@ -9,6 +9,7 @@ import { RolesGuard } from './guards/roles.guard';
 import { LoginGuard } from './guards/login.guard';
 import { RegistrationComponent } from './maps/registration/registration.component';
 
+import { ProfileComponent } from './maps/profile/profile.component';
 
 
 const routes: Routes = [{
@@ -35,6 +36,12 @@ const routes: Routes = [{
   path: 'login',
   component: LoginFormComponent,
   canActivate: [LoginGuard]
+},
+{
+  path: 'profile',
+  component: ProfileComponent,
+  canActivate: [RolesGuard],
+  data: {expectedRoles: 'ROLE_GUEST'}
 },
 {
   path: 'register',
