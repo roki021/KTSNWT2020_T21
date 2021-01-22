@@ -9,6 +9,8 @@ public class OfferTypeDTO {
     private String name;
     private List<String> subtypes;
 
+    private Integer subtypesNumber;
+
     public OfferTypeDTO(){
 
     }
@@ -41,5 +43,13 @@ public class OfferTypeDTO {
 
     public void setSubtypes(List<String> subtypes) {
         this.subtypes = subtypes;
+    }
+
+    public Integer getSubtypesNumber() {
+        return subtypesNumber;
+    }
+
+    public void setSubtypesNumber(Integer subtypesNumber) {
+        this.subtypesNumber = subtypesNumber;
     }
 }

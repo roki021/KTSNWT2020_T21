@@ -79,7 +79,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(HttpMethod.GET, "/subtypes").permitAll()
 
-                .antMatchers(HttpMethod.GET, "/subtypes/by-page").permitAll()
+                /*.antMatchers(HttpMethod.DELETE, "/subtypes/{id}").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/offer-types/{id}").permitAll()
+                .antMatchers(HttpMethod.POST, "/offer-types").permitAll()
+                .antMatchers(HttpMethod.PUT, "/offer-types/{id}").permitAll()
+                .antMatchers(HttpMethod.POST, "/subtypes").permitAll()
+                .antMatchers(HttpMethod.PUT, "/subtypes/{id}").permitAll()
+                .antMatchers(HttpMethod.GET, "/offer-types/{id}").permitAll()*/
+
+                .antMatchers(HttpMethod.GET, "/subtypes/{id}/by-page").permitAll()
 
                 .antMatchers(HttpMethod.GET, "/offer-types").permitAll()
 
@@ -108,6 +116,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         // TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
         web.ignoring().antMatchers(HttpMethod.POST, "/auth/login");
+        web.ignoring().antMatchers(HttpMethod.POST, "/auth/refresh");
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
                 "/**/*.css", "/**/*.js");
     }

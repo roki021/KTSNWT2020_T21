@@ -1,0 +1,53 @@
+<div class="aux">
+    <form [formGroup]="form">
+        <fieldset>
+            <Legend>Registration</Legend>
+            <div class="mb-3">
+                <label for="firstname" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="firstname" formControlName="firstname">
+                <div class="invalid-feedback">
+                    First name is required.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="lastname" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="lastname" formControlName="lastname">
+            </div>
+            <div class="mb-3">
+                <label for="emailaddress" class="form-label">Email address</label>
+                <input type="email" class="form-control" ngModel email id="emailaddress" placeholder="name@example.com" formControlName="email">
+            </div>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username" formControlName="username">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" formControlName="password">
+            </div>
+            <div class="mb-3">
+                <label for="repeatpassword" class="form-label">Repeat password</label>
+                <input type="password" class="form-control" id="repeatpassword" formControlName="repeatpassword">
+            </div>
+        </fieldset>
+        <br>
+        <div class="mb-3" *ngIf="emptyField"
+            class="alert alert-danger">
+            <div>All fields are required</div>
+        </div>
+        <div class="mb-3" *ngIf="passwordmissmatch"
+            class="alert alert-danger">
+            <div>Passwords are not the same</div>
+        </div>
+        <div class="mb-3" *ngIf="invalidemail"
+            class="alert alert-danger">
+            <div>Email format is invalid</div>
+        </div>
+        <div class="form-buttons">
+            <button class="btn btn-primary" (click) = "register()">Register</button>
+        </div>
+    </form>
+    <br>
+    <a routerLink="/login" routerLinkActive="active">Already have an account? Log in.</a>
+</div>
+  

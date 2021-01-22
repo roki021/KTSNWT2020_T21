@@ -67,7 +67,7 @@ public class ProfileDataController {
         return new ResponseEntity<>(guestMapper.toDto(guest), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_GUEST')")
+    @PreAuthorize("hasAnyRole('ROLE_GUEST','ROLE_ADMIN')")
     @RequestMapping(value="/{id}/change-password", method= RequestMethod.PUT)
     public ResponseEntity<Void> changePassword(@PathVariable Integer id,@Valid @RequestBody PasswordDTO passwordDTO,
                                                Principal principal){

@@ -17,11 +17,11 @@ import java.util.Date;
 public class TokenUtils {
 
     // Izdavac tokena
-    @Value("spring-security-example")
+    @Value("cultural-offers-map")
     private String APP_NAME;
 
     // Tajna koju samo backend aplikacija treba da zna kako bi mogla da generise i proveri JWT https://jwt.io/
-    @Value("somesecret")
+    @Value("cultoffermap")
     public String SECRET;
 
     // Period vazenja
@@ -40,6 +40,19 @@ public class TokenUtils {
 
     // Algoritam za potpisivanje JWT
     private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
+
+    // Funkcija za generisanje JWT token
+    public String generateToken(User user) {
+        return Jwts.builder()
+                .setIssuer(APP_NAME)
+                .setSubject(user.getUsername())
+                .claim("user_id", user.getId().toString())
+                .claim("roles", user.getAuthorities())
+                .setAudience(generateAudience())
+                .setIssuedAt(new Date())
+                .setExpiration(generateExpirationDate())
+                .signWith(SIGNATURE_ALGORITHM, SECRET).compact();
+    }
 
     // Funkcija za generisanje JWT token
     public String generateToken(String username) {
@@ -72,11 +85,12 @@ public class TokenUtils {
     }
 
     // Funkcija za refresh JWT tokena
-    public String refreshToken(String token) {
+    public String refreshToken(String token, String username) {
         String refreshedToken;
         try {
             final Claims claims = this.getAllClaimsFromToken(token);
             claims.setIssuedAt(new Date());
+            claims.setSubject(username);
             refreshedToken = Jwts.builder()
                     .setClaims(claims)
                     .setExpiration(generateExpirationDate())
@@ -112,6 +126,17 @@ public class TokenUtils {
             username = null;
         }
         return username;
+    }
+
+    public Integer getUserIdFromToken(String token) {
+        Integer id;
+        try {
+            final Claims claims = this.getAllClaimsFromToken(token);
+            id = Integer.parseInt(claims.getOrDefault("user_id", null).toString());
+        } catch (Exception e) {
+            id = null;
+        }
+        return id;
     }
 
     public Date getIssuedAtDateFromToken(String token) {
