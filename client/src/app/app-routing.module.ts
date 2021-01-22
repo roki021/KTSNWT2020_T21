@@ -5,6 +5,7 @@ import { OfferTypeListComponent } from './maps/types/offer-type-list/offer-type-
 import { SubtypeListComponent } from './maps/types/subtype-list/subtype-list.component';
 import { TestComponent } from './maps/testC/test.component';
 import { LoginFormComponent } from './maps/login-form/login-form/login-form.component';
+import { ProfileComponent } from './maps/profile/profile.component';
 
 
 const routes: Routes = [{
@@ -26,6 +27,10 @@ const routes: Routes = [{
 {
   path: 'login',
   component: LoginFormComponent
+},
+{
+  path: 'profile',
+  component: ProfileComponent
 }
 ];
 

@@ -22,6 +22,8 @@ import { AddOfferTypeComponent } from './maps/types/add-offer-type/add-offer-typ
 import { AddSubtypeComponent } from './maps/types/add-subtype/add-subtype.component';
 import { UpdateOfferTypeComponent } from './maps/types/update-offer-type/update-offer-type.component';
 import { UpdateSubtypeComponent } from './maps/types/update-subtype/update-subtype.component';
+import { ProfileComponent } from './maps/profile/profile.component';
+import { ChangePasswordComponent } from './maps/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { UpdateSubtypeComponent } from './maps/types/update-subtype/update-subty
     AddOfferTypeComponent,
     AddSubtypeComponent,
     UpdateOfferTypeComponent,
-    UpdateSubtypeComponent
+    UpdateSubtypeComponent,
+    ProfileComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
