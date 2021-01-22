@@ -5,71 +5,7 @@ import { FieldDecorator } from '../gen-table/field-decorator';
 import { TableHeader } from '../gen-table/table-header';
 import { TableOperation } from '../gen-table/table-operation';
 import { CulturalOffer } from '../model/cultural-offer';
-
-const OFFERS: CulturalOffer[] = [
-  {
-    _id:1,
-    title:"title 1",
-    description:"desc 1",
-    address:"addr 1",
-    subtypeName:"sub 1",
-    offerType:"type 1",
-    imageUrls:[],
-    longitude:11.11,
-    latitude:11.11,
-  },
-  {
-    _id:2,
-    title:"title 2",
-    description:"desc 2",
-    address:"addr 2",
-    subtypeName:"sub 2",
-    offerType:"type 2",
-    imageUrls:[],
-    longitude:22.22,
-    latitude:22.22,
-  },
-  {
-    _id:3,
-    title:"title 3",
-    description:"desc 3",
-    address:"addr 3",
-    subtypeName:"sub 3",
-    offerType:"type 3",
-    imageUrls:[],
-    longitude:33.33,
-    latitude:33.33,
-  },
-  {
-    _id:4,
-    title:"title 4",
-    description:"desc 4",
-    address:"addr 4",
-    subtypeName:"sub 4",
-    offerType:"type 1",
-    imageUrls:[],
-    longitude:44.44,
-    latitude:44.44,
-  },
-  {
-    _id:5,
-    title:"title 5",
-    description:"desc 5",
-    address:"addr 5",
-    subtypeName:"sub 5",
-    offerType:"type 2",
-    imageUrls:[],
-    longitude:55.55,
-    latitude:55.55,
-  }
-];
-
-interface EditOffer{
-  id?: number;
-  title: string;
-  description: string;
-  images: string[];
-}
+import { CulturalOfferService } from '../services/cultural-offer.service';
 
 @Component({
   selector: 'app-all-offers',
@@ -87,7 +23,7 @@ export class AllOffersComponent implements OnInit {
   edit_description: string;
   edit_images: string[];
 
-  offers: CulturalOffer[] = OFFERS;
+  offers: CulturalOffer[];
   tableHeader: TableHeader[] = [
     {
       headerName: 'Title',
@@ -99,7 +35,7 @@ export class AllOffersComponent implements OnInit {
     },
     {
       headerName: 'Subtype',
-      fieldName: ['subtypeName']
+      fieldName: ['subTypeName']
     },
     {
       headerName: 'Address',
@@ -118,7 +54,7 @@ export class AllOffersComponent implements OnInit {
     },
     {
       operation: (offer: CulturalOffer) => {
-        this.edit_id = offer._id;
+        this.edit_id = offer.id;
         this.edit_title = offer.title;
         this.edit_description = offer.description;
         this.edit_images = offer.imageUrls;
@@ -127,18 +63,37 @@ export class AllOffersComponent implements OnInit {
       icon: Icons.update
     },
     {
-      operation: () => this.open(this.content),
+      operation: (offer: CulturalOffer) => this.removeOffer(offer.id),
       icon: Icons.remove
     }
   ];
 
-  constructor(private modalService: NgbModal) {
+  constructor(
+    private modalService: NgbModal,
+    private culturalOfferService: CulturalOfferService
+    ) {
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.culturalOfferService.getAll().subscribe(res => {
+      this.offers = res;
+    });
+  }
+
+  saveChange(): void{
+    this.culturalOfferService.getAll().subscribe(res => {
+      this.offers = res;
+    });
+  }
 
   addNew(): void {
     this.open(this.add_offer);
+  }
+
+  removeOffer(id){
+    this.culturalOfferService.delete(id).subscribe(res => {
+      this.saveChange();
+    });
   }
 
   open(content) {

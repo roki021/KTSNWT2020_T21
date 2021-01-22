@@ -38,6 +38,7 @@ public class CulturalOfferController {
         try {
             service.create(culturalOffer, dto.getAddress(), dto.getSubTypeName());
         } catch (Exception exception){
+            System.out.println(exception.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(mapper.toDto(culturalOffer), HttpStatus.OK);

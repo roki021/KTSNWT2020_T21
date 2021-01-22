@@ -1,9 +1,9 @@
 export interface CulturalOffer {
-    _id?:any;
+    id?:any;
     title:string;
     description:string;
     address:string;
-    subtypeName:string;
+    subTypeName:string;
     offerType:string;
     imageUrls:string[];
     longitude:number;

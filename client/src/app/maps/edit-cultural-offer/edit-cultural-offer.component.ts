@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { CulturalOfferService } from '../services/cultural-offer.service';
 
 @Component({
   selector: 'app-edit-cultural-offer',
@@ -19,14 +20,27 @@ export class EditCulturalOfferComponent implements OnInit {
   @Input('images')
   images: string[];
 
-  constructor() {
+  @Output()
+  sendEvent: EventEmitter<string>;
+
+  constructor(private service: CulturalOfferService) {
+    this.sendEvent = new EventEmitter<string>();
   }
 
   ngOnInit(): void {
   }
 
   addOffer(){
-    alert("Should work!");
+    this.service.update(this.id, {
+      "title": this.title,
+      "description": this.description,
+      "imageUrls": this.images,
+    }).subscribe(res => {
+      console.log(res.id);
+      this.sendEvent.emit("OK");
+    }, err => {
+      alert("Some changed fields are not valid!");
+    })
   }
 
 }
