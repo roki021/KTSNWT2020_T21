@@ -19,7 +19,7 @@ public class Comment {
     private String content;
 
     @Column(nullable = false)
-    @NotNull(message = "Content can't be blank")
+    @NotNull(message = "Date can't be null")
     private Date commentedOn;
 
     @ElementCollection

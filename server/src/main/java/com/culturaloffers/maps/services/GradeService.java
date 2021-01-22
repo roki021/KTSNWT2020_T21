@@ -55,18 +55,22 @@ public class GradeService {
         return gradeRepository.findByUserId(id, pageable);
     }
 
-    public GradeDTO addGrade(GradeDTO grade)
+    public Map<String, Boolean> addGrade(Grade grade, int offerId, int userId)
     {
-        Grade gradeToAdd = new Grade();
-        gradeToAdd.setValue(grade.getValue());
-        gradeToAdd.setGradedOn(grade.getGradedOn());
-        CulturalOffer co = culturalOfferRepository.findByTitle(grade.getCulturalOfferName());
-        Guest g = guestRepository.findByUsername(grade.getUserUsername());
-        gradeToAdd.setCulturalOffer(co);
-        gradeToAdd.setUser(g);
+        CulturalOffer co = culturalOfferRepository.findById(offerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + offerId));
+        Guest g = guestRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + userId));
 
-        gradeRepository.save(gradeToAdd);
-        return gradeMapper.toDto(gradeToAdd);
+        grade.setCulturalOffer(co);
+        grade.setUser(g);
+
+        gradeRepository.save(grade);
+
+        Map< String, Boolean > response = new HashMap< >();
+        response.put("added", Boolean.TRUE);
+
+        return response;
     }
 
     public Map<String, Boolean> deleteById(int gradeId) throws ResourceNotFoundException
@@ -80,7 +84,7 @@ public class GradeService {
         return response;
     }
 
-    public Grade updateGrade(int gradeId, GradeDTO gradeDetails) throws ResourceNotFoundException {
+    public Grade updateGrade(int gradeId, Grade gradeDetails) throws ResourceNotFoundException {
         Grade grade = gradeRepository.findById(gradeId)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + gradeId));
 
@@ -91,4 +95,14 @@ public class GradeService {
 
         return updatedGrade;
     }
+
+    public int averageGradeOfCulturalOffer(int offerId)
+    {
+        List<Grade> grades = this.findByCulturalOfferId(offerId);
+        int sum = 0;
+        for(Grade g : grades)
+            sum += g.getValue();
+        return grades.size() == 0 ? 0 : sum/grades.size();
+    }
+
 }
