@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoginServiceService } from '../../services/login-service.service';
+import { AuthService } from '../../services/auth.service';
 import { LoginResponse } from '../../model/login-response';
 import { isNull } from '@angular/compiler/src/output/output_ast';
 import { throwError } from 'rxjs';
@@ -19,7 +19,7 @@ export class LoginFormComponent implements OnInit {
   public invalidData = false;
 
   constructor(private fb:FormBuilder, 
-              private loginService: LoginServiceService, 
+              private loginService: AuthService, 
               private router: Router) { 
     this.form = this.fb.group({
       username: ['',Validators.required],

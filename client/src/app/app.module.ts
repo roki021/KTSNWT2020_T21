@@ -23,6 +23,7 @@ import { AddOfferTypeComponent } from './maps/types/add-offer-type/add-offer-typ
 import { AddSubtypeComponent } from './maps/types/add-subtype/add-subtype.component';
 import { UpdateOfferTypeComponent } from './maps/types/update-offer-type/update-offer-type.component';
 import { UpdateSubtypeComponent } from './maps/types/update-subtype/update-subtype.component';
+import { OptionNavbarComponent } from './maps/option-navbar/option-navbar.component';
 
 @NgModule({
   declarations: [
@@ -35,11 +36,12 @@ import { UpdateSubtypeComponent } from './maps/types/update-subtype/update-subty
     TestComponent,
     SafeHtmlPipe,
     LoginFormComponent,
-    RegistrationComponent
+    RegistrationComponent,
     AddOfferTypeComponent,
     AddSubtypeComponent,
     UpdateOfferTypeComponent,
-    UpdateSubtypeComponent
+    UpdateSubtypeComponent,
+    OptionNavbarComponent
   ],
   imports: [
     BrowserModule,

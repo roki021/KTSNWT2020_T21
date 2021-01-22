@@ -5,6 +5,8 @@ import { OfferTypeListComponent } from './maps/types/offer-type-list/offer-type-
 import { SubtypeListComponent } from './maps/types/subtype-list/subtype-list.component';
 import { TestComponent } from './maps/testC/test.component';
 import { LoginFormComponent } from './maps/login-form/login-form/login-form.component';
+import { RolesGuard } from './guards/roles.guard';
+import { LoginGuard } from './guards/login.guard';
 import { RegistrationComponent } from './maps/registration/registration.component';
 
 
@@ -15,11 +17,15 @@ const routes: Routes = [{
 },
 {
   path: 'offer-types',
-  component: OfferTypeListComponent
+  component: OfferTypeListComponent,
+  canActivate: [RolesGuard],
+  data: {expectedRoles: 'ROLE_ADMIN'}
 },
 {
   path: 'offer-types/:id/subtypes',
-  component: SubtypeListComponent
+  component: SubtypeListComponent,
+  canActivate: [RolesGuard],
+  data: {expectedRoles: 'ROLE_ADMIN'}
 },
 {
   path: 'table',
@@ -27,11 +33,13 @@ const routes: Routes = [{
 },
 {
   path: 'login',
-  component: LoginFormComponent
+  component: LoginFormComponent,
+  canActivate: [LoginGuard]
 },
 {
   path: 'register',
-  component: RegistrationComponent
+  component: RegistrationComponent,
+  canActivate: [LoginGuard]
 }
 ];
 
