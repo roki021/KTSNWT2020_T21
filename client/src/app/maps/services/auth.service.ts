@@ -59,6 +59,34 @@ export class AuthService {
         }));
   }
 
+  refreshToken(): Observable<boolean> {
+    return this.http.post(this.port + '/auth/refresh', {}).pipe(
+      map((res: any) => {
+        console.log(res);
+        const token = res && res.accessToken;
+
+        if (token) {
+          const jwt: JwtHelperService = new JwtHelperService();
+          const info = jwt.decodeToken(token);
+          const userToken: UserToken = {
+            id: info.user_id,
+            username: info.sub,
+            expireIn: info.exp * 1000,
+            authorities: info.roles.map((role) => role.authority),
+            token
+          };
+          this.currentUser = userToken;
+          localStorage.setItem('user', JSON.stringify(userToken));
+          return true;
+        } else {
+          return false;
+        }
+      }),
+      catchError(error => {
+        return throwError('Token could not be refreshed.');
+      }));
+  }
+
   getUserId(): number {
     return this.currentUser ? this.currentUser.id : null;
   }

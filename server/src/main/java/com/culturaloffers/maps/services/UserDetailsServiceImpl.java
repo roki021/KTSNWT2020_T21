@@ -27,6 +27,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return user;
     }
 
+    public User loadUserById(Integer id) {
+        User user = userRepository.findById(id).orElse(null);
+        return user;
+    }
+
     public User getUser(String verificationToken) {
         User user = tokenRepository.findByToken(verificationToken).getUser();
         return user;

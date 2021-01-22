@@ -85,11 +85,12 @@ public class TokenUtils {
     }
 
     // Funkcija za refresh JWT tokena
-    public String refreshToken(String token) {
+    public String refreshToken(String token, String username) {
         String refreshedToken;
         try {
             final Claims claims = this.getAllClaimsFromToken(token);
             claims.setIssuedAt(new Date());
+            claims.setSubject(username);
             refreshedToken = Jwts.builder()
                     .setClaims(claims)
                     .setExpiration(generateExpirationDate())
@@ -125,6 +126,17 @@ public class TokenUtils {
             username = null;
         }
         return username;
+    }
+
+    public Integer getUserIdFromToken(String token) {
+        Integer id;
+        try {
+            final Claims claims = this.getAllClaimsFromToken(token);
+            id = Integer.parseInt(claims.getOrDefault("user_id", null).toString());
+        } catch (Exception e) {
+            id = null;
+        }
+        return id;
     }
 
     public Date getIssuedAtDateFromToken(String token) {

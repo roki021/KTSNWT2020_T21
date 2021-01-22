@@ -63,6 +63,11 @@ export class ProfileComponent implements OnInit {
         this.update_bad_request = false;
         this.not_found = false;
         this.unauthorized = false;
+        this.auth_service.refreshToken().subscribe((refreshed:boolean) => {
+          if(refreshed){    
+            console.log(this.auth_service.getToken());
+          }
+        });
       },
       error => {
         if(error.status == 400){

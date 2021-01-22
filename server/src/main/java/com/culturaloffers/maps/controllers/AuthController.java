@@ -112,18 +112,20 @@ public class AuthController {
     public ResponseEntity<UserTokenStateDTO> refreshAuthenticationToken(HttpServletRequest request) {
 
         String token = tokenUtils.getToken(request);
-        String username = this.tokenUtils.getUsernameFromToken(token);
-        User user = (User) this.userDetailsService.loadUserByUsername(username);
+        Integer id = this.tokenUtils.getUserIdFromToken(token);
+        if (id != null) {
+            User user = (User) this.userDetailsService.loadUserById(id);
 
-        if (this.tokenUtils.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
-            String refreshedToken = tokenUtils.refreshToken(token);
-            int expiresIn = tokenUtils.getExpiredIn();
+            if (this.tokenUtils.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
+                String refreshedToken = tokenUtils.refreshToken(token, user.getUsername());
+                int expiresIn = tokenUtils.getExpiredIn();
 
-            return ResponseEntity.ok(new UserTokenStateDTO(refreshedToken, expiresIn));
-        } else {
-            UserTokenStateDTO userTokenState = new UserTokenStateDTO();
-            return ResponseEntity.badRequest().body(userTokenState);
+                return ResponseEntity.ok(new UserTokenStateDTO(refreshedToken, expiresIn));
+            }
         }
+
+        UserTokenStateDTO userTokenState = new UserTokenStateDTO();
+        return ResponseEntity.badRequest().body(userTokenState);
     }
 
     public AuthController() {
