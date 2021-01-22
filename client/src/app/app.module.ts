@@ -44,8 +44,7 @@ import { OptionNavbarComponent } from './maps/option-navbar/option-navbar.compon
     UpdateOfferTypeComponent,
     UpdateSubtypeComponent,
     ProfileComponent,
-    ChangePasswordComponent
-    UpdateSubtypeComponent,
+    ChangePasswordComponent,
     OptionNavbarComponent
   ],
   imports: [

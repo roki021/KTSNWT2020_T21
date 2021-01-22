@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ChangePasswordComponent } from '../change-password/change-password.component';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -10,7 +12,7 @@ export class OptionNavbarComponent implements OnInit {
 
   authority: string;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.authority = this.authService.getRole();
@@ -19,5 +21,11 @@ export class OptionNavbarComponent implements OnInit {
   logOut(): void {
     this.authService.logout();
     location.reload();
+  }
+
+  changePassword(){
+    console.log(this.authService.getUserId());
+    const modalRef = this.modalService.open(ChangePasswordComponent, { ariaLabelledBy: 'add-offer-type', size: 'lg', scrollable: true });
+		modalRef.componentInstance.guest_id = this.authService.getUserId();
   }
 }

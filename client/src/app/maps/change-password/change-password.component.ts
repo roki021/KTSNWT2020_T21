@@ -27,7 +27,7 @@ export class ChangePasswordComponent implements OnInit {
       this.bad_repeat = false;
       this.profile_service.changePassword(this.password, this.guest_id).subscribe(
         res => {
-
+          this.activeModal.close();
         },
         error => {
           if (error.status == 400) {

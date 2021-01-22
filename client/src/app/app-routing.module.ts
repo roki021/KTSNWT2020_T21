@@ -39,7 +39,9 @@ const routes: Routes = [{
 },
 {
   path: 'profile',
-  component: ProfileComponent
+  component: ProfileComponent,
+  canActivate: [RolesGuard],
+  data: {expectedRoles: 'ROLE_GUEST'}
 },
 {
   path: 'register',
