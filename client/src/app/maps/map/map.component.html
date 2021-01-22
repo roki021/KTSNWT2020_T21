@@ -1,6 +1,9 @@
 <div class="position-absolute options">
     <app-option-navbar></app-option-navbar>
 </div>
+<div class="position-absolute offer-view shadow-lg" [@widthGrow]="view_state">
+    <app-offer-view></app-offer-view>
+</div>
 <div class="wrapper">
     <div class="demo-area">
         <div tabindex="1" id="map" class="map">

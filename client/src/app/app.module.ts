@@ -29,6 +29,8 @@ import { UpdateSubtypeComponent } from './maps/types/update-subtype/update-subty
 import { ProfileComponent } from './maps/profile/profile.component';
 import { ChangePasswordComponent } from './maps/change-password/change-password.component';
 import { OptionNavbarComponent } from './maps/option-navbar/option-navbar.component';
+import { OfferViewComponent } from './maps/offer-view/offer-view.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { OptionNavbarComponent } from './maps/option-navbar/option-navbar.compon
     UpdateSubtypeComponent,
     ProfileComponent,
     ChangePasswordComponent,
-    OptionNavbarComponent
+    OptionNavbarComponent,
+    OfferViewComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +63,8 @@ import { OptionNavbarComponent } from './maps/option-navbar/option-navbar.compon
     NgbModule,
     FormsModule,
     FontAwesomeModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     CulturalOfferService,

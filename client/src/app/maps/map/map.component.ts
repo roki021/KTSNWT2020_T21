@@ -19,11 +19,25 @@ import { CulturalOfferService } from '../services/cultural-offer.service';
 import { CulturalOffer } from '../model/cultural-offer';
 import * as olProj from 'ol/proj';
 import { Zoom } from '../model/zoom';
+import { trigger, transition, style, animate, state } from '@angular/animations';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.sass']
+  styleUrls: ['./map.component.sass'],
+  animations: [
+    trigger('widthGrow', [
+      state('closed', style({
+        left: "-400px",
+        visibility: "hidden"
+      })),
+      state('open', style({
+        left: 0,
+        visibility: "visible"
+      })),
+      transition('* => *', animate(500))
+    ]),
+  ]
 })
 export class MapComponent implements OnInit {
 
@@ -35,6 +49,8 @@ export class MapComponent implements OnInit {
   cultural_offers: CulturalOffer[];
   zoom: Zoom;
   cash_features: Feature[] = [];
+  view_state: string = "closed";
+  selected_offer: CulturalOffer;
 
   constructor(private cultural_offer_service: CulturalOfferService) { }
 
@@ -146,14 +162,29 @@ export class MapComponent implements OnInit {
     this.map.on('moveend', (e) => this.cash_map(e));
 
     this.map.on('click', (e) => {
+      let founded = false;
       this.map.forEachFeatureAtPixel(e.pixel,
         (feature) => {
-          console.log("Feature pogodjen");
-          // OVDE POZIVATE PROZOR KAD SE PRITISNE CULTURAL OFFER!!!
+          if(!founded) {
+            this.selected_offer = this.get_cultural_offer(feature.style_.text_.text_);
+            this.view_state = "open";
+            founded = true;
+          }
         },
         { hitTolerance: 0 }
       );
+      if (!founded) {
+        this.view_state = "closed";
+      }
     });
+  }
+
+  get_cultural_offer(offer_title: string): CulturalOffer {
+    for (let offer of this.cultural_offers) {
+      if (offer.title === offer_title) {
+        return offer;
+      }
+    }
   }
 
   cash_map(e) {
