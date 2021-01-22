@@ -16,6 +16,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TestComponent } from './maps/testC/test.component';
 import { SafeHtmlPipe } from './pipes/safe-html-pipe.pipe';
+import { AddCulturalOfferComponent } from './maps/add-cultural-offer/add-cultural-offer.component';
+import { AllOffersComponent } from './maps/all-offers/all-offers.component';
+import { EditCulturalOfferComponent } from './maps/edit-cultural-offer/edit-cultural-offer.component';
 import { LoginFormComponent } from './maps/login-form/login-form/login-form.component';
 import { TokenInterceptorService } from './maps/services/token-interceptor.service';
 import { RegistrationComponent } from './maps/registration/registration.component';
@@ -37,6 +40,9 @@ import { OptionNavbarComponent } from './maps/option-navbar/option-navbar.compon
     GenTableComponent,
     TestComponent,
     SafeHtmlPipe,
+    AddCulturalOfferComponent,
+    AllOffersComponent,
+    EditCulturalOfferComponent,
     LoginFormComponent,
     RegistrationComponent,
     AddOfferTypeComponent,

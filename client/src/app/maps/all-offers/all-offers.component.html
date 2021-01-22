@@ -1,0 +1,40 @@
+<div class="container">
+    <app-gen-table [rowNum]="true" [tableHeader]="tableHeader" [tableData]="offers" [fieldDecoration]="headerDecoration" [operations]="operations">
+    </app-gen-table>
+    <button (click)="addNew()" type="button" class="btn btn-primary">Add</button>
+</div>
+
+<ng-template #add_offer let-modal>
+    <app-add-cultural-offer (sendEvent)="saveChange()"></app-add-cultural-offer>
+</ng-template>
+
+<ng-template #edit_offer let-modal>
+    <app-edit-cultural-offer [id]="edit_id" [title]="edit_title" [description]="edit_description" [images]="edit_images" (sendEvent)="saveChange()">
+
+    </app-edit-cultural-offer>
+</ng-template>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <label for="dateOfBirth">Date of birth</label>
+                <div class="input-group">
+                    <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    </div>
+</ng-template>

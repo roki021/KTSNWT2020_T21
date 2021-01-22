@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AddCulturalOfferComponent } from './maps/add-cultural-offer/add-cultural-offer.component';
+import { AllOffersComponent } from './maps/all-offers/all-offers.component';
 import { MapComponent } from './maps/map/map.component';
 import { OfferTypeListComponent } from './maps/types/offer-type-list/offer-type-list.component';
 import { SubtypeListComponent } from './maps/types/subtype-list/subtype-list.component';
@@ -11,10 +13,13 @@ import { RegistrationComponent } from './maps/registration/registration.componen
 
 import { ProfileComponent } from './maps/profile/profile.component';
 
-
 const routes: Routes = [{
   path: '',
   component: MapComponent
+},
+{
+    path: 'all_offers',
+    component: AllOffersComponent
 },
 {
   path: 'offer-types',

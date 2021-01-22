@@ -19,6 +19,8 @@ public class CulturalOfferDTO {
     @NotBlank(message = "SubTypeName can not be empty")
     private String subTypeName;
 
+    private String offerType;
+
     private List<String> imageUrls;
 
     private Double latitude;
@@ -89,6 +91,14 @@ public class CulturalOfferDTO {
         this.imageUrls = imageUrls;
     }
 
+    public String getOfferType() {
+        return offerType;
+    }
+
+    public void setOfferType(String offerType) {
+        this.offerType = offerType;
+    }
+
     public CulturalOfferDTO(
             Integer id,
             @NotBlank(message = "Title cannot be empty") String title,
@@ -110,6 +120,7 @@ public class CulturalOfferDTO {
             @NotBlank(message = "Description cannot be empty") String description,
             @NotBlank(message = "Address can not be empty") String address,
             @NotBlank(message = "SubTypeName can not be empty") String subTypeName,
+            String offerType,
             List<String> imageUrls,
             Double longitude,
             Double latitude){
@@ -119,6 +130,7 @@ public class CulturalOfferDTO {
         this.imageUrls = imageUrls;
         this.address = address;
         this.subTypeName = subTypeName;
+        this.offerType = offerType;
         this.latitude = latitude;
         this.longitude = longitude;
     }

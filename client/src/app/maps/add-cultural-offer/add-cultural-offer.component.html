@@ -1,0 +1,67 @@
+<table>
+    <tr>
+        <th colspan="3">
+            <h1>New cultural offer</h1>
+        </th>
+    </tr>
+    <tr style="height: 30px;"></tr>
+    <tr>
+        <td style="width: 30%;">
+            <p>Title</p>
+        </td>
+        <td style="width: 5%;"></td>
+        <td style="width: 65%;"><input type="text" [value]="title" (input)="title = $event.target.value"></td>
+    </tr>
+    <tr>
+        <td style="width: 30%;">
+            <p>Description</p>
+        </td>
+        <td style="width: 5%;"></td>
+        <td style="width: 65%;"><textarea [value]="description" (input)="description = $event.target.value"></textarea></td>
+    </tr>
+    <tr>
+        <td style="width: 30%;">
+            <p>Subtype</p>
+        </td>
+        <td style="width: 5%;"></td>
+        <td style="width: 65%;"><select [value]="subtype" (input)="subtype = $event.target.value">
+                <option selected>Nacionalni park</option>
+                <option>Akva park</option>
+                <option>Pozoriste</option>
+                <option>Muzej</option>
+                <option>Biblioteka</option>
+                <option>Spomenik</option>
+                <option>Planina</option>
+                <option>Pecina</option>
+                <option>Crkva</option>
+                <option>Manastir</option>
+                <option>Hram</option>
+                <option>Restoran</option>
+                <option>Bar</option>
+                <option>Hotel</option>
+                <option>Vinarija</option>
+            </select></td>
+    </tr>
+    <tr>
+        <td style="width: 30%;">
+            <p>Address</p>
+        </td>
+        <td style="width: 5%;"></td>
+        <td style="width: 65%;"><input type="text" [value]="address" (input)="address = $event.target.value"></td>
+    </tr>
+    <tr style="height: 10px;"></tr>
+    <tr>
+        <td>
+            <p>Upload pictures:</p>
+        </td>
+    </tr>
+    <tr>
+        <td><input type="file" accept="image/*" (input)="images.push($event.target.value)"></td>
+    </tr>
+    <tr style="height: 50px;"></tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td><button class="add-btn" (click)="addOffer()">Add</button></td>
+    </tr>
+</table>
