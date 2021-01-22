@@ -64,7 +64,7 @@ public class AuthController {
 
             // Kreiraj token za tog korisnika
             User user = (User) authentication.getPrincipal();
-            String jwt = tokenUtils.generateToken(user.getUsername());
+            String jwt = tokenUtils.generateToken(user);
             int expiresIn = tokenUtils.getExpiredIn();
 
             // Vrati token kao odgovor na uspesnu autentifikaciju
@@ -106,6 +106,24 @@ public class AuthController {
         user.setActive(true);
         userDetailsService.saveRegisteredUser(user);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<UserTokenStateDTO> refreshAuthenticationToken(HttpServletRequest request) {
+
+        String token = tokenUtils.getToken(request);
+        String username = this.tokenUtils.getUsernameFromToken(token);
+        User user = (User) this.userDetailsService.loadUserByUsername(username);
+
+        if (this.tokenUtils.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
+            String refreshedToken = tokenUtils.refreshToken(token);
+            int expiresIn = tokenUtils.getExpiredIn();
+
+            return ResponseEntity.ok(new UserTokenStateDTO(refreshedToken, expiresIn));
+        } else {
+            UserTokenStateDTO userTokenState = new UserTokenStateDTO();
+            return ResponseEntity.badRequest().body(userTokenState);
+        }
     }
 
     public AuthController() {
