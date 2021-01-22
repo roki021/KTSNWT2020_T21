@@ -11,13 +11,13 @@ export class TokenInterceptorService {
   constructor(private inj: Injector) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let authenticationService:AuthService = this.inj.get(AuthService); 
-    let token = authenticationService.getToken();
+    const authenticationService: AuthService = this.inj.get(AuthService);
+    const token = authenticationService.getToken();
 
     if (token) {
       request = request.clone({
         setHeaders: {
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
       });
     }

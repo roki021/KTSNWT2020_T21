@@ -14,51 +14,49 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class AuthService {
 
-  private readonly port = "http://localhost:8080"
-  private readonly path = "/auth/login";
+  private readonly port = 'http://localhost:8080';
+  private readonly path = '/auth/login';
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-  private readonly jwt: JwtHelperService = new JwtHelperService();
   private currentUser: UserToken;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
     if (localStorage.getItem('user')) {
       this.currentUser = JSON.parse(localStorage.getItem('user'));
     }
   }
 
   login(username: string, password: string): Observable<boolean> {
-    //const params:HttpParams = new HttpParams().set('entry',entryText);
+    // const params:HttpParams = new HttpParams().set('entry',entryText);
     return this.http.post(this.port + this.path, JSON.stringify({ username, password }),
       { headers: this.headers, responseType: 'json' }).pipe(
         map((res: any) => {
           console.log(res);
-          let token = res && res['accessToken'];
+          const token = res && res.accessToken;
 
           if (token) {
-            const info = this.jwt.decodeToken(token);
-            let userToken: UserToken = {
+            const jwt: JwtHelperService = new JwtHelperService();
+            const info = jwt.decodeToken(token);
+            const userToken: UserToken = {
               id: info.user_id,
               username: info.sub,
               expireIn: info.exp * 1000,
               authorities: info.roles.map((role) => role.authority),
-              token: token
+              token
             };
             this.currentUser = userToken;
             localStorage.setItem('user', JSON.stringify(userToken));
             return true;
-          }
-          else {
+          } else {
             return false;
           }
         }),
         catchError(error => {
           if (error.status === 401) {
             return throwError('Ilegal login');
-          }
-          else {
+          } else {
             return throwError('Server error');
           }
-        }))
+        }));
   }
 
   getUserId(): number {
@@ -69,14 +67,21 @@ export class AuthService {
     return this.currentUser ? this.currentUser.token : null;
   }
 
+  getRole(): string {
+    return this.currentUser ? this.currentUser.authorities[0] : null;
+  }
+
   logout(): void {
     localStorage.removeItem('user');
     this.currentUser = null;
   }
 
   isLoggedIn(): boolean {
-    if (localStorage.getItem('user')) return true;
-    else return false;
+    if (localStorage.getItem('user')) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   getCurrentUser(): UserToken {
