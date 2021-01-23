@@ -53,6 +53,16 @@ export class MapComponent implements OnInit {
     this.initilizeMap();
   }
 
+  searchClick(){
+    this.searchActive = true;
+    this.changePage(1);
+  }
+
+  clearClick(){
+    this.searchActive = false;
+    this.changePage(1);
+  }
+
   changePage(newPage: number) {
     this.currentPage = newPage;
     if (this.searchActive) {
