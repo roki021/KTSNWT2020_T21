@@ -19,6 +19,7 @@ import { CulturalOfferService } from '../services/cultural-offer.service';
 import { CulturalOffer } from '../model/cultural-offer';
 import * as olProj from 'ol/proj';
 import { Zoom } from '../model/zoom';
+import { error } from 'protractor';
 
 @Component({
   selector: 'app-map',
@@ -80,6 +81,9 @@ export class MapComponent implements OnInit {
           this.cultural_offers = res.body as CulturalOffer[];
           this.totalSize = Number(res.headers.get('Total-pages'));
           this.createFeatures();
+        },
+        error => {
+
         }
       );
   }
