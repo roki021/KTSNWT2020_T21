@@ -1,34 +1,56 @@
-<div class="modal-body">
-    <form>
-        <div class="form-group">
-            <label for="name">Username</label>
-            <div class="input-group">
-                <input id="name" name="name" [(ngModel)]="guest.username"  class="form-control">
-            </div>
-            <label for="name">Email Adress</label>
-            <div class="input-group">
-                <input id="email" name="email" [(ngModel)]="guest.emailAddress" class="form-control">
-            </div>
-            <label for="name">First name</label>
-            <div class="input-group">
-                <input id="firstName" name="firstName" [(ngModel)]="guest.firstName"  class="form-control">
-            </div>
-            <label for="name">Last name</label>
-            <div class="input-group">
-                <input id="lastName" name="lastName" [(ngModel)]="guest.lastName"  class="form-control">
-            </div>
-            <small class="text-danger" *ngIf="bad_request">
-                Server error</small>
-            <small class="text-danger" *ngIf="update_bad_request">
-                Cant update profile data, username or email are taken</small>
-            <small class="text-danger" *ngIf="unauthorized">
-                Unauthorized action</small>
-            <small class="text-danger" *ngIf="not_found">
-                Guest profile not found</small>
+<div class="w-25 d-inline-block">
+    <div class="modal-body">
+        <div>
+            <h5 class="d-inline-block">Profile information</h5>
+            <h1 class="d-inline-block float-right">
+                <a routerLink="" role="button" aria-pressed="true">
+                    <fa-icon [icon]="faMarkedMap"></fa-icon>
+                </a>
+            </h1>
         </div>
-    </form>
+        <form>
+            <div class="form-group">
+                <label for="name">Username</label>
+                <div class="input-group">
+                    <input id="name" name="name" [(ngModel)]="guest.username" class="form-control">
+                </div>
+                <label for="name">Email Address</label>
+                <div class="input-group">
+                    <input id="email" name="email" [(ngModel)]="guest.emailAddress" class="form-control">
+                </div>
+                <label for="name">First name</label>
+                <div class="input-group">
+                    <input id="firstName" name="firstName" [(ngModel)]="guest.firstName" class="form-control">
+                </div>
+                <label for="name">Last name</label>
+                <div class="input-group">
+                    <input id="lastName" name="lastName" [(ngModel)]="guest.lastName" class="form-control">
+                </div>
+                <small class="text-danger" *ngIf="bad_request">
+                    Server error</small>
+                <small class="text-danger" *ngIf="update_bad_request">
+                    Cant update profile data, username or email are taken</small>
+                <small class="text-danger" *ngIf="unauthorized">
+                    Unauthorized action</small>
+                <small class="text-danger" *ngIf="not_found">
+                    Guest profile not found</small>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="update()">Update</button>
+        <button type="button" class="btn btn-outline-dark" (click)="change_password()">Change password</button>
+    </div>
 </div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="update()">Update</button>
-    <button type="button" class="btn btn-outline-dark" (click)="change_password()">Change password</button>
+<div class="w-75 d-inline-block align-top pl-5">
+    <div class="modal-body">
+        <div>
+            <h5 class="d-inline-block">Subscriptions</h5>
+        </div>
+        <div class="w-75" style="height: 400px;">
+            <app-gen-table [rowNum]="true" [tableHeader]="tableHeader" [tableData]="subscriptions" [operations]="operations">
+            </app-gen-table>
+        </div>
+    </div>
 </div>
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
