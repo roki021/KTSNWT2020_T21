@@ -21,7 +21,7 @@ public class ImageHandler {
 
             fos.flush();
             fos.close();
-            return imagePath;
+            return "http://localhost:8080/images/" + imageName + ".jpg";
         }
         catch(Exception e)
         {
