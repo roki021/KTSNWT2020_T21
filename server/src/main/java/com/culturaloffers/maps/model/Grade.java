@@ -16,7 +16,7 @@ public class Grade {
     @Column(nullable = false)
     @NotNull(message = "Value can't be blank")
     @Min(1)
-    @Max(5)
+    @Max(10)
     private Integer value;
 
     @Column(nullable = false)

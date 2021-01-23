@@ -29,6 +29,7 @@ import { UpdateSubtypeComponent } from './maps/types/update-subtype/update-subty
 import { ProfileComponent } from './maps/profile/profile.component';
 import { ChangePasswordComponent } from './maps/change-password/change-password.component';
 import { OptionNavbarComponent } from './maps/option-navbar/option-navbar.component';
+import { GradingComponent } from './maps/grading/grading.component';
 import { OfferViewComponent } from './maps/offer-view/offer-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastsContainer } from './maps/toasts/toasts-container.component';
@@ -56,6 +57,7 @@ import { OfferInfoComponent } from './maps/offer-info/offer-info.component';
     ProfileComponent,
     ChangePasswordComponent,
     OptionNavbarComponent,
+    GradingComponent
     OfferViewComponent,
     ToastsContainer,
     OfferInfoComponent

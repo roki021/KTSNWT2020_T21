@@ -12,6 +12,7 @@ import { LoginGuard } from './guards/login.guard';
 import { RegistrationComponent } from './maps/registration/registration.component';
 
 import { ProfileComponent } from './maps/profile/profile.component';
+import { GradingComponent } from './maps/grading/grading.component';
 
 const routes: Routes = [{
   path: '',

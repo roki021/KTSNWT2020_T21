@@ -45,10 +45,16 @@ public class GradeController {
         }
     }
 
-    @GetMapping("/culturaloffer/averagegrade/{id}")
-    public int averageGradeOfCulturalOfferId(@PathVariable int offerId)
+    @GetMapping("/culturaloffer/averagegrade/{offerId}")
+    public double averageGradeOfCulturalOfferId(@PathVariable int offerId)
     {
         return gradeService.averageGradeOfCulturalOffer(offerId);
+    }
+
+    @GetMapping("/culturaloffer/specific/{offerId}/{userId}")
+    public int specificGrade(@PathVariable int offerId, @PathVariable int userId)
+    {
+        return gradeService.specificGrade(userId, offerId);
     }
 
     @GetMapping("/culturalofferpg/grades/{id}")
@@ -86,10 +92,10 @@ public class GradeController {
 
     @PreAuthorize("hasRole('ROLE_GUEST')")
     @PostMapping
-    public Map< String, Boolean > addGrade(@Valid @RequestBody GradeDTO gradeDTO)
+    public GradeDTO addGrade(@Valid @RequestBody GradeDTO gradeDTO)
     {
         Grade grade = gradeMapper.toEntity(gradeDTO);
-        return gradeService.addGrade(grade, gradeDTO.getCulturalOfferId(), gradeDTO.getUserId());
+        return gradeMapper.toDto(gradeService.addGrade(grade, gradeDTO.getCulturalOfferId(), gradeDTO.getUserId()));
     }
 
     @PreAuthorize("hasRole('ROLE_GUEST')")
