@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Icons } from 'src/app/enums/icons.enum';
-import { FieldDecorator } from '../gen-table/field-decorator';
-import { TableHeader } from '../gen-table/table-header';
-import { TableOperation } from '../gen-table/table-operation';
-import { CulturalOffer } from '../model/cultural-offer';
-import { CulturalOfferService } from '../services/cultural-offer.service';
+import { FieldDecorator } from '../../gen-table/field-decorator';
+import { TableHeader } from '../../gen-table/table-header';
+import { TableOperation } from '../../gen-table/table-operation';
+import { CulturalOffer } from '../../model/cultural-offer';
+import { CulturalOfferService } from '../../services/cultural-offer.service';
 
 @Component({
   selector: 'app-all-offers',
@@ -74,7 +75,8 @@ export class AllOffersComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private culturalOfferService: CulturalOfferService
+    private culturalOfferService: CulturalOfferService,
+    private router: Router
     ) {
       this.currentPage=1;
       this.pageSize=6;
@@ -123,5 +125,9 @@ export class AllOffersComponent implements OnInit {
 
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', scrollable: true});
+  }
+
+  home(){
+    this.router.navigate(['']);
   }
 }

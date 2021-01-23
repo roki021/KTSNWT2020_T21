@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AddCulturalOfferComponent } from './maps/add-cultural-offer/add-cultural-offer.component';
-import { AllOffersComponent } from './maps/all-offers/all-offers.component';
+import { AddCulturalOfferComponent } from './maps/cultural-offers/add-cultural-offer/add-cultural-offer.component';
+import { AllOffersComponent } from './maps/cultural-offers/all-offers/all-offers.component';
 import { MapComponent } from './maps/map/map.component';
 import { OfferTypeListComponent } from './maps/types/offer-type-list/offer-type-list.component';
 import { SubtypeListComponent } from './maps/types/subtype-list/subtype-list.component';
