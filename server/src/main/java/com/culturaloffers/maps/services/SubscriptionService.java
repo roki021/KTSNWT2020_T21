@@ -77,7 +77,7 @@ public class SubscriptionService {
 
         for(CulturalOffer co : g.getSubscriptions())
         {
-            subs.add(new SubscriptionDTO(userId, co.getId()));
+            subs.add(new SubscriptionDTO(userId, co.getId(), co.getTitle()));
         }
         return subs;
     }
@@ -92,7 +92,7 @@ public class SubscriptionService {
 
         for(Guest g : co.getSubscribers())
         {
-            subs.add(new SubscriptionDTO(g.getId(), coId));
+            subs.add(new SubscriptionDTO(g.getId(), coId, co.getTitle()));
         }
         return subs;
     }

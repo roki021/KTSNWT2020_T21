@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Icons } from 'src/app/enums/icons.enum';
 import { TableHeader } from '../../gen-table/table-header';
@@ -21,6 +22,7 @@ export class SubtypeListComponent implements OnInit {
   pageSize: number;
   currentPage: number;
   totalSize: number;
+	faMarkedMap = faMapMarkedAlt;
   subtype_list: Subtype[] = [];
   offer_type: string;
   delete_validation: boolean = false;

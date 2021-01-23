@@ -19,11 +19,26 @@ import { CulturalOfferService } from '../services/cultural-offer.service';
 import { CulturalOffer } from '../model/cultural-offer';
 import * as olProj from 'ol/proj';
 import { Zoom } from '../model/zoom';
+import { trigger, transition, style, animate, state } from '@angular/animations';
+import { error } from 'protractor';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.sass']
+  styleUrls: ['./map.component.sass'],
+  animations: [
+    trigger('widthGrow', [
+      state('closed', style({
+        left: "-400px",
+        visibility: "hidden"
+      })),
+      state('open', style({
+        left: 0,
+        visibility: "visible"
+      })),
+      transition('* => *', animate(500))
+    ]),
+  ]
 })
 export class MapComponent implements OnInit {
 
@@ -35,30 +50,71 @@ export class MapComponent implements OnInit {
   cultural_offers: CulturalOffer[];
   zoom: Zoom;
   cash_features: Feature[] = [];
+  view_state: string = "closed";
+  selected_offer: CulturalOffer;
+  pageSize: number;
+  currentPage: number;
+  totalSize: number;
+  searchActive: boolean = false;
+  searchField = "grade";
+  searchValue = "1";
 
-  constructor(private cultural_offer_service: CulturalOfferService) { }
+  constructor(private cultural_offer_service: CulturalOfferService) {
+    this.pageSize = 5;
+    this.currentPage = 1;
+    this.totalSize = 1;
+  }
 
   ngOnInit(): void {
     this.initilizeMap();
   }
 
-
-  load(e) {
-    const extent = e.map.getView().calculateExtent();
-    const sides = olProj.transformExtent(extent, 'EPSG:3857', 'EPSG:4326');
-    this.zoom = {
-      latitudeLowerCorner: sides[1],
-      longitudeLowerCorner: sides[2],
-      latitudeUpperCorner: sides[3],
-      longitudeUpperCorner: sides[0]
-    };
-    this.cultural_offer_service.filter(this.zoom).subscribe(data => {
-      this.cultural_offers = data;
-      this.createFeatures(e);
-    });
+  searchClick(){
+    this.searchActive = true;
+    this.changePage(1);
   }
 
-  createFeatures(e) {
+  clearClick(){
+    this.searchActive = false;
+    this.changePage(1);
+  }
+
+  changePage(newPage: number) {
+    this.currentPage = newPage;
+    if (this.searchActive) {
+      this.search(newPage);
+    }
+    else {
+      this.loadAll(newPage);
+    }
+
+  }
+
+  loadAll(newPage: number) {
+    this.cultural_offer_service.getPage(newPage - 1, this.pageSize).subscribe(
+      res => {
+        this.cultural_offers = res.body as CulturalOffer[];
+        this.totalSize = Number(res.headers.get('Total-pages'));
+        this.createFeatures();
+      }
+    );
+  }
+
+  search(newPage: number) {
+    this.cultural_offer_service.search(this.searchField, this.searchValue,
+      this.currentPage - 1, this.pageSize).subscribe(
+        res => {
+          this.cultural_offers = res.body as CulturalOffer[];
+          this.totalSize = Number(res.headers.get('Total-pages'));
+          this.createFeatures();
+        },
+        error => {
+
+        }
+      );
+  }
+
+  createFeatures() {
     this.vector.getSource().clear();
     for (let i = 0; i < this.cultural_offers.length; i++) {
       const coord1 = olProj.fromLonLat([this.cultural_offers[i].longitude, this.cultural_offers[i].latitude]);
@@ -87,20 +143,6 @@ export class MapComponent implements OnInit {
       featureMarker1.setStyle(styleMarker);
       this.vector.getSource().addFeature(featureMarker1);
 
-    }
-
-    if (this.cashed_maps_extent.length < 3) {
-      this.cashed_maps_extent.push(e.map.getView().calculateExtent());
-      this.cash_features.push(this.vector.getSource().getFeatures());
-    }
-    else {
-      if (this.cash_flow_id >= 3) {
-        this.cash_flow_id = 0;
-      }
-
-      this.cashed_maps_extent[this.cash_flow_id] = e.map.getView().calculateExtent();
-      this.cash_features[this.cash_flow_id] = this.vector.getSource().getFeatures();
-      this.cash_flow_id = this.cash_flow_id + 1;
     }
   }
 
@@ -143,32 +185,31 @@ export class MapComponent implements OnInit {
       })
     );
 
-    this.map.on('moveend', (e) => this.cash_map(e));
+    this.changePage(this.currentPage);
 
     this.map.on('click', (e) => {
+      let founded = false;
       this.map.forEachFeatureAtPixel(e.pixel,
         (feature) => {
-          console.log("Feature pogodjen");
-          // OVDE POZIVATE PROZOR KAD SE PRITISNE CULTURAL OFFER!!!
+          if(!founded) {
+            this.selected_offer = this.get_cultural_offer(feature.style_.text_.text_);
+            this.view_state = "open";
+            founded = true;
+          }
         },
         { hitTolerance: 0 }
       );
+      if (!founded) {
+        this.view_state = "closed";
+      }
     });
   }
 
-  cash_map(e) {
-    let ind = 0;
-    for (let i = 0; i < this.cashed_maps_extent.length; i++) {
-      if (equals(e.map.getView().calculateExtent(), this.cashed_maps_extent[i])) {
-        this.curr_id = i;
-        this.vector.getSource().clear();
-        this.vector.getSource().addFeatures(this.cash_features[i]);
-        ind = 1;
-        break;
+  get_cultural_offer(offer_title: string): CulturalOffer {
+    for (let offer of this.cultural_offers) {
+      if (offer.title === offer_title) {
+        return offer;
       }
-    }
-    if (ind === 0) {
-      this.load(e);
     }
   }
 }

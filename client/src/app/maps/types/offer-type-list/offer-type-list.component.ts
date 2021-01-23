@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Icons } from 'src/app/enums/icons.enum';
 import { TableHeader } from '../../gen-table/table-header';
@@ -18,6 +19,7 @@ export class OfferTypeListComponent implements OnInit {
 	pageSize: number;
 	currentPage: number;
 	totalSize: number;
+	faMarkedMap = faMapMarkedAlt;
 	offer_type_list: OfferType[] = [];
 	delete_validation: boolean = false;
 	delete_not_found_validation: boolean = false;

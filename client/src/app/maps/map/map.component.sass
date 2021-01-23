@@ -1,3 +1,5 @@
+$transparent: rgba(255, 255, 255, 0.9)
+
 .map
   height: 100%
   width: 100%
@@ -20,9 +22,21 @@
 .popup
   border-radius: 5px
   border: 1px solid grey
-  background-color: rgba(255, 255, 255, 0.9)
+  background-color: $transparent
   padding: 2px
 
 .options
   z-index: 2
   right: 0
+
+.offer-view
+  z-index: 2
+  left: 0
+  height: 100%
+  width: 400px
+  visibility: hidden
+  background-color: $transparent
+
+.pagination-options
+  z-index: 2
+  bottom: 0

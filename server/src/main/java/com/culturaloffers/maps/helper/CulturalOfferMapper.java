@@ -14,7 +14,8 @@ public class CulturalOfferMapper implements MapperInterface<CulturalOffer, Cultu
                 dto.getId(),
                 dto.getTitle(),
                 dto.getDescription(),
-                dto.getImageUrls());
+                dto.getImageUrls()
+        );
     }
 
     @Override
