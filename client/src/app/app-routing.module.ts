@@ -53,10 +53,6 @@ const routes: Routes = [{
   path: 'register',
   component: RegistrationComponent,
   canActivate: [LoginGuard]
-},
-{
-  path: 'grading',
-  component: GradingComponent
 }
 ];
 
