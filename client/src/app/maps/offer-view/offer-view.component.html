@@ -1,0 +1,41 @@
+<div class="container pt-5 pref-height">
+    <div class="d-flex mt-5">
+        <div class="d-inline-block w-75">
+            <h5 class="p-0">{{ selectedOffer?.title }}</h5>
+        </div>
+        <div class="d-inline-block">
+            <button (click)="toggleSubscription()" type="button" class="btn {{ btnSubType }} rounded-0">{{ btnSubText }}</button>
+        </div>
+    </div>
+    <ng-template #t let-fill="fill">
+        <span class="star" [class.full]="fill === 100">
+          <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+        </span>
+    </ng-template>
+    <ngb-rating [rate]="overallGrade" [starTemplate]="t"></ngb-rating>
+    <div class="tab-content">
+        <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+            <li [ngbNavItem]="1">
+                <a ngbNavLink>Comments</a>
+                <ng-template ngbNavContent>
+                    <!--Put your component here-->
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="2">
+                <a ngbNavLink>News</a>
+                <ng-template ngbNavContent>
+                    <!--Put your component here-->
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="3">
+                <a ngbNavLink>Info</a>
+                <ng-template ngbNavContent>
+                    <app-offer-info [selectedOffer]="selectedOffer"></app-offer-info>
+                </ng-template>
+            </li>
+        </ul>
+
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+    </div>
+</div>
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

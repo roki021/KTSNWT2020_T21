@@ -15,12 +15,12 @@ export class SubscriptionService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  getUserSubscriptions(): Observable<any> {
+  getUserSubscriptions(): Observable<Subscription[]> {
     let queryParams = {};
 
     queryParams = {
       headers: this.headers,
-      observe: 'response'
+      observe: 'body'
     };
 
     return this.http.get<Subscription[]>(this.port + this.path + `/${this.authService.getUserId()}`,
@@ -29,5 +29,15 @@ export class SubscriptionService {
 
   unsubscribe(subscription: Subscription): Observable<any> {
     return this.http.request('DELETE', this.port + '/subscription', { headers: this.headers, responseType: 'json', body: subscription });
+  }
+
+  subscribe(subscription: Subscription): Observable<Subscription> {
+    return this.http.request<Subscription>('POST', this.port + '/subscription', 
+    { 
+      headers: this.headers, 
+      responseType: 'json', 
+      body: subscription, 
+      observe: 'body'
+    });
   }
 }

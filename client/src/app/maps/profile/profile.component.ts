@@ -109,8 +109,7 @@ export class ProfileComponent implements OnInit {
   loadSubscriptions(): void {
     this.subs_service.getUserSubscriptions().subscribe(
       res => {
-        this.subscriptions = res.body as Subscription[];
-        console.log(this.subscriptions);
+        this.subscriptions = res;
       },
       error => {
         if(error.status == 400){

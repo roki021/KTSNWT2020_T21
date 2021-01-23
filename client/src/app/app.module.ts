@@ -29,7 +29,10 @@ import { UpdateSubtypeComponent } from './maps/types/update-subtype/update-subty
 import { ProfileComponent } from './maps/profile/profile.component';
 import { ChangePasswordComponent } from './maps/change-password/change-password.component';
 import { OptionNavbarComponent } from './maps/option-navbar/option-navbar.component';
+import { OfferViewComponent } from './maps/offer-view/offer-view.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastsContainer } from './maps/toasts/toasts-container.component';
+import { OfferInfoComponent } from './maps/offer-info/offer-info.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +56,9 @@ import { ToastsContainer } from './maps/toasts/toasts-container.component';
     ProfileComponent,
     ChangePasswordComponent,
     OptionNavbarComponent,
-    ToastsContainer
+    OfferViewComponent,
+    ToastsContainer,
+    OfferInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +67,8 @@ import { ToastsContainer } from './maps/toasts/toasts-container.component';
     NgbModule,
     FormsModule,
     FontAwesomeModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     CulturalOfferService,
