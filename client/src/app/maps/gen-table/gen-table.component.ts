@@ -1,7 +1,7 @@
 import { Component, DoCheck, Input, OnInit } from '@angular/core';
 import { FieldDecorator } from './field-decorator';
 import { TableHeader } from './table-header';
-import { faPlus, faPencilAlt, faTrash, faNewspaper, faEye, IconDefinition, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faPencilAlt, faTrash, faNewspaper, faEye, IconDefinition, faArrowRight, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Icons } from 'src/app/enums/icons.enum';
 import { TableOperation } from './table-operation';
 
@@ -81,6 +81,9 @@ export class GenTableComponent<T> implements OnInit, DoCheck {
         break;
       case Icons.arrowRight:
         iconDef = faArrowRight;
+        break;
+      case Icons.slashPreview:
+        iconDef = faEyeSlash;
         break;
     }
 

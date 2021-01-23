@@ -40,15 +40,33 @@ export class CulturalOfferService {
     return this.http.get<CulturalOffer[]>(this.port+this.general, {headers: this.headers, responseType: 'json'});
   }
 
-  getPage(page:number, size:number):Observable<CulturalOffer[]>{
-    return this.http.get<CulturalOffer[]>(this.port+this.pages+page+"&size="+size, {headers: this.headers, responseType: 'json'});
-  }
-
   getLocationDetails(address) {
     return this.http.get<any>('https://nominatim.openstreetmap.org/search?q=' + address + '&format=json');
   }
 
+  getPage(page: number, size: number):Observable<any>{
+    let queryParams = {};
+
+    queryParams = {
+      headers: this.headers,
+      observe: 'response'
+    };
+    return this.http.get<CulturalOffer[]>(this.port + this.general + '/by-page?page=' + page + '&size=' + size,
+    queryParams)
+  }
+
   delete(id:number):Observable<any>{
     return this.http.delete<void>(this.port+this.general+"/"+id, {headers: this.headers, responseType: 'json'});
+  }
+
+  search(searchField: string, searchValue: string, page: number, size: number):Observable<any>{
+    let queryParams = {};
+
+    queryParams = {
+      headers: this.headers,
+      observe: 'response'
+    };
+    return this.http.post<CulturalOffer[]>(this.port + this.general + '/search?page=' + page + '&size=' + size,
+    {searchValue: searchValue, searchField: searchField}, queryParams)
   }
 }

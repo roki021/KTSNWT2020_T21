@@ -16,7 +16,7 @@
                 <th *ngIf="rowNum">{{ item.tableId }}</th>
                 <td *ngFor="let header of tableHeader" [innerHTML]="generateField(item, header) | safeHtml"></td>
                 <td *ngFor="let operation of operations">
-                    <button class="btn" (click)="operation.operation(item)"><fa-icon [icon]="operationIcon(operation.icon)"></fa-icon></button>
+                    <button class="btn" (click)="operation.operation(item)"><h5><fa-icon [icon]="operationIcon(operation.icon)"></fa-icon></h5></button>
                 </td>
             </tr>
         </tbody>

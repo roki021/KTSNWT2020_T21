@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.ValidationException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -65,8 +67,11 @@ public class CulturalOfferController {
     @RequestMapping(value="/by-page", method = RequestMethod.GET)
     public ResponseEntity<List<CulturalOfferDTO>> getAllPageable(Pageable pageable){
         Page<CulturalOffer> page = service.findAll(pageable);
+        HttpHeaders header = new HttpHeaders();
+        header.add("Total-pages", Long.toString(page.getTotalPages()));
+        header.add("Access-Control-Expose-Headers", "*, Authorization");
         List<CulturalOfferDTO> dtos = mapper.toDtoList(page.getContent());
-        return new ResponseEntity<>(dtos, HttpStatus.OK);
+        return new ResponseEntity<>(dtos, header, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -108,14 +113,30 @@ public class CulturalOfferController {
 
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<CulturalOfferDTO>> searchCulturalOffers(@Valid @RequestBody SearchDTO dto){
+    public ResponseEntity<List<CulturalOfferDTO>> searchCulturalOffers(@Valid @RequestBody SearchDTO dto, Pageable pageable){
         List<CulturalOffer> culturalOffers = null;
+        HttpHeaders header = new HttpHeaders();
         try {
-            culturalOffers = service.search(dto.getSearchValue(), dto.getSearchField());
+            int page = pageable.getPageNumber();
+            int size = pageable.getPageSize();
+            List<CulturalOffer> searchOffers = service.search(dto.getSearchValue(), dto.getSearchField());
+            long totalPages = searchOffers.size() / size + ((searchOffers.size() % size == 0) ? 0 : 1);
+            header.add("Total-pages", Long.toString(totalPages));
+            header.add("Access-Control-Expose-Headers", "*, Authorization");
+            if(page * size >= searchOffers.size()){
+                culturalOffers = new ArrayList<>();
+            }
+            else if(page * size + size > searchOffers.size()){
+                int last = searchOffers.size();
+                culturalOffers = searchOffers.subList(page * size, last);
+            }
+            else{
+                culturalOffers = searchOffers.subList(page * size, page * size + size);
+            }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(mapper.toDtoList(culturalOffers), HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toDtoList(culturalOffers), header, HttpStatus.OK);
     }
     // Accessible by all users
     @RequestMapping(value="/filtering", method = RequestMethod.POST)
