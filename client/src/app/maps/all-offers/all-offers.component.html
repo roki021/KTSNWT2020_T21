@@ -1,6 +1,9 @@
+<h1>All cultural offers</h1>
 <div class="container">
     <app-gen-table [rowNum]="true" [tableHeader]="tableHeader" [tableData]="offers" [fieldDecoration]="headerDecoration" [operations]="operations">
     </app-gen-table>
+    <app-pagination [totalPages]="totalSize" [pageSize]="pageSize" (pageSelected)="changePage($event)">
+    </app-pagination>
     <button (click)="addNew()" type="button" class="btn btn-primary">Add</button>
 </div>
 

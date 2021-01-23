@@ -24,6 +24,10 @@ export class AllOffersComponent implements OnInit {
   edit_images: string[];
 
   offers: CulturalOffer[];
+  currentPage: number;
+  pageSize: number;
+  totalSize: number;
+
   tableHeader: TableHeader[] = [
     {
       headerName: 'Title',
@@ -72,18 +76,39 @@ export class AllOffersComponent implements OnInit {
     private modalService: NgbModal,
     private culturalOfferService: CulturalOfferService
     ) {
+      this.currentPage=1;
+      this.pageSize=8;
   }
 
   ngOnInit(): void {
-    this.culturalOfferService.getAll().subscribe(res => {
-      this.offers = res;
-    });
+    this.culturalOfferService.getAll().subscribe(
+      res => {
+        this.totalSize = Math.ceil(res.length/this.pageSize);
+        this.culturalOfferService.getPage(this.currentPage-1, this.pageSize).subscribe(
+          res => {
+            this.offers = res;
+          }
+        );
+      }
+    );
   }
 
+  changePage(newPage: number) {
+    this.currentPage = newPage;
+    this.culturalOfferService.getAll().subscribe(
+      res => {
+        this.totalSize = Math.ceil(res.length/this.pageSize);
+        this.culturalOfferService.getPage(newPage-1, this.pageSize).subscribe(
+          res => {
+            this.offers = res;
+          }
+        );
+      }
+    );
+	}
+
   saveChange(): void{
-    this.culturalOfferService.getAll().subscribe(res => {
-      this.offers = res;
-    });
+    this.ngOnInit();
   }
 
   addNew(): void {

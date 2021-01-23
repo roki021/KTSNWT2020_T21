@@ -5,8 +5,10 @@ import com.culturaloffers.maps.dto.SearchDTO;
 import com.culturaloffers.maps.dto.ZoomDTO;
 import com.culturaloffers.maps.helper.CulturalOfferMapper;
 import com.culturaloffers.maps.model.CulturalOffer;
+import com.culturaloffers.maps.model.GeoLocation;
 import com.culturaloffers.maps.model.OfferNews;
 import com.culturaloffers.maps.services.CulturalOfferService;
+import com.culturaloffers.maps.services.GeoLocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -29,6 +31,9 @@ public class CulturalOfferController {
     @Autowired
     private CulturalOfferService service;
 
+    @Autowired
+    private GeoLocationService geoLocationService;
+
     private CulturalOfferMapper mapper = new CulturalOfferMapper();
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -36,6 +41,8 @@ public class CulturalOfferController {
     public ResponseEntity<CulturalOfferDTO> addCulturalOffer(@RequestBody CulturalOfferDTO dto){
         CulturalOffer culturalOffer = mapper.toEntity(dto);
         try {
+            GeoLocation geo = new GeoLocation(dto.getLatitude(), dto.getLongitude(), dto.getAddress());
+            geoLocationService.insert(geo);
             service.create(culturalOffer, dto.getAddress(), dto.getSubTypeName());
         } catch (Exception exception){
             System.out.println(exception.getMessage());
