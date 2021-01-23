@@ -1,0 +1,9 @@
+<div>
+    <legend>Grading</legend>
+    <div *ngIf = "userGrade">
+        <ngb-rating [(rate)]="userGrade" (click) = "aux()"></ngb-rating>
+        <hr>
+        <pre>Rate: <b>{{userGrade}}</b></pre>
+        <pre>Average grade: <b>{{averageGrade}}</b></pre>
+    </div>
+</div>

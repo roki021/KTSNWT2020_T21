@@ -29,6 +29,7 @@ import { UpdateSubtypeComponent } from './maps/types/update-subtype/update-subty
 import { ProfileComponent } from './maps/profile/profile.component';
 import { ChangePasswordComponent } from './maps/change-password/change-password.component';
 import { OptionNavbarComponent } from './maps/option-navbar/option-navbar.component';
+import { GradingComponent } from './maps/grading/grading.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { OptionNavbarComponent } from './maps/option-navbar/option-navbar.compon
     UpdateSubtypeComponent,
     ProfileComponent,
     ChangePasswordComponent,
-    OptionNavbarComponent
+    OptionNavbarComponent,
+    GradingComponent
   ],
   imports: [
     BrowserModule,
