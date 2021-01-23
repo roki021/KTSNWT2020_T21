@@ -54,8 +54,8 @@ INSERT INTO offer_type (id, name) VALUES
     (5, 'ugostiteljstvo');
 
 INSERT INTO subtype (id, name, offer_type_id) VALUES
-    (1, 'nacionalni', 2),
-    (2, 'akva', 2),
+    (1, 'nacionalni', 1),
+    (2, 'akva', 1),
     (3, 'pozoriste', 2),
     (4, 'muzej', 2),
     (5, 'biblioteka', 2),

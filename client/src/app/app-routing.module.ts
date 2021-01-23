@@ -18,8 +18,10 @@ const routes: Routes = [{
   component: MapComponent
 },
 {
-    path: 'all_offers',
-    component: AllOffersComponent
+  path: 'all_offers',
+  component: AllOffersComponent,
+  canActivate: [RolesGuard],
+  data: {expectedRoles: 'ROLE_ADMIN'}
 },
 {
   path: 'offer-types',
