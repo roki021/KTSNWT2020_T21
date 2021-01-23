@@ -60,7 +60,7 @@ export class MapComponent implements OnInit {
   searchValue = "1";
 
   constructor(private cultural_offer_service: CulturalOfferService) {
-    this.pageSize = 2;
+    this.pageSize = 5;
     this.currentPage = 1;
     this.totalSize = 1;
   }
