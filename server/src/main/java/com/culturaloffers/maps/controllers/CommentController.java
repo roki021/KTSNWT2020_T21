@@ -79,10 +79,10 @@ public class CommentController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_GUEST')")
-    public Map< String, Boolean > addComment(@Valid @RequestBody CommentDTO comment)
+    public CommentDTO addComment(@Valid @RequestBody CommentDTO comment)
     {
         Comment baseComment = commentMapper.toEntity(comment);
-        return commentService.addComment(baseComment, comment.getCulturalOfferId(), comment.getUserId());
+        return commentMapper.toDto(commentService.addComment(baseComment, comment.getCulturalOfferId(), comment.getUserId()));
     }
 
     @DeleteMapping("/{id}")

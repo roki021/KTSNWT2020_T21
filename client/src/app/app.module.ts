@@ -34,6 +34,7 @@ import { OfferViewComponent } from './maps/offer-view/offer-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastsContainer } from './maps/toasts/toasts-container.component';
 import { OfferInfoComponent } from './maps/offer-info/offer-info.component';
+import { AddCommentComponent } from './maps/add-comment/add-comment.component';
 
 @NgModule({
   declarations: [
@@ -57,10 +58,11 @@ import { OfferInfoComponent } from './maps/offer-info/offer-info.component';
     ProfileComponent,
     ChangePasswordComponent,
     OptionNavbarComponent,
-    GradingComponent
+    GradingComponent,
     OfferViewComponent,
     ToastsContainer,
-    OfferInfoComponent
+    OfferInfoComponent,
+    AddCommentComponent
   ],
   imports: [
     BrowserModule,

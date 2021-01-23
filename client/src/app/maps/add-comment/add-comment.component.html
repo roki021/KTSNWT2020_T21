@@ -1,0 +1,35 @@
+<div class = "comment-adder">
+    <form [formGroup]="myForm" (ngSubmit)="submit()">
+        <legend>Add comment for {{culturalOfferName}}</legend>
+        <div class="form-group">
+            <label for="content">Content</label>
+            <input 
+                formControlName="content"
+                id="content" 
+                type="text" 
+                class="form-control">
+            <br>
+            <div *ngIf="submitValidate" class="alert alert-danger">
+                <div *ngIf="submitValidate">Content is required.</div>
+            </div>
+        </div>
+    
+        <div class="form-group">
+            <label for="file">File</label>
+            <input 
+                formControlName="file"
+                id="file" 
+                type="file" 
+                class="form-control"
+                multiple="" 
+                (change)="onFileChange($event)"
+                >
+                <br>
+                <div *ngIf="notAnImage" class="alert alert-danger">
+                    <div *ngIf="notAnImage">Only image files are supported.</div>
+                </div>
+        </div>
+        <img *ngFor='let url of images'  [src]="url" height="150" width="200px" style="margin: 3px;"> <br/> <br>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+</div>

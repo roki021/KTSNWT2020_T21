@@ -54,7 +54,7 @@ public class CommentService {
         return commentRepository.findByUserId(id, pageable);
     }
 
-    public Map< String, Boolean > addComment(Comment comment, int offerId, int userId)
+    public Comment addComment(Comment comment, int offerId, int userId)
     {
         List<String> imagePaths = new ArrayList<String>();
 
@@ -73,9 +73,8 @@ public class CommentService {
         comment.setImageUrls(imagePaths);
 
         commentRepository.save(comment);
-        Map< String, Boolean > response = new HashMap< >();
-        response.put("added", Boolean.TRUE);
-        return response;
+
+        return comment;
     }
 
     public Map<String, Boolean> deleteById(int commentId) throws ResourceNotFoundException
