@@ -4,5 +4,6 @@ export enum Icons {
     remove = 'Remove',
     news = 'News',
     preview = 'Preview',
-    arrowRight = 'View subtypes'
+    arrowRight = 'View subtypes',
+    slashPreview = 'Unsubscribe'
 }

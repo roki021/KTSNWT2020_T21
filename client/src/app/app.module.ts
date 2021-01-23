@@ -31,6 +31,7 @@ import { ChangePasswordComponent } from './maps/change-password/change-password.
 import { OptionNavbarComponent } from './maps/option-navbar/option-navbar.component';
 import { OfferViewComponent } from './maps/offer-view/offer-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastsContainer } from './maps/toasts/toasts-container.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ProfileComponent,
     ChangePasswordComponent,
     OptionNavbarComponent,
-    OfferViewComponent
+    OfferViewComponent,
+    ToastsContainer
   ],
   imports: [
     BrowserModule,

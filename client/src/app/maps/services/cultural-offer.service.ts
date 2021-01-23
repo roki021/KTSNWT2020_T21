@@ -39,7 +39,29 @@ export class CulturalOfferService {
     return this.http.get<CulturalOffer[]>(this.port+this.general, {headers: this.headers, responseType: 'json'});
   }
 
+  getPage(page: number, size: number):Observable<any>{
+    let queryParams = {};
+
+    queryParams = {
+      headers: this.headers,
+      observe: 'response'
+    };
+    return this.http.get<CulturalOffer[]>(this.port + this.general + '/by-page?page=' + page + '&size=' + size,
+    queryParams)
+  }
+
   delete(id:number):Observable<any>{
     return this.http.delete<void>(this.port+this.general+"/"+id, {headers: this.headers, responseType: 'json'});
+  }
+
+  search(searchField: string, searchValue: string, page: number, size: number):Observable<any>{
+    let queryParams = {};
+
+    queryParams = {
+      headers: this.headers,
+      observe: 'response'
+    };
+    return this.http.post<CulturalOffer[]>(this.port + this.general + '/search?page=' + page + '&size=' + size,
+    {searchValue: searchValue, searchField: searchField}, queryParams)
   }
 }

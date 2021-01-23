@@ -12,6 +12,8 @@ public class SubscriptionDTO {
     @Min(1)
     private int guestId;
 
+    private String culturalOfferTitle;
+
     public SubscriptionDTO() {}
 
     public SubscriptionDTO(int userId, int culturalOfferId)
@@ -20,6 +22,12 @@ public class SubscriptionDTO {
         this.culturalOfferId = culturalOfferId;
     }
 
+    public SubscriptionDTO(int userId, int culturalOfferId, String culturalOfferTitle)
+    {
+        this.guestId = userId;
+        this.culturalOfferId = culturalOfferId;
+        this.culturalOfferTitle = culturalOfferTitle;
+    }
 
     public int getCulturalOfferId() {
         return culturalOfferId;
@@ -35,5 +43,13 @@ public class SubscriptionDTO {
 
     public void setGuestId(int guestId) {
         this.guestId = guestId;
+    }
+
+    public String getCulturalOfferTitle() {
+        return culturalOfferTitle;
+    }
+
+    public void setCulturalOfferTitle(String culturalOfferTitle) {
+        this.culturalOfferTitle = culturalOfferTitle;
     }
 }
