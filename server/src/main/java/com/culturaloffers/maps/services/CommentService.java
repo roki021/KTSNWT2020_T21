@@ -54,7 +54,7 @@ public class CommentService {
         return commentRepository.findByUserId(id, pageable);
     }
 
-    public CommentDTO addComment(CommentDTO comment)
+    public Map< String, Boolean > addComment(Comment comment, int offerId, int userId)
     {
         List<String> imagePaths = new ArrayList<String>();
 
@@ -63,18 +63,19 @@ public class CommentService {
             imagePaths.add(ImageHandler.saveImage("src\\main\\images\\commentImages\\", s));
         }
 
-        comment.setImageUrls(imagePaths);
-        CulturalOffer co = culturalOfferRepository.findByTitle(comment.getCulturalOfferName());
-        Guest g = guestRepository.findByUsername(comment.getUserUsername());
-        Comment toBeAdded = new Comment();
-        toBeAdded.setImageUrls(imagePaths);
-        toBeAdded.setCommentedOn(comment.getCommentedOn());
-        toBeAdded.setContent(comment.getContent());
-        toBeAdded.setCulturalOffer(co);
-        toBeAdded.setUser(g);
+        CulturalOffer co = culturalOfferRepository.findById(offerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cultural offer not found for this id :: " + offerId));
+        Guest g = guestRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
 
-        commentRepository.save(toBeAdded);
-        return commentMapper.toDto(toBeAdded);
+        comment.setCulturalOffer(co);
+        comment.setUser(g);
+        comment.setImageUrls(imagePaths);
+
+        commentRepository.save(comment);
+        Map< String, Boolean > response = new HashMap< >();
+        response.put("added", Boolean.TRUE);
+        return response;
     }
 
     public Map<String, Boolean> deleteById(int commentId) throws ResourceNotFoundException
@@ -88,7 +89,7 @@ public class CommentService {
         return response;
     }
 
-    public Comment updateComment(int commentId, CommentDTO commentDetails) throws ResourceNotFoundException {
+    public Comment updateComment(int commentId, Comment commentDetails) throws ResourceNotFoundException {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + commentId));
 
