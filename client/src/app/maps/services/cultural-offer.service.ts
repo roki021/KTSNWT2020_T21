@@ -55,6 +55,10 @@ export class CulturalOfferService {
     queryParams)
   }
 
+  getPage2(page: number, size: number):Observable<CulturalOffer[]>{
+    return this.http.get<CulturalOffer[]>(this.port + this.general + '/by-page?page=' + page + '&size=' + size);
+  }
+
   delete(id:number):Observable<any>{
     return this.http.delete<void>(this.port+this.general+"/"+id, {headers: this.headers, responseType: 'json'});
   }

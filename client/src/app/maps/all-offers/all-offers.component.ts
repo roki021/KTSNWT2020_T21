@@ -77,14 +77,14 @@ export class AllOffersComponent implements OnInit {
     private culturalOfferService: CulturalOfferService
     ) {
       this.currentPage=1;
-      this.pageSize=8;
+      this.pageSize=6;
   }
 
   ngOnInit(): void {
     this.culturalOfferService.getAll().subscribe(
       res => {
         this.totalSize = Math.ceil(res.length/this.pageSize);
-        this.culturalOfferService.getPage(this.currentPage-1, this.pageSize).subscribe(
+        this.culturalOfferService.getPage2(this.currentPage-1, this.pageSize).subscribe(
           res => {
             this.offers = res;
           }
@@ -98,7 +98,7 @@ export class AllOffersComponent implements OnInit {
     this.culturalOfferService.getAll().subscribe(
       res => {
         this.totalSize = Math.ceil(res.length/this.pageSize);
-        this.culturalOfferService.getPage(newPage-1, this.pageSize).subscribe(
+        this.culturalOfferService.getPage2(newPage-1, this.pageSize).subscribe(
           res => {
             this.offers = res;
           }
