@@ -41,6 +41,8 @@ import { AddCommentComponent } from './maps/add-comment/add-comment.component';
 import { CommentCardsComponent } from './maps/comment-cards/comment-cards.component';
 import { CommentGalleryComponent } from './maps/comment-gallery/comment-gallery.component';
 import { IvyGalleryModule } from 'angular-gallery';
+import { NotFoundComponent } from './maps/not-found/not-found.component';
+import { ConfirmRegComponent } from './maps/confirm-reg/confirm-reg.component';
 import { OfferNewsViewComponent } from './maps/offer-news-view/offer-news-view.component';
 
 
@@ -76,7 +78,9 @@ import { OfferNewsViewComponent } from './maps/offer-news-view/offer-news-view.c
     AddCommentComponent,
     OfferNewsViewComponent,
     CommentCardsComponent,
-    CommentGalleryComponent
+    CommentGalleryComponent,
+    NotFoundComponent,
+    ConfirmRegComponent
   ],
   imports: [
     BrowserModule,
