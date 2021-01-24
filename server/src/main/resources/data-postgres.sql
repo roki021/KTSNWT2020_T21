@@ -74,8 +74,6 @@ INSERT INTO geo_location (id, latitude, longitude, address) VALUES
     (1, 43.28627472234662, 20.8102511883379, 'Kopaonik 36354');
 INSERT INTO cultural_offer (id, title, description, subtype_id, geo_location_id) VALUES
     (1, 'Kopaonik nacionalni park', 'Planinski venac u čijem se središtu nalazi istoimeni ski-centar', 1, 1);
-INSERT INTO offer_images (cultural_offer_id, image_urls) VALUES (1, 'img1');
-INSERT INTO offer_images (cultural_offer_id, image_urls) VALUES (1, 'img2');
 INSERT INTO geo_location (id, latitude, longitude, address) VALUES
     (2, 43.64599952369584, 21.859188584394833, 'Ratarska, Sokobanja 018230');
 INSERT INTO cultural_offer (id, title, description, subtype_id, geo_location_id) VALUES
@@ -100,6 +98,10 @@ INSERT INTO geo_location (id, latitude, longitude, address) VALUES
     (7, 45.157654398690845, 19.70962757488346, 'Fruška gora');
 INSERT INTO cultural_offer (id, title, description, subtype_id, geo_location_id) VALUES
     (7, 'Fruška gora', 'Planinski vrh', 7, 7);
+INSERT INTO offer_images (cultural_offer_id, image_urls) VALUES (7, 'http://localhost:8080/images/image1.jpg');
+INSERT INTO offer_images (cultural_offer_id, image_urls) VALUES (7, 'http://localhost:8080/images/image2.jpg');
+INSERT INTO offer_images (cultural_offer_id, image_urls) VALUES (7, 'http://localhost:8080/images/image3.jpg');
+INSERT INTO offer_images (cultural_offer_id, image_urls) VALUES (7, 'http://localhost:8080/images/image4.jpg');
 INSERT INTO geo_location (id, latitude, longitude, address) VALUES
     (8, 43.33804217849204, 22.0638699407461, 'Prekonoška pećina');
 INSERT INTO cultural_offer (id, title, description, subtype_id, geo_location_id) VALUES

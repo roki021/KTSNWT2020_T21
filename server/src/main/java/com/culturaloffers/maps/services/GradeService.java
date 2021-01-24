@@ -55,8 +55,17 @@ public class GradeService {
         return gradeRepository.findByUserId(id, pageable);
     }
 
-    public Map<String, Boolean> addGrade(Grade grade, int offerId, int userId)
+    public Grade addGrade(Grade grade, int offerId, int userId)
     {
+        List<Grade> allUserGrades = this.findByUserId(userId);
+        for(Grade g : allUserGrades)
+        {
+            if(g.getCulturalOffer().getId() == offerId)
+            {
+                return this.updateGrade(g.getId(), grade);
+            }
+        }
+
         CulturalOffer co = culturalOfferRepository.findById(offerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + offerId));
         Guest g = guestRepository.findById(userId)
@@ -67,10 +76,7 @@ public class GradeService {
 
         gradeRepository.save(grade);
 
-        Map< String, Boolean > response = new HashMap< >();
-        response.put("added", Boolean.TRUE);
-
-        return response;
+        return grade;
     }
 
     public Map<String, Boolean> deleteById(int gradeId) throws ResourceNotFoundException
@@ -96,13 +102,25 @@ public class GradeService {
         return updatedGrade;
     }
 
-    public int averageGradeOfCulturalOffer(int offerId)
+    public double averageGradeOfCulturalOffer(int offerId)
     {
         List<Grade> grades = this.findByCulturalOfferId(offerId);
-        int sum = 0;
+        double sum = 0;
         for(Grade g : grades)
             sum += g.getValue();
         return grades.size() == 0 ? 0 : sum/grades.size();
+    }
+
+    public int specificGrade(int userId, int offerId)
+    {
+        List<Grade> grades = this.findByUserId(userId);
+
+        for(Grade g : grades){
+            if(g.getCulturalOffer().getId() == offerId)
+                return g.getValue();
+        }
+
+        return 0;
     }
 
 }

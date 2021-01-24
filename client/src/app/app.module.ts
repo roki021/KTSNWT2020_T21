@@ -29,13 +29,16 @@ import { UpdateSubtypeComponent } from './maps/types/update-subtype/update-subty
 import { ProfileComponent } from './maps/profile/profile.component';
 import { ChangePasswordComponent } from './maps/change-password/change-password.component';
 import { OptionNavbarComponent } from './maps/option-navbar/option-navbar.component';
+import { GradingComponent } from './maps/grading/grading.component';
 import { OfferViewComponent } from './maps/offer-view/offer-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastsContainer } from './maps/toasts/toasts-container.component';
+import { ToastsComponent } from './maps/toasts/toasts-container.component';
 import { OfferInfoComponent } from './maps/offer-info/offer-info.component';
 import { AddOfferNewsComponent } from './maps/news/add-offer-news/add-offer-news.component';
 import { AllOfferNewsComponent } from './maps/news/all-offer-news/all-offer-news.component';
 import { EditOfferNewsComponent } from './maps/news/edit-offer-news/edit-offer-news.component';
+import { AddCommentComponent } from './maps/add-comment/add-comment.component';
+import { IvyGalleryModule } from 'angular-gallery';
 
 @NgModule({
   declarations: [
@@ -59,12 +62,15 @@ import { EditOfferNewsComponent } from './maps/news/edit-offer-news/edit-offer-n
     ProfileComponent,
     ChangePasswordComponent,
     OptionNavbarComponent,
+    GradingComponent,
     OfferViewComponent,
     ToastsContainer,
-    OfferInfoComponent,
     AddOfferNewsComponent,
     AllOfferNewsComponent,
     EditOfferNewsComponent
+    ToastsComponent,
+    OfferInfoComponent,
+    AddCommentComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +80,8 @@ import { EditOfferNewsComponent } from './maps/news/edit-offer-news/edit-offer-n
     FormsModule,
     FontAwesomeModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    IvyGalleryModule
   ],
   providers: [
     CulturalOfferService,

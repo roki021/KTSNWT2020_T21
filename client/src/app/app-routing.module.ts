@@ -13,6 +13,7 @@ import { RegistrationComponent } from './maps/registration/registration.componen
 
 import { ProfileComponent } from './maps/profile/profile.component';
 import { AllOfferNewsComponent } from './maps/news/all-offer-news/all-offer-news.component';
+import { GradingComponent } from './maps/grading/grading.component';
 
 const routes: Routes = [{
   path: '',
@@ -22,19 +23,19 @@ const routes: Routes = [{
   path: 'all_offers',
   component: AllOffersComponent,
   canActivate: [RolesGuard],
-  data: {expectedRoles: 'ROLE_ADMIN'}
+  data: { expectedRoles: 'ROLE_ADMIN' }
 },
 {
   path: 'offer-types',
   component: OfferTypeListComponent,
   canActivate: [RolesGuard],
-  data: {expectedRoles: 'ROLE_ADMIN'}
+  data: { expectedRoles: 'ROLE_ADMIN' }
 },
 {
   path: 'offer-types/:id/subtypes',
   component: SubtypeListComponent,
   canActivate: [RolesGuard],
-  data: {expectedRoles: 'ROLE_ADMIN'}
+  data: { expectedRoles: 'ROLE_ADMIN' }
 },
 {
   path: 'table',
@@ -49,7 +50,7 @@ const routes: Routes = [{
   path: 'profile',
   component: ProfileComponent,
   canActivate: [RolesGuard],
-  data: {expectedRoles: 'ROLE_GUEST'}
+  data: { expectedRoles: 'ROLE_GUEST' }
 },
 {
   path: 'register',

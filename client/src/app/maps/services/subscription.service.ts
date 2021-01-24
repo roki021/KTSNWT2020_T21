@@ -9,8 +9,6 @@ import { Observable } from 'rxjs';
 })
 export class SubscriptionService {
 
-  private readonly port = "http://localhost:8080"
-  private readonly path = "/subscription/user";
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private http: HttpClient, private authService: AuthService) { }
@@ -23,20 +21,20 @@ export class SubscriptionService {
       observe: 'body'
     };
 
-    return this.http.get<Subscription[]>(this.port + this.path + `/${this.authService.getUserId()}`,
+    return this.http.get<Subscription[]>('api/subscription/user' + `/${this.authService.getUserId()}`,
       queryParams);
   }
 
   unsubscribe(subscription: Subscription): Observable<any> {
-    return this.http.request('DELETE', this.port + '/subscription', { headers: this.headers, responseType: 'json', body: subscription });
+    return this.http.request('DELETE', 'api/subscription', { headers: this.headers, responseType: 'json', body: subscription });
   }
 
   subscribe(subscription: Subscription): Observable<Subscription> {
-    return this.http.request<Subscription>('POST', this.port + '/subscription', 
-    { 
-      headers: this.headers, 
-      responseType: 'json', 
-      body: subscription, 
+    return this.http.request<Subscription>('POST', 'api/subscription',
+    {
+      headers: this.headers,
+      responseType: 'json',
+      body: subscription,
       observe: 'body'
     });
   }

@@ -1,46 +1,57 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CulturalOffer } from '../model/cultural-offer';
 import { Subscription } from '../model/subscription';
 import { AuthService } from '../services/auth.service';
+import { GradesService } from '../services/grades.service';
 import { SubscriptionService } from '../services/subscription.service';
 import { ToastService } from '../toasts/toast-service';
 
 @Component({
   selector: 'app-offer-view',
   templateUrl: './offer-view.component.html',
-  styleUrls: ['./offer-view.component.sass'],
-  providers: [NgbRatingConfig]
+  styleUrls: ['./offer-view.component.sass']
 })
 export class OfferViewComponent implements OnInit, OnChanges {
 
   @Input() selectedOffer: CulturalOffer;
-  btnSubType: string = 'btn-primary';
-  btnSubText: string = 'Subscribe';
+  btnSubType = 'btn-primary';
+  btnSubText = 'Subscribe';
   isSubed: boolean;
-  overallGrade: number = 2.5;
-  active: number = 3;
+  overallGrade = 0;
+  active = 3;
 
-  constructor(private config: NgbRatingConfig, private subsService: SubscriptionService, 
-    private authService: AuthService, private router: Router, private toastService: ToastService) {
-    config.max = 5;
-    config.readonly = true;
+  constructor(private subsService: SubscriptionService, private authService: AuthService,
+              private router: Router, private toastService: ToastService, private gradesService: GradesService) { }
+
+  ngOnInit(): void { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.selectedOffer) {
+      if (!this.isAdmin()) {
+        this.checkSubscription();
+      }
+      this.setAvgGrade();
+    }
   }
 
-  ngOnInit(): void {}
-  
-  ngOnChanges(changes: SimpleChanges): void {
-    this.checkSubscription();
+  setAvgGrade(): void {
+    if (this.selectedOffer) {
+      this.gradesService.getAvgGrade(this.selectedOffer.id).subscribe(
+        res => {
+          this.overallGrade = res;
+        }
+      );
+    }
   }
 
   checkSubscription(): void {
     if (this.authService.isLoggedIn()) {
       this.subsService.getUserSubscriptions().subscribe(
         res => {
-          let subscriptions = res;
+          const subscriptions = res;
           let found = false;
-          for(let sub of subscriptions) {
+          for (const sub of subscriptions) {
             if (sub.culturalOfferId === this.selectedOffer?.id) {
               this.subscribeButtons(true);
               this.isSubed = true;
@@ -75,8 +86,13 @@ export class OfferViewComponent implements OnInit, OnChanges {
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['login']);
     } else {
+
+      if (this.isAdmin()) {
+        return;
+      }
+
       if (this.isSubed) {
-        let subscription: Subscription = {
+        const subscription: Subscription = {
           culturalOfferId: this.selectedOffer.id,
           guestId: this.authService.getUserId(),
           culturalOfferTitle: this.selectedOffer.title
@@ -89,7 +105,7 @@ export class OfferViewComponent implements OnInit, OnChanges {
           }
         );
       } else {
-        let subscription: Subscription = {
+        const subscription: Subscription = {
           culturalOfferId: this.selectedOffer.id,
           guestId: this.authService.getUserId(),
           culturalOfferTitle: this.selectedOffer.title
@@ -110,6 +126,10 @@ export class OfferViewComponent implements OnInit, OnChanges {
   }
 
   showDanger() {
-    this.toastService.show("Unsubscription failed", { classname: 'bg-danger text-light', delay: 4000 });
+    this.toastService.show('Unsubscription failed', { classname: 'bg-danger text-light', delay: 4000 });
+  }
+
+  isAdmin() {
+    return this.authService.getRole() === 'ROLE_ADMIN';
   }
 }

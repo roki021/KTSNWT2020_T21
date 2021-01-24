@@ -13,7 +13,7 @@ public class GradeDTO {
 
     @NotNull(message = "Grade value can not be null")
     @Min(1)
-    @Max(5)
+    @Max(10)
     private int value;
 
     @NotNull(message = "Grade date can not be null")
