@@ -27,6 +27,9 @@ export class AllOfferNewsComponent implements OnInit {
   edit_description: string;
   edit_images: string[];
 
+  view_title: string;
+  view_desc: string;
+
   news: OfferNews[];
   currentPage: number;
   pageSize: number;
@@ -63,7 +66,11 @@ export class AllOfferNewsComponent implements OnInit {
       icon: Icons.remove
     },
     {
-      operation: () => this.open(this.content),
+      operation: (news: OfferNews) => {
+        this.view_title = news.title;
+        this.view_desc = news.description;
+        this.open(this.content);
+      },
       icon: Icons.preview
     }
   ];
@@ -121,7 +128,7 @@ export class AllOfferNewsComponent implements OnInit {
   }
 
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', scrollable: true});
+    this.modalService.open(content);
   }
 
   home(){
@@ -130,6 +137,10 @@ export class AllOfferNewsComponent implements OnInit {
 
   back(){
     this.router.navigate(['/all_offers']);
+  }
+
+  backNews(){
+    this.router.navigate(['/news/'+this.offerId]);
   }
 
 }
