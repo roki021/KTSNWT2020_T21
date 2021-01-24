@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Zoom } from '../model/zoom';
 import { Observable } from 'rxjs';
-import { CulturalOffer } from '../model/cultural-offer';
 import { UserToken } from '../model/user-token';
-import { LoginResponse } from '../model/login-response';
 import { catchError, map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -14,8 +11,6 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class AuthService {
 
-  private readonly port = 'http://localhost:8080';
-  private readonly path = '/auth/login';
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   private currentUser: UserToken;
 
@@ -27,7 +22,7 @@ export class AuthService {
 
   login(username: string, password: string): Observable<boolean> {
     // const params:HttpParams = new HttpParams().set('entry',entryText);
-    return this.http.post(this.port + this.path, JSON.stringify({ username, password }),
+    return this.http.post('api/auth/login', JSON.stringify({ username, password }),
       { headers: this.headers, responseType: 'json' }).pipe(
         map((res: any) => {
           console.log(res);
@@ -60,7 +55,7 @@ export class AuthService {
   }
 
   refreshToken(): Observable<boolean> {
-    return this.http.post(this.port + '/auth/refresh', {}).pipe(
+    return this.http.post('api/auth/refresh', {}).pipe(
       map((res: any) => {
         console.log(res);
         const token = res && res.accessToken;

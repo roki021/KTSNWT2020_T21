@@ -25,6 +25,7 @@
         "@fortawesome/fontawesome-svg-core": "^1.2.32",
         "@fortawesome/free-solid-svg-icons": "^5.15.1",
         "@ng-bootstrap/ng-bootstrap": "^6.2.0",
+        "angular-gallery": "^1.0.2",
         "bootstrap": "^4.4.0",
         "dompurify": "^2.2.6",
         "ol": "^6.5.0",

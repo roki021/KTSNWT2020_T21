@@ -1,7 +1,11 @@
 <div>
     <legend>Grading</legend>
-    <div *ngIf = "userGrade">
-        <ngb-rating [(rate)]="userGrade" (click) = "aux()"></ngb-rating>
+    <div *ngIf="userGrade">
+        <ngb-rating [(rate)]="userGrade" (click)="aux()">
+            <ng-template let-fill="fill" let-index="index">
+                <span class="star-user" [class.filled]="fill === 100">&#9733;</span>
+            </ng-template>
+        </ngb-rating>
         <hr>
         <pre>Rate: <b>{{userGrade}}</b></pre>
         <pre>Average grade: <b>{{averageGrade}}</b></pre>

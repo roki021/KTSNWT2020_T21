@@ -4,7 +4,7 @@
             <h5 class="p-0">{{ selectedOffer?.title }}</h5>
         </div>
         <div class="d-inline-block">
-            <button (click)="toggleSubscription()" type="button" class="btn {{ btnSubType }} rounded-0">{{ btnSubText }}</button>
+            <button (click)="toggleSubscription()" type="button" class="btn {{ btnSubType }} rounded-0" [disabled]="isAdmin()">{{ btnSubText }}</button>
         </div>
     </div>
     <ng-template #t let-fill="fill">
@@ -12,7 +12,7 @@
           <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
         </span>
     </ng-template>
-    <ngb-rating [rate]="overallGrade" [starTemplate]="t"></ngb-rating>
+    <ngb-rating [rate]="overallGrade" [starTemplate]="t" [max]="10" [readonly]="true"></ngb-rating>
     <div class="tab-content">
         <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
             <li [ngbNavItem]="1">
