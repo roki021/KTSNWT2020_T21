@@ -41,6 +41,7 @@ import { AddCommentComponent } from './maps/add-comment/add-comment.component';
 import { CommentCardsComponent } from './maps/comment-cards/comment-cards.component';
 import { CommentGalleryComponent } from './maps/comment-gallery/comment-gallery.component';
 import { IvyGalleryModule } from 'angular-gallery';
+import { OfferNewsViewComponent } from './maps/offer-news-view/offer-news-view.component';
 
 
 @NgModule({
@@ -73,6 +74,7 @@ import { IvyGalleryModule } from 'angular-gallery';
     ToastsComponent,
     OfferInfoComponent,
     AddCommentComponent,
+    OfferNewsViewComponent,
     CommentCardsComponent,
     CommentGalleryComponent
   ],

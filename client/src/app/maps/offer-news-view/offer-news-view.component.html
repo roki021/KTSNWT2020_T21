@@ -1,0 +1,11 @@
+<div class="container" *ngIf="allOffers; else elseBlock">
+    <app-gen-table [rowNum]="false" [tableHeader]="tableHeader" [tableData]="news" [fieldDecoration]="headerDecoration" [operations]="operations">
+    </app-gen-table>
+    <app-pagination [totalPages]="totalSize" [pageSize]="pageSize" (pageSelected)="changePage($event)">
+    </app-pagination>
+</div>
+<ng-template #elseBlock>
+    <h3>{{view_title}}</h3>
+    <p>{{view_desc}}</p>
+    <button class="back-btn" (click)="back()">Back</button>
+</ng-template>

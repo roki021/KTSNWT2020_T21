@@ -25,7 +25,7 @@
             <li [ngbNavItem]="2">
                 <a ngbNavLink>News</a>
                 <ng-template ngbNavContent>
-                    <!--Put your component here-->
+                    <app-offer-news-view [offer]="selectedOffer"></app-offer-news-view>
                 </ng-template>
             </li>
             <li [ngbNavItem]="3">
