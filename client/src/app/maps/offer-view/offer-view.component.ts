@@ -15,6 +15,7 @@ import { ToastService } from '../toasts/toast-service';
 export class OfferViewComponent implements OnInit, OnChanges {
 
   @Input() selectedOffer: CulturalOffer;
+  @Input() offerId: number;
   btnSubType = 'btn-primary';
   btnSubText = 'Subscribe';
   isSubed: boolean;
@@ -22,9 +23,11 @@ export class OfferViewComponent implements OnInit, OnChanges {
   active = 3;
 
   constructor(private subsService: SubscriptionService, private authService: AuthService,
-              private router: Router, private toastService: ToastService, private gradesService: GradesService) { }
+              private router: Router, private toastService: ToastService, private gradesService: GradesService) { 
+              }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.selectedOffer) {

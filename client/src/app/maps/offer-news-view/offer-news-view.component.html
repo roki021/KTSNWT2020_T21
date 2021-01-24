@@ -1,0 +1,6 @@
+<div class="container">
+    <app-gen-table [rowNum]="false" [tableHeader]="tableHeader" [tableData]="news" [fieldDecoration]="headerDecoration" [operations]="operations">
+    </app-gen-table>
+    <app-pagination [totalPages]="totalSize" [pageSize]="pageSize" (pageSelected)="changePage($event)">
+    </app-pagination>
+</div>

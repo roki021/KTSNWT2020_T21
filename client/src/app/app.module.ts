@@ -39,6 +39,7 @@ import { AllOfferNewsComponent } from './maps/news/all-offer-news/all-offer-news
 import { EditOfferNewsComponent } from './maps/news/edit-offer-news/edit-offer-news.component';
 import { AddCommentComponent } from './maps/add-comment/add-comment.component';
 import { IvyGalleryModule } from 'angular-gallery';
+import { OfferNewsViewComponent } from './maps/offer-news-view/offer-news-view.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { IvyGalleryModule } from 'angular-gallery';
     EditOfferNewsComponent,
     ToastsComponent,
     OfferInfoComponent,
-    AddCommentComponent
+    AddCommentComponent,
+    OfferNewsViewComponent
   ],
   imports: [
     BrowserModule,

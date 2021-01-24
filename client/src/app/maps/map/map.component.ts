@@ -52,6 +52,7 @@ export class MapComponent implements OnInit {
   cash_features: Feature[] = [];
   view_state: string = "closed";
   selected_offer: CulturalOffer;
+  offerId: number;
   pageSize: number;
   currentPage: number;
   totalSize: number;
@@ -216,6 +217,7 @@ export class MapComponent implements OnInit {
         (feature) => {
           if(!founded) {
             this.selected_offer = this.get_cultural_offer(feature.style_.text_.text_);
+            this.offerId = this.get_cultural_offer(feature.style_.text_.text_).id;
             this.view_state = "open";
             founded = true;
           }
