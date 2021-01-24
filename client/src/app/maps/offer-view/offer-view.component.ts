@@ -35,6 +35,7 @@ export class OfferViewComponent implements OnInit, OnChanges {
         this.checkSubscription();
       }
       this.setAvgGrade();
+      this.active = 3;
     }
   }
 
@@ -46,6 +47,12 @@ export class OfferViewComponent implements OnInit, OnChanges {
         }
       );
     }
+  }
+
+  onGraded(graded:boolean)
+  {
+    console.log("kikiki");
+    this.setAvgGrade();
   }
 
   checkSubscription(): void {

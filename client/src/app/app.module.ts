@@ -38,8 +38,11 @@ import { AddOfferNewsComponent } from './maps/news/add-offer-news/add-offer-news
 import { AllOfferNewsComponent } from './maps/news/all-offer-news/all-offer-news.component';
 import { EditOfferNewsComponent } from './maps/news/edit-offer-news/edit-offer-news.component';
 import { AddCommentComponent } from './maps/add-comment/add-comment.component';
+import { CommentCardsComponent } from './maps/comment-cards/comment-cards.component';
+import { CommentGalleryComponent } from './maps/comment-gallery/comment-gallery.component';
 import { IvyGalleryModule } from 'angular-gallery';
 import { OfferNewsViewComponent } from './maps/offer-news-view/offer-news-view.component';
+
 
 @NgModule({
   declarations: [
@@ -71,7 +74,9 @@ import { OfferNewsViewComponent } from './maps/offer-news-view/offer-news-view.c
     ToastsComponent,
     OfferInfoComponent,
     AddCommentComponent,
-    OfferNewsViewComponent
+    OfferNewsViewComponent,
+    CommentCardsComponent,
+    CommentGalleryComponent
   ],
   imports: [
     BrowserModule,

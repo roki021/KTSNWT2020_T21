@@ -19,6 +19,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static com.culturaloffers.maps.constants.ProfileConstatnts.*;
 import static org.junit.Assert.*;
@@ -47,7 +48,8 @@ public class ProfileDataControllerIntegrationService {
     }
 
     @Before
-    public void setUp() {
+    public void setUp() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(1);
         login(USER_NAME, USER_PASSWORD);
         httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", accessToken);

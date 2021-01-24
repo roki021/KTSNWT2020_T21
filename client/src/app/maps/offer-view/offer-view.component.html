@@ -12,13 +12,14 @@
           <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
         </span>
     </ng-template>
-    <ngb-rating [rate]="overallGrade" [starTemplate]="t" [max]="10" [readonly]="true"></ngb-rating>
+    <ngb-rating [rate]="overallGrade" [starTemplate]="t" [max]="10" [readonly]="true" (graded)="onGraded($event)"></ngb-rating>
     <div class="tab-content">
         <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
             <li [ngbNavItem]="1">
                 <a ngbNavLink>Comments</a>
                 <ng-template ngbNavContent>
-                    <!--Put your component here-->
+                    <app-grading [culturalOffer] = "selectedOffer"></app-grading>
+                    <app-comment-cards [culturalOffer] = "selectedOffer"></app-comment-cards>
                 </ng-template>
             </li>
             <li [ngbNavItem]="2">

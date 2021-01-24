@@ -17,13 +17,13 @@ export class GradesService {
 
   constructor(private http: HttpClient) { }
 
-  getAvgGrade(id:string): Observable<number> {
+  getAvgGrade(id:number): Observable<number> {
     
     return this.http.get<number>(this.port + this.avggrade + `/${id}`,
       {headers: this.headers, responseType: 'json'})  
   }
 
-  getSpecificGrade(offerId:string, userId: number): Observable<number> {
+  getSpecificGrade(offerId:number, userId: number): Observable<number> {
     
     return this.http.get<number>(this.port + this.specificgrade + `/${offerId}` + `/${userId}`,
       {headers: this.headers, responseType: 'json'})  
