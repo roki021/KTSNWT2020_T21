@@ -68,6 +68,7 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    window['test'] = (lon, lat) => { this.simClick(lon, lat); }
     this.initilizeMap();
   }
 
@@ -211,6 +212,7 @@ export class MapComponent implements OnInit {
     this.changePage(this.currentPage);
 
     this.map.on('click', (e) => {
+      console.log(e);
       let founded = false;
       this.map.forEachFeatureAtPixel(e.pixel,
         (feature) => {
@@ -234,5 +236,17 @@ export class MapComponent implements OnInit {
         return offer;
       }
     }
+  }
+
+  simClick(lon, lat): void {
+    let coords = [lon, lat];
+    var evt = {
+      type: 'click',
+      coordinate: olProj.fromLonLat(coords),
+      map: this.map,
+      frameState: this.map.getView().calculateExtent(),
+      pixel: this.map.getPixelFromCoordinate(olProj.fromLonLat(coords))
+    }
+    this.map.dispatchEvent(evt);
   }
 }

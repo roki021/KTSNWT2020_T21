@@ -32,4 +32,20 @@ export class RegistrationService {
         }
       }))
   }
+
+  confirmRegistration(token: string): Observable<boolean> {
+    return this.http.get('api/auth/registrationConfirm?token=' + token).pipe(
+      map(res => {
+        return true;
+      }),
+      catchError(error => {
+        if (error.status === 404) {
+          return throwError('User not found!');
+        }
+        else {
+          return throwError ('Verification token expired!');
+        }
+      })
+    );
+  }
 }
