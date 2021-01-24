@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommentInt } from '../model/comment';
 import { AddCommentService } from '../services/add-comment.service';
 import { AuthService } from '../services/auth.service';
@@ -18,8 +19,9 @@ export class AddCommentComponent implements OnInit {
   public culturalOfferName = "ponuda";
   public userId : number;
   public commentadd: CommentInt;
-  public offerId : number = 14;
+  @Input() public offerId : number;
   public notAnImage : boolean;
+  @Output() added = new EventEmitter<CommentInt>();
 
   myForm = new FormGroup({
    content: new FormControl('', Validators.required),
@@ -27,9 +29,10 @@ export class AddCommentComponent implements OnInit {
    fileSource: new FormControl('')
  });
 
- constructor(private auth_service: AuthService, private commentService: AddCommentService) {
+ constructor(private modalService: NgbModal, private auth_service: AuthService, private commentService: AddCommentService) {
    this.commentadd = {content: '', userId : auth_service.getUserId(), commentedOn: new Date(),
-        imageUrls: [], culturalOfferId: this.offerId};
+        imageUrls: [], culturalOfferId: 0};
+    
   }
 
  ngOnInit(): void {
@@ -38,6 +41,13 @@ export class AddCommentComponent implements OnInit {
  get f(){
    return this.myForm.controls;
  }
+
+ open(content) {
+  this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+  }, (reason) => {
+    
+  });
+}
 
  onFileChange(event) {
   this.notAnImage = false;
@@ -75,9 +85,12 @@ export class AddCommentComponent implements OnInit {
       this.commentadd.content = val.content;
       this.commentadd.imageUrls = this.imagesBase64;
       this.commentadd.commentedOn = new Date();
+      this.commentadd.culturalOfferId = this.offerId;
 
       this.commentService.addGrade(this.commentadd).subscribe((res) => {
-        console.log(res.content + " " + res.culturalOfferName + " " + res.userUsername + " " + res.imageUrls);
+        this.added.emit(res);
+        this.modalService.dismissAll();
+        //console.log(res.content + " " + res.culturalOfferName + " " + res.userUsername + " " + res.imageUrls);
       })
    }
    //console.log(this.imagesBase64);
