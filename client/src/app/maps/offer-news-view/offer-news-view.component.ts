@@ -14,10 +14,17 @@ import { OfferNewsService } from '../services/offer-news.service';
 })
 export class OfferNewsViewComponent implements OnInit {
 
+  @ViewChild('thenBlock', {static: false}) public thenBlock;
+  @ViewChild('elseBlock', {static: false}) public elseBlock;
+
   news: OfferNews[];
   currentPage: number;
   pageSize: number;
   totalSize: number;
+  allOffers: boolean;
+
+  view_title: string;
+  view_desc: string;
 
   @Input()
   offer: CulturalOffer;
@@ -39,7 +46,7 @@ export class OfferNewsViewComponent implements OnInit {
 
   operations: TableOperation<OfferNews>[] = [
     {
-      operation: (news: OfferNews) => this.open(news.id),
+      operation: (news: OfferNews) => this.open(news.title, news.description),
       icon: Icons.preview
     }
   ];
@@ -52,6 +59,8 @@ export class OfferNewsViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.allOffers);
+    this.allOffers=true;
     this.offerNewsService.getAll(this.offer.id).subscribe(
       res => {
         this.totalSize = Math.ceil(res.length/this.pageSize);
@@ -84,8 +93,14 @@ export class OfferNewsViewComponent implements OnInit {
     );
   }
   
-  open(id: number): void {
-    throw new Error('Method not implemented.');
+  open(title: string, description: string): void {
+    this.view_title = title;
+    this.view_desc = description;
+    this.allOffers = false;
+  }
+
+  back() {
+    this.allOffers = true;
   }
 
 }
