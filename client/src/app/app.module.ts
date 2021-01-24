@@ -35,6 +35,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastsContainer } from './maps/toasts/toasts-container.component';
 import { OfferInfoComponent } from './maps/offer-info/offer-info.component';
 import { AddCommentComponent } from './maps/add-comment/add-comment.component';
+import { CommentCardsComponent } from './maps/comment-cards/comment-cards.component';
+import { CommentGalleryComponent } from './maps/comment-gallery/comment-gallery.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,9 @@ import { AddCommentComponent } from './maps/add-comment/add-comment.component';
     OfferViewComponent,
     ToastsContainer,
     OfferInfoComponent,
-    AddCommentComponent
+    AddCommentComponent,
+    CommentCardsComponent,
+    CommentGalleryComponent
   ],
   imports: [
     BrowserModule,

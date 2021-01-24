@@ -13,6 +13,8 @@ import { RegistrationComponent } from './maps/registration/registration.componen
 
 import { ProfileComponent } from './maps/profile/profile.component';
 import { GradingComponent } from './maps/grading/grading.component';
+import { CommentCardsComponent } from './maps/comment-cards/comment-cards.component';
+import { AddCommentComponent } from './maps/add-comment/add-comment.component';
 
 const routes: Routes = [{
   path: '',
