@@ -151,10 +151,10 @@ INSERT INTO comment (id, content, commented_on, user_id, cultural_offer_id) VALU
     (5, 'Smestaj je bio dobar, ali hrana je mogla biti bolja', '2020-12-08 21:42:10', 1001, 14);
 
 INSERT INTO grade (id, value, graded_on, user_id, cultural_offer_id) VALUES
-    (1, 4, '2020-12-08 21:41:10', 1001, 7),
-    (2, 5, '2020-12-08 22:41:10', 1005, 4),
-    (3, 5, '2020-12-08 22:46:00', 1006, 12),
-    (4, 3, '2020-12-08 22:51:16', 1011, 14),
+    (1, 8, '2020-12-08 21:41:10', 1001, 7),
+    (2, 10, '2020-12-08 22:41:10', 1005, 4),
+    (3, 9, '2020-12-08 22:46:00', 1006, 12),
+    (4, 5, '2020-12-08 22:51:16', 1011, 14),
     (5, 2, '2020-12-08 23:11:42', 1001, 14);
 
 INSERT INTO cultural_offer_user (cultural_offer_id, user_id) VALUES
