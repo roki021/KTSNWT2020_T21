@@ -63,6 +63,8 @@ export class MapComponent implements OnInit {
     this.pageSize = 5;
     this.currentPage = 1;
     this.totalSize = 1;
+    this.searchField = "title";
+    this.searchValue = ""
   }
 
   ngOnInit(): void {
@@ -101,6 +103,16 @@ export class MapComponent implements OnInit {
   }
 
   search(newPage: number) {
+    let canSearch = true;
+    if (this.searchField=="subscribers" || this.searchField=="grade"){
+      console.log(Number(this.searchValue));
+      if (!Number(this.searchValue)){
+        console.log("Recognised as NaN");
+        alert("Must enter number in given search field!");
+        canSearch = false;
+      }
+    }
+    if (canSearch){
     this.cultural_offer_service.search(this.searchField, this.searchValue,
       this.currentPage - 1, this.pageSize).subscribe(
         res => {
@@ -112,6 +124,17 @@ export class MapComponent implements OnInit {
 
         }
       );
+    }
+  }
+
+  discard(){
+    this.cultural_offer_service.getPage(this.currentPage - 1, this.pageSize).subscribe(
+      res => {
+        this.cultural_offers = res.body as CulturalOffer[];
+        this.totalSize = Number(res.headers.get('Total-pages'));
+        this.createFeatures();
+      }
+    );
   }
 
   createFeatures() {
