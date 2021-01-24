@@ -64,10 +64,9 @@ import { IvyGalleryModule } from 'angular-gallery';
     OptionNavbarComponent,
     GradingComponent,
     OfferViewComponent,
-    ToastsContainer,
     AddOfferNewsComponent,
     AllOfferNewsComponent,
-    EditOfferNewsComponent
+    EditOfferNewsComponent,
     ToastsComponent,
     OfferInfoComponent,
     AddCommentComponent
