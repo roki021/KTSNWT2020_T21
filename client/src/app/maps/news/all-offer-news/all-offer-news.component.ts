@@ -17,7 +17,7 @@ export class AllOfferNewsComponent implements OnInit {
 
   @ViewChild('content', { static: false }) private content;
   @ViewChild('add_news', {static: false}) private add_news;
-  @ViewChild('edit_offer', {static: false}) private edit_offer;
+  @ViewChild('edit_news', {static: false}) private edit_news;
 
   @Input()
   offerId: number;
@@ -54,7 +54,7 @@ export class AllOfferNewsComponent implements OnInit {
         this.edit_title = news.title;
         this.edit_description = news.description;
         this.edit_images = news.imageUrls;
-        this.open(this.edit_offer);
+        this.open(this.edit_news);
       },
       icon: Icons.update
     },

@@ -19,10 +19,10 @@
     <app-add-offer-news [offerId]="offerId" (sendEvent)="saveChange()"></app-add-offer-news>
 </ng-template>
 
-<ng-template #edit_offer let-modal>
-    <app-edit-cultural-offer [id]="edit_id" [title]="edit_title" [description]="edit_description" [images]="edit_images" (sendEvent)="saveChange()">
+<ng-template #edit_news let-modal>
+    <app-edit-offer-news [id]="edit_id" [title]="edit_title" [description]="edit_description" [images]="edit_images" (sendEvent)="saveChange()">
 
-    </app-edit-cultural-offer>
+    </app-edit-offer-news>
 </ng-template>
 
 <ng-template #content let-modal>

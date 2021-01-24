@@ -35,6 +35,7 @@ import { ToastsContainer } from './maps/toasts/toasts-container.component';
 import { OfferInfoComponent } from './maps/offer-info/offer-info.component';
 import { AddOfferNewsComponent } from './maps/news/add-offer-news/add-offer-news.component';
 import { AllOfferNewsComponent } from './maps/news/all-offer-news/all-offer-news.component';
+import { EditOfferNewsComponent } from './maps/news/edit-offer-news/edit-offer-news.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { AllOfferNewsComponent } from './maps/news/all-offer-news/all-offer-news
     ToastsContainer,
     OfferInfoComponent,
     AddOfferNewsComponent,
-    AllOfferNewsComponent
+    AllOfferNewsComponent,
+    EditOfferNewsComponent
   ],
   imports: [
     BrowserModule,
