@@ -33,13 +33,18 @@ export class AddCommentService {
     
     return this.http.get<CommentInt[]>(this.port + this.getbyoffer + `/${offerId}`,
       {headers: this.headers, responseType: 'json'}).pipe(map((res: CommentInt[]) => {
-          var i;
-          var pom;
-          for (i = 0; i < res.length; i++) {
-            pom = res[i].commentedOn
-            res[i].commentedOn = new Date(pom);
-          } 
-          return res;
+          var pompom : CommentInt[];
+          if(res) {
+            var i;
+            var pom;
+            for (i = 0; i < res.length; i++) {
+              pom = res[i].commentedOn
+              res[i].commentedOn = new Date(pom);
+            } 
+            return res;
+          }
+          else
+            return pom;
         })
       );
   }

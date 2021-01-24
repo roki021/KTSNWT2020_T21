@@ -1,13 +1,20 @@
 <div>
-    <div class="card" style="width: 18rem;" *ngFor = 'let c of comments'>
+  <span><b>Comments</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <app-add-comment [offerId] = "culturalOffer.id" (added) = "onAdded($event)"></app-add-comment></span>
+    <br><br>
+    <div class="card" style="width: 22rem;" *ngFor = 'let c of comments'>
         <div class="card-body">
           <h5 class="card-title">{{c.userUsername}}</h5>
           <p class="card-text">{{c.commentedOn.getDate()}}.{{c.commentedOn.getMonth()+1}}.{{c.commentedOn.getFullYear()}} {{c.commentedOn.getHours()}}:{{c.commentedOn.getMinutes()}}</p>
           <p class="card-text">{{c.content}}</p>
           <button type="button" class="btn btn-sm btn-danger" *ngIf = "c.userId == userId" 
             (click)="deleteComment(c.id)">Delete</button> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <app-comment-gallery [imageUrls]="c.imageUrls" *ngIf = "c.imageUrls.length > 0"></app-comment-gallery>
         </div>
     </div>
+    <hr>
 </div>

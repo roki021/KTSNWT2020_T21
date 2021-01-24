@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommentInt } from '../model/comment';
+import { CulturalOffer } from '../model/cultural-offer';
 import { AddCommentService } from '../services/add-comment.service';
 import { AuthService } from '../services/auth.service';
 
@@ -12,14 +13,14 @@ export class CommentCardsComponent implements OnInit {
 
   public comments : CommentInt[] = [];
   public userId : number;
-  public offerId : number = 14;
+  @Input() public culturalOffer : CulturalOffer;
 
   constructor(private auth_service: AuthService, private commentService: AddCommentService) {
     this.userId = auth_service.getUserId();
    }
 
   ngOnInit(): void {
-    this.commentService.getCommentByOffer(this.offerId).subscribe((res) => {
+    this.commentService.getCommentByOffer(this.culturalOffer.id).subscribe((res) => {
       this.comments = res;
       console.log(this.comments);
     });
@@ -30,6 +31,14 @@ export class CommentCardsComponent implements OnInit {
       
     });
     this.comments = this.comments.filter(item => item.id !== id);
+  }
+
+  onAdded(added: CommentInt) {
+    added.commentedOn = new Date(added.commentedOn);
+    this.comments.splice(0,0, added);
+    
+    //this.comments.push(added);
+    console.log(added);
   }
 
 }
