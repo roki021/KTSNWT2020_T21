@@ -1,30 +1,33 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Icons } from 'src/app/enums/icons.enum';
 import { FieldDecorator } from '../../gen-table/field-decorator';
 import { TableHeader } from '../../gen-table/table-header';
 import { TableOperation } from '../../gen-table/table-operation';
-import { CulturalOffer } from '../../model/cultural-offer';
-import { CulturalOfferService } from '../../services/cultural-offer.service';
+import { OfferNews } from '../../model/offer-news';
+import { OfferNewsService } from '../../services/offer-news.service';
 
 @Component({
-  selector: 'app-all-offers',
-  templateUrl: './all-offers.component.html',
-  styleUrls: ['./all-offers.component.sass']
+  selector: 'app-all-offer-news',
+  templateUrl: './all-offer-news.component.html',
+  styleUrls: ['./all-offer-news.component.sass']
 })
-export class AllOffersComponent implements OnInit {
+export class AllOfferNewsComponent implements OnInit {
 
   @ViewChild('content', { static: false }) private content;
-  @ViewChild('add_offer', {static: false}) private add_offer;
+  @ViewChild('add_news', {static: false}) private add_news;
   @ViewChild('edit_offer', {static: false}) private edit_offer;
+
+  @Input()
+  offerId: number;
 
   edit_id: number;
   edit_title: string;
   edit_description: string;
   edit_images: string[];
 
-  offers: CulturalOffer[];
+  news: OfferNews[];
   currentPage: number;
   pageSize: number;
   totalSize: number;
@@ -35,16 +38,8 @@ export class AllOffersComponent implements OnInit {
       fieldName: ['title']
     },
     {
-      headerName: 'Type',
-      fieldName: ['offerType']
-    },
-    {
-      headerName: 'Subtype',
-      fieldName: ['subTypeName']
-    },
-    {
-      headerName: 'Address',
-      fieldName: ['address']
+      headerName: 'Publish Date',
+      fieldName: ['date']
     }
   ];
   headerDecoration: FieldDecorator = {
@@ -52,43 +47,45 @@ export class AllOffersComponent implements OnInit {
     decoration: `<img src="https://upload.wikimedia.org/wikipedia/commons/{0}" class="mr-2" style="width: 20px"> {1}`
   };
 
-  operations: TableOperation<CulturalOffer>[] = [
+  operations: TableOperation<OfferNews>[] = [
     {
-      operation: (offer: CulturalOffer) => this.router.navigate(['/news/'+offer.id]),
-      icon: Icons.news
-    },
-    {
-      operation: (offer: CulturalOffer) => {
-        this.edit_id = offer.id;
-        this.edit_title = offer.title;
-        this.edit_description = offer.description;
-        this.edit_images = offer.imageUrls;
+      operation: (news: OfferNews) => {
+        this.edit_id = news.id;
+        this.edit_title = news.title;
+        this.edit_description = news.description;
+        this.edit_images = news.imageUrls;
         this.open(this.edit_offer);
       },
       icon: Icons.update
     },
     {
-      operation: (offer: CulturalOffer) => this.removeOffer(offer.id),
+      operation: (news: OfferNews) => this.removeOffer(news.id),
       icon: Icons.remove
+    },
+    {
+      operation: () => this.open(this.content),
+      icon: Icons.preview
     }
   ];
 
   constructor(
     private modalService: NgbModal,
-    private culturalOfferService: CulturalOfferService,
-    private router: Router
+    private offerNewsService: OfferNewsService,
+    private router: Router,
+    private route: ActivatedRoute
     ) {
       this.currentPage=1;
       this.pageSize=6;
+      this.offerId = Number(this.route.snapshot.paramMap.get('offer_id'));
   }
 
   ngOnInit(): void {
-    this.culturalOfferService.getAll().subscribe(
+    this.offerNewsService.getAll(this.offerId).subscribe(
       res => {
         this.totalSize = Math.ceil(res.length/this.pageSize);
-        this.culturalOfferService.getPage2(this.currentPage-1, this.pageSize).subscribe(
+        this.offerNewsService.getPage(this.offerId, this.currentPage-1, this.pageSize).subscribe(
           res => {
-            this.offers = res;
+            this.news = res;
           }
         );
       }
@@ -97,12 +94,12 @@ export class AllOffersComponent implements OnInit {
 
   changePage(newPage: number) {
     this.currentPage = newPage;
-    this.culturalOfferService.getAll().subscribe(
+    this.offerNewsService.getAll(this.offerId).subscribe(
       res => {
         this.totalSize = Math.ceil(res.length/this.pageSize);
-        this.culturalOfferService.getPage2(newPage-1, this.pageSize).subscribe(
+        this.offerNewsService.getPage(this.offerId, newPage-1, this.pageSize).subscribe(
           res => {
-            this.offers = res;
+            this.news = res;
           }
         );
       }
@@ -114,11 +111,11 @@ export class AllOffersComponent implements OnInit {
   }
 
   addNew(): void {
-    this.open(this.add_offer);
+    this.open(this.add_news);
   }
 
   removeOffer(id){
-    this.culturalOfferService.delete(id).subscribe(res => {
+    this.offerNewsService.delete(id).subscribe(res => {
       this.saveChange();
     });
   }
@@ -130,4 +127,9 @@ export class AllOffersComponent implements OnInit {
   home(){
     this.router.navigate(['']);
   }
+
+  back(){
+    this.router.navigate(['/all_offers']);
+  }
+
 }

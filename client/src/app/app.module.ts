@@ -33,6 +33,8 @@ import { OfferViewComponent } from './maps/offer-view/offer-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastsContainer } from './maps/toasts/toasts-container.component';
 import { OfferInfoComponent } from './maps/offer-info/offer-info.component';
+import { AddOfferNewsComponent } from './maps/news/add-offer-news/add-offer-news.component';
+import { AllOfferNewsComponent } from './maps/news/all-offer-news/all-offer-news.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,9 @@ import { OfferInfoComponent } from './maps/offer-info/offer-info.component';
     OptionNavbarComponent,
     OfferViewComponent,
     ToastsContainer,
-    OfferInfoComponent
+    OfferInfoComponent,
+    AddOfferNewsComponent,
+    AllOfferNewsComponent
   ],
   imports: [
     BrowserModule,

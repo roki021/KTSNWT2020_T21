@@ -47,8 +47,16 @@ public class OfferNewsService {
         return repository.findAll();
     }
 
+    public List<OfferNews> findAllByOffer(Integer offerId){
+        return repository.findByCulturalOfferId(offerId);
+    }
+
     public Page<OfferNews> findAll(Pageable pageable){
         return repository.findAll(pageable);
+    }
+
+    public Page<OfferNews> findAllByOffer(Integer offerId, Pageable pageable){
+        return repository.findByCulturalOfferId(offerId, pageable);
     }
 
     public void delete(Integer id) throws Exception {

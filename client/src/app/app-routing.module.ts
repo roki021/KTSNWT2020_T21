@@ -12,6 +12,7 @@ import { LoginGuard } from './guards/login.guard';
 import { RegistrationComponent } from './maps/registration/registration.component';
 
 import { ProfileComponent } from './maps/profile/profile.component';
+import { AllOfferNewsComponent } from './maps/news/all-offer-news/all-offer-news.component';
 
 const routes: Routes = [{
   path: '',
@@ -54,6 +55,12 @@ const routes: Routes = [{
   path: 'register',
   component: RegistrationComponent,
   canActivate: [LoginGuard]
+},
+{
+  path: 'news/:offer_id',
+  component: AllOfferNewsComponent,
+  canActivate: [RolesGuard],
+  data: {expectedRoles: 'ROLE_ADMIN'}
 }
 ];
 
