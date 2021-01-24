@@ -32,9 +32,10 @@ import { OptionNavbarComponent } from './maps/option-navbar/option-navbar.compon
 import { GradingComponent } from './maps/grading/grading.component';
 import { OfferViewComponent } from './maps/offer-view/offer-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastsContainer } from './maps/toasts/toasts-container.component';
+import { ToastsComponent } from './maps/toasts/toasts-container.component';
 import { OfferInfoComponent } from './maps/offer-info/offer-info.component';
 import { AddCommentComponent } from './maps/add-comment/add-comment.component';
+import { IvyGalleryModule } from 'angular-gallery';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,7 @@ import { AddCommentComponent } from './maps/add-comment/add-comment.component';
     OptionNavbarComponent,
     GradingComponent,
     OfferViewComponent,
-    ToastsContainer,
+    ToastsComponent,
     OfferInfoComponent,
     AddCommentComponent
   ],
@@ -72,7 +73,8 @@ import { AddCommentComponent } from './maps/add-comment/add-comment.component';
     FormsModule,
     FontAwesomeModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    IvyGalleryModule
   ],
   providers: [
     CulturalOfferService,

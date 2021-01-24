@@ -23,9 +23,8 @@ export class OptionNavbarComponent implements OnInit {
     location.reload();
   }
 
-  changePassword(){
-    console.log(this.authService.getUserId());
+  changePassword(): void {
     const modalRef = this.modalService.open(ChangePasswordComponent, { ariaLabelledBy: 'add-offer-type', size: 'lg', scrollable: true });
-		modalRef.componentInstance.guest_id = this.authService.getUserId();
+    modalRef.componentInstance.guest_id = this.authService.getUserId();
   }
 }
