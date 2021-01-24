@@ -1,4 +1,11 @@
-<h1>All cultural offers</h1>
+<table id="heading">
+    <tr>
+        <td style="width: 95%;">
+            <h1>All cultural offers</h1>
+        </td>
+        <td style="width: 5%;"><button class="home-btn" (click)="home()">Home</button></td>
+    </tr>
+</table>
 <div class="container">
     <app-gen-table [rowNum]="true" [tableHeader]="tableHeader" [tableData]="offers" [fieldDecoration]="headerDecoration" [operations]="operations">
     </app-gen-table>

@@ -35,8 +35,10 @@ public class OfferNewsController {
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferNewsDTO> addOfferNews(@RequestBody OfferNewsDTO dto){
         OfferNews offerNews = mapper.toEntity(dto);
+        System.out.println("New offer news entity created");
         try {
             service.create(offerNews, dto.getCulturalOfferId());
+            System.out.println("Service operation done");
         } catch (Exception exception){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -49,12 +51,24 @@ public class OfferNewsController {
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/by-page", method = RequestMethod.GET)
-    public ResponseEntity<Page<OfferNewsDTO>> getAllPageable(Pageable pageable){
-        Page<OfferNews> page = service.findAll(pageable);
-        List<OfferNewsDTO> dtos = mapper.toDtoList(page.toList());
-        Page<OfferNewsDTO> ret = new PageImpl<>(dtos, page.getPageable(), page.getTotalElements());
+    @RequestMapping(value = "/offer/{offerId}",method = RequestMethod.GET)
+    public ResponseEntity<List<OfferNewsDTO>> getAll(@PathVariable Integer offerId){
+        List<OfferNewsDTO> ret = mapper.toDtoList(service.findAllByOffer(offerId));
         return new ResponseEntity<>(ret, HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/by-page", method = RequestMethod.GET)
+    public ResponseEntity<List<OfferNewsDTO>> getAllPageable(Pageable pageable){
+        Page<OfferNews> page = service.findAll(pageable);
+        List<OfferNewsDTO> dtos = mapper.toDtoList(page.getContent());
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/by-page/{id}", method = RequestMethod.GET)
+    public ResponseEntity<List<OfferNewsDTO>> getAllPageable(@PathVariable Integer id, Pageable pageable){
+        Page<OfferNews> page = service.findAllByOffer(id, pageable);
+        List<OfferNewsDTO> dtos = mapper.toDtoList(page.getContent());
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

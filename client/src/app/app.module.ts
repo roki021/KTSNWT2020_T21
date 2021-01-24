@@ -16,9 +16,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TestComponent } from './maps/testC/test.component';
 import { SafeHtmlPipe } from './pipes/safe-html-pipe.pipe';
-import { AddCulturalOfferComponent } from './maps/add-cultural-offer/add-cultural-offer.component';
-import { AllOffersComponent } from './maps/all-offers/all-offers.component';
-import { EditCulturalOfferComponent } from './maps/edit-cultural-offer/edit-cultural-offer.component';
+import { AddCulturalOfferComponent } from './maps/cultural-offers/add-cultural-offer/add-cultural-offer.component';
+import { AllOffersComponent } from './maps/cultural-offers/all-offers/all-offers.component';
+import { EditCulturalOfferComponent } from './maps/cultural-offers/edit-cultural-offer/edit-cultural-offer.component';
 import { LoginFormComponent } from './maps/login-form/login-form/login-form.component';
 import { TokenInterceptorService } from './maps/services/token-interceptor.service';
 import { RegistrationComponent } from './maps/registration/registration.component';
@@ -34,6 +34,9 @@ import { OfferViewComponent } from './maps/offer-view/offer-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastsComponent } from './maps/toasts/toasts-container.component';
 import { OfferInfoComponent } from './maps/offer-info/offer-info.component';
+import { AddOfferNewsComponent } from './maps/news/add-offer-news/add-offer-news.component';
+import { AllOfferNewsComponent } from './maps/news/all-offer-news/all-offer-news.component';
+import { EditOfferNewsComponent } from './maps/news/edit-offer-news/edit-offer-news.component';
 import { AddCommentComponent } from './maps/add-comment/add-comment.component';
 import { IvyGalleryModule } from 'angular-gallery';
 
@@ -61,6 +64,10 @@ import { IvyGalleryModule } from 'angular-gallery';
     OptionNavbarComponent,
     GradingComponent,
     OfferViewComponent,
+    ToastsContainer,
+    AddOfferNewsComponent,
+    AllOfferNewsComponent,
+    EditOfferNewsComponent
     ToastsComponent,
     OfferInfoComponent,
     AddCommentComponent
