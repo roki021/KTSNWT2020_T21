@@ -127,7 +127,7 @@ export class ProfileComponent implements OnInit {
 
   change_password(){
     console.log(this.guest_id);
-    const modalRef = this.modalService.open(ChangePasswordComponent, { ariaLabelledBy: 'add-offer-type', size: 'lg', scrollable: true });
+    const modalRef = this.modalService.open(ChangePasswordComponent, { ariaLabelledBy: 'change-password', size: 'lg', scrollable: true });
 		modalRef.componentInstance.guest_id = this.guest_id;
   }
 
