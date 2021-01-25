@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { CulturalOffer } from '../model/cultural-offer';
 import { Subscription } from '../model/subscription';
@@ -16,23 +16,26 @@ export class OfferViewComponent implements OnInit, OnChanges {
 
   @Input() selectedOffer: CulturalOffer;
   @Input() offerId: number;
-  btnSubType = 'btn-primary';
-  btnSubText = 'Subscribe';
+  btnSubType: string;
+  btnSubText: string;
   isSubed: boolean;
   overallGrade = 0;
   active = 3;
 
   constructor(private subsService: SubscriptionService, private authService: AuthService,
-              private router: Router, private toastService: ToastService, private gradesService: GradesService) { 
+              private router: Router, private toastService: ToastService, private gradesService: GradesService,
+              private ref: ChangeDetectorRef) { 
               }
 
   ngOnInit(): void {
-   }
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.selectedOffer) {
+    if (!changes.selectedOffer.firstChange) {
       if (!this.isAdmin()) {
         this.checkSubscription();
+      } else {
+        this.subscribeButtons(false);
       }
       this.setAvgGrade();
       this.active = 3;

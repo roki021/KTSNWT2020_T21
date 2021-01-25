@@ -42,10 +42,6 @@ const routes: Routes = [{
   data: { expectedRoles: 'ROLE_ADMIN' }
 },
 {
-  path: 'table',
-  component: TestComponent
-},
-{
   path: 'login',
   component: LoginFormComponent,
   canActivate: [LoginGuard]
