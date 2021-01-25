@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import Map from 'ol/Map';
 import Tile from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
@@ -60,17 +60,17 @@ export class MapComponent implements OnInit {
   searchField = "grade";
   searchValue = "1";
 
-  constructor(private cultural_offer_service: CulturalOfferService) {
+  constructor(private cultural_offer_service: CulturalOfferService, private ref: ChangeDetectorRef) {
     this.pageSize = 5;
     this.currentPage = 1;
     this.totalSize = 1;
     this.searchField = "title";
-    this.searchValue = ""
+    this.searchValue = "";
   }
 
   ngOnInit(): void {
-    window['test'] = (lon, lat) => { this.simClick(lon, lat); }
     this.initilizeMap();
+    window['execClick'] = (lon, lat) => { this.simClick(lon, lat); }
   }
 
   searchClick(){
@@ -213,7 +213,6 @@ export class MapComponent implements OnInit {
     this.changePage(this.currentPage);
 
     this.map.on('click', (e) => {
-      console.log(e);
       let founded = false;
       this.map.forEachFeatureAtPixel(e.pixel,
         (feature) => {
@@ -239,16 +238,15 @@ export class MapComponent implements OnInit {
       }
     }
   }
-
+  
+  // for e2e tests
   simClick(lon, lat): void {
     let coords = [lon, lat];
     var evt = {
       type: 'click',
-      coordinate: olProj.fromLonLat(coords),
-      map: this.map,
-      frameState: this.map.getView().calculateExtent(),
       pixel: this.map.getPixelFromCoordinate(olProj.fromLonLat(coords))
     }
     this.map.dispatchEvent(evt);
+    this.ref.detectChanges();
   }
 }

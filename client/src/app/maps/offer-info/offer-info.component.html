@@ -30,7 +30,7 @@
     <hr/>
     <div *ngIf="selectedOffer && selectedOffer?.imageUrls.length !== 0" class="row ml-1">
         <div class="image-holder d-inline-block mr-1 mb-1" *ngFor="let imageUrl of selectedOffer.imageUrls">
-            <img class="img-fluid rounded" src="{{ imageUrl }}" (click)="showGallery(selectedOffer.imageUrls.indexOf(imageUrl))">
+            <img class="img-fluid rounded" [src]="imageUrl" (click)="showGallery(selectedOffer.imageUrls.indexOf(imageUrl))">
         </div>
     </div>
     <div *ngIf="selectedOffer && selectedOffer?.imageUrls.length === 0" class="row">
