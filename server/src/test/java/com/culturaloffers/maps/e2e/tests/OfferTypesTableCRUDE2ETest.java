@@ -41,7 +41,7 @@ public class OfferTypesTableCRUDE2ETest {
 
         justWait();
 
-        loginPage.getEmail().sendKeys("admin");
+        loginPage.getUsername().sendKeys("admin");
 
         loginPage.getPassword().sendKeys("admin");
 

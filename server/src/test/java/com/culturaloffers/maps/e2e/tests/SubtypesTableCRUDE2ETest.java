@@ -44,7 +44,7 @@ public class SubtypesTableCRUDE2ETest {
 
         justWait();
 
-        loginPage.getEmail().sendKeys("admin");
+        loginPage.getUsername().sendKeys("admin");
 
         loginPage.getPassword().sendKeys("admin");
 
