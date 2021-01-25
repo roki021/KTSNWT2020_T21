@@ -18,6 +18,8 @@ export class AddCulturalOfferComponent implements OnInit {
 
   images: string[];
 
+  displays: string[];
+
   @Output()
   sendEvent: EventEmitter<string>;
 
@@ -27,10 +29,24 @@ export class AddCulturalOfferComponent implements OnInit {
     this.address = "";
     this.subtype = "";
     this.images = [];
+    this.displays = [];
     this.sendEvent = new EventEmitter<string>();
   }
 
   ngOnInit(): void {
+  }
+
+  addImage(event){
+    var reader = new FileReader();
+    console.log("image url: "+event.target.value);
+    console.log("files[0]: "+event.target.files[0]);
+    reader.onload = (event:any) => {
+      this.displays.push(event.target.result);
+      this.images.push(event.target.result.substring(event.target.result.indexOf("base64,") + 7));
+      console.log(event.target.result);
+      console.log(event.target.result.substring(event.target.result.indexOf("base64,")));
+    }
+    reader.readAsDataURL(event.target.files[0]);
   }
 
   addOffer(){
@@ -47,6 +63,7 @@ export class AddCulturalOfferComponent implements OnInit {
         }).subscribe(res => {
           console.log("New offer id: "+res.id);
           this.sendEvent.emit("OK");
+          alert("New cultural offer added!");
         }, err => {
           alert("Some fields are empty or invalid!");
         });

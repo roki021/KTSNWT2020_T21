@@ -40,6 +40,10 @@ export class CulturalOfferService {
     return this.http.get<CulturalOffer[]>(this.port+this.general, {headers: this.headers, responseType: 'json'});
   }
 
+  getOne(id: number):Observable<CulturalOffer>{
+    return this.http.get<CulturalOffer>(this.port+this.general+"/"+id, {headers: this.headers, responseType: 'json'});
+  }
+
   getLocationDetails(address) {
     return this.http.get<any>('https://nominatim.openstreetmap.org/search?q=' + address + '&format=json');
   }
