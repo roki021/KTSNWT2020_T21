@@ -30,16 +30,16 @@ public class LoginPage {
     public void ensureIsDisplayedUsername() {
         (new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(By.id("username")));
     }
+
     public void ensureIsNotVisibleLoginBtn() {
         (new WebDriverWait(driver, 10)).until(ExpectedConditions.invisibilityOfElementLocated(By.id("login-button")));
     }
-
 
     public void ensureIsNotVisibleUsername() {
         (new WebDriverWait(driver, 10)).until(ExpectedConditions.invisibilityOfElementLocated(By.id("username")));
     }
 
-    public WebElement getEmail() {
+    public WebElement getUsername() {
         return username;
     }
 
