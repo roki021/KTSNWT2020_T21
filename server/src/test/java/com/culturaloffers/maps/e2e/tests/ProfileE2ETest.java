@@ -47,7 +47,7 @@ public class ProfileE2ETest {
     }
 
     private void login(String user, String password) throws InterruptedException {
-        loginPage.getEmail().sendKeys(user);
+        loginPage.getUsername().sendKeys(user);
 
         loginPage.getPassword().sendKeys(password);
 
