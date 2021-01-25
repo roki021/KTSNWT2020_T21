@@ -98,13 +98,13 @@ export class SubtypeListComponent implements OnInit {
   }
 
   addNew() {
-    const modalRef = this.modalService.open(AddSubtypeComponent, { ariaLabelledBy: 'add-offer-type', size: 'lg', scrollable: true });
+    const modalRef = this.modalService.open(AddSubtypeComponent, { ariaLabelledBy: 'add-subtype', size: 'lg', scrollable: true });
     modalRef.componentInstance.refresh = () => { this.changePage(this.currentPage); };
     modalRef.componentInstance.offer_type_name = this.valid_offer_type.name;
   }
 
   update(subtype) {
-    const modalRef = this.modalService.open(UpdateSubtypeComponent, { ariaLabelledBy: 'update-offer-type', size: 'lg', scrollable: true });
+    const modalRef = this.modalService.open(UpdateSubtypeComponent, { ariaLabelledBy: 'update-subtype', size: 'lg', scrollable: true });
     modalRef.componentInstance.subtype = subtype;
     modalRef.componentInstance.refresh = () => { this.changePage(this.currentPage); };
   }

@@ -8,7 +8,7 @@
 </div>
 <div class="row">
 	<div class="container">
-		<app-gen-table [rowNum]="true" [tableHeader]="tableHeader" [tableData]="subtype_list" [operations]="operations">
+		<app-gen-table id="subtypes_table" [rowNum]="true" [tableHeader]="tableHeader" [tableData]="subtype_list" [operations]="operations">
 		</app-gen-table>
 		<app-pagination [totalPages]="totalSize" [pageSize]="pageSize" (pageSelected)="changePage($event)">
 		</app-pagination>

@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class OfferTypesPage {
+public class SubtypesPage {
     private WebDriver driver;
 
     @FindBy(xpath = "//*[@id=\"name\"]")
@@ -19,20 +19,8 @@ public class OfferTypesPage {
     @FindBy(xpath = "//*[text()=\"Update\"]")
     private WebElement updateBtn;
 
-    @FindBy(xpath = "//*[@class=\"btn\"]//following::button[3]")
-    private WebElement openSubtypesTableBtn;
-
-    @FindBy(xpath = "//*[@class=\"btn\"]//following::button[4]")
+    @FindBy(xpath = "//*[@class=\"btn\"]//following::button[2]")
     private WebElement openUpdateBtn;
-
-    @FindBy(xpath = "//*[@class=\"btn btn-outline-secondary calendar\"]")
-    private WebElement addSubtypeBtn;
-
-    @FindBy(xpath = "//*[@id=\"subtype\"]")
-    private WebElement subtype;
-
-    @FindBy(xpath = "//*[@id=\"subtypes\"]//li")
-    private WebElement subtypeEl;
 
     @FindBy(xpath = "//*[text()=\"Create new\"]")
     private WebElement createBtn;
@@ -40,43 +28,39 @@ public class OfferTypesPage {
     @FindBy(xpath = "//*[@aria-label=\"Next\"]")
     private WebElement nextPage;
 
-    @FindBy(xpath = "//*[@class=\"btn\"]//following::button[5]")
+    @FindBy(xpath = "//*[@class=\"btn\"]//following::button[3]")
     private WebElement deleteBtn;
 
 
-    public OfferTypesPage(){
+    public SubtypesPage(){
 
     }
 
-    public OfferTypesPage(WebDriver driver) {
+    public SubtypesPage(WebDriver driver) {
         this.driver = driver;
     }
 
-    public void ensureIsDisplayedOfferTypeTable() {
-        (new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(By.id("offer_types")));
+    public void ensureIsDisplayedSubtypeTable() {
+        (new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(By.id("subtypes_table")));
     }
 
     public void ensureIsDisplayedAddForm() {
-        (new WebDriverWait(driver, 20)).until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@aria-labelledby=\"add-offer-type\"]")));
+        (new WebDriverWait(driver, 20)).until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@aria-labelledby=\"add-subtype\"]")));
     }
 
     public void ensureIsDisplayedUpdateForm() {
-        (new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@aria-labelledby=\"update-offer-type\"]")));
+        (new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@aria-labelledby=\"update-subtype\"]")));
     }
 
-    public void ensureIsDisplayedSubtypeEl() {
-        (new WebDriverWait(driver, 10)).until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"subtypes\"]//li")));
+    public void ensureIsDisplayedSubType() {
+        (new WebDriverWait(driver, 40)).until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@class=\"btn\"]//following::button[3]")));
     }
 
-    public void ensureIsDisplayedOfferType() {
-        (new WebDriverWait(driver, 40)).until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@class=\"btn\"]//following::button[5]")));
-    }
-
-    public void ensureIsNotDisplayedOfferType() {
+    public void ensureIsNotDisplayedSubtype() {
         (new WebDriverWait(driver, 40)).until(ExpectedConditions.numberOfElementsToBe(By.xpath("//th//following::tr"),1));
     }
 
-    public void ensureIsDisplayedUpdatedOfferType(String newName){
+    public void ensureIsDisplayedUpdatedSubtype(String newName){
         (new WebDriverWait(driver, 10)).until(ExpectedConditions.numberOfElementsToBe(By.xpath("//*[text()=\"" + newName + "\"]"),1));
     }
 
@@ -88,29 +72,14 @@ public class OfferTypesPage {
         return name;
     }
 
-    public WebElement getOpenSubtypesTableBtn() {
-        return openSubtypesTableBtn;
-    }
-
     public WebElement getAddBtn() {
         return addBtn;
-    }
-
-    public WebElement getAddSubtypeBtn() {
-        return addSubtypeBtn;
     }
 
     public WebElement getDeleteBtn() {
         return deleteBtn;
     }
 
-    public WebElement getSubtype() {
-        return subtype;
-    }
-
-    public WebElement getSubtypeEl() {
-        return subtypeEl;
-    }
 
     public WebElement getCreateBtn() {
         return createBtn;
