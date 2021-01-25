@@ -22,7 +22,7 @@
             <small class="text-danger" *ngIf="repeated_subtype">
                 Subtype name already taken</small>
             <div style="overflow-y: scroll; height:400px;">
-                <ul>
+                <ul id="subtypes">
                     <li class="page-item" *ngFor="let i of subtypes index as j" (click)="remove(j)">
                         <a class="page-link">{{i}}</a>
                     </li>
