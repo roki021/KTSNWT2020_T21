@@ -9,7 +9,7 @@
 </div>
 <div class="row">
 	<div class="container">
-		<app-gen-table [rowNum]="true" [tableHeader]="tableHeader" [tableData]="offer_type_list"
+		<app-gen-table id="offer_types" [rowNum]="true" [tableHeader]="tableHeader" [tableData]="offer_type_list"
 			[operations]="operations">
 		</app-gen-table>
 		<app-pagination [totalPages]="totalSize" [pageSize]="pageSize" (pageSelected)="changePage($event)">
