@@ -1,5 +1,5 @@
 <div class="btn-group m-4">
-    <a routerLink="/login" *ngIf="!authority" class="btn btn-secondary rounded-0" role="button" aria-pressed="true">Login</a>
+    <a routerLink="/login" *ngIf="!authority" class="btn btn-secondary rounded-0" role="button" aria-pressed="true">Log in</a>
     <a routerLink="/register" class="btn btn-secondary rounded-0" *ngIf="!authority" role="button" aria-pressed="true">Register</a>
     <a routerLink="/profile" class="btn btn-secondary rounded-0" *ngIf="authority == 'ROLE_GUEST'" role="button" aria-pressed="true">Profile</a>
     <a routerLink="/all_offers" class="btn btn-secondary rounded-0" *ngIf="authority == 'ROLE_ADMIN'" role="button" aria-pressed="true">Cultural offers</a>

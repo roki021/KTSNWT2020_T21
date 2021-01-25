@@ -71,6 +71,9 @@ export class MapComponent implements OnInit {
   ngOnInit(): void {
     this.initilizeMap();
     window['execClick'] = (lon, lat) => { this.simClick(lon, lat); }
+    setInterval(() => {
+      this.ref.detectChanges()
+    }, 1000);
   }
 
   searchClick(){
@@ -247,6 +250,5 @@ export class MapComponent implements OnInit {
       pixel: this.map.getPixelFromCoordinate(olProj.fromLonLat(coords))
     }
     this.map.dispatchEvent(evt);
-    this.ref.detectChanges();
   }
 }
