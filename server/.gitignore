@@ -34,3 +34,4 @@ build/
 
 ### Images Folder ###
 /src/main/images/
+chromedriver.exe
