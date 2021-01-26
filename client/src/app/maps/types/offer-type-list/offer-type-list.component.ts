@@ -11,111 +11,112 @@ import { AddOfferTypeComponent } from '../add-offer-type/add-offer-type.componen
 import { UpdateOfferTypeComponent } from '../update-offer-type/update-offer-type.component';
 
 @Component({
-	selector: 'app-offer-type-list',
-	templateUrl: './offer-type-list.component.html',
-	styleUrls: ['./offer-type-list.component.sass']
+  selector: 'app-offer-type-list',
+  templateUrl: './offer-type-list.component.html',
+  styleUrls: ['./offer-type-list.component.sass']
 })
 export class OfferTypeListComponent implements OnInit {
-	pageSize: number;
-	currentPage: number;
-	totalSize: number;
-	faMarkedMap = faMapMarkedAlt;
-	offerTypeList: OfferType[] = [];
-	deleteValidation = false;
-	deleteNotFoundValidation = false;
-	unauthorized = false;
-	addContent: AddOfferTypeComponent;
-	tableHeader: TableHeader[] = [
-		{
-			headerName: 'Name',
-			fieldName: ['name']
-		},
-		{
-			headerName: 'Subtypes Number',
-			fieldName: ['subtypesNumber']
-		}
-	];
+  pageSize: number;
+  currentPage: number;
+  totalSize: number;
+  faMarkedMap = faMapMarkedAlt;
+  offerTypeList: OfferType[] = [];
+  deleteValidation = false;
+  deleteNotFoundValidation = false;
+  unauthorized = false;
+  addContent: AddOfferTypeComponent;
+  tableHeader: TableHeader[] = [
+    {
+      headerName: 'Name',
+      fieldName: ['name']
+    },
+    {
+      headerName: 'Subtypes Number',
+      fieldName: ['subtypesNumber']
+    }
+  ];
 
-	operations: TableOperation<OfferType>[] = [
-		{
-			operation: (element) => this.subtypesView(element.id),
-			icon: Icons.arrowRight
-		},
-		{
-			operation: (element) => this.update(element),
-			icon: Icons.update
-		},
-		{
-			operation: (element) => this.delete(element.id),
-			icon: Icons.remove
-		}
-	];
+  operations: TableOperation<OfferType>[] = [
+    {
+      operation: (element) => this.subtypesView(element.id),
+      icon: Icons.arrowRight
+    },
+    {
+      operation: (element) => this.update(element),
+      icon: Icons.update
+    },
+    {
+      operation: (element) => this.delete(element.id),
+      icon: Icons.remove
+    }
+  ];
 
-	constructor(
-		private offerTypeService: OfferTypeService, private router: Router,
-		private route: ActivatedRoute, private modalService: NgbModal
-	) {
-		this.pageSize = 2;
-		this.currentPage = 1;
-		this.totalSize = 1;
-	}
+  constructor(
+    private offerTypeService: OfferTypeService, private router: Router,
+    private route: ActivatedRoute, private modalService: NgbModal
+  ) {
+    this.pageSize = 2;
+    this.currentPage = 1;
+    this.totalSize = 1;
+  }
 
-	changePage(newPage: number) {
-		this.currentPage = newPage;
-		this.offerTypeService.getPage(newPage - 1, this.pageSize).subscribe(
-			res => {
-				this.offerTypeList = res.body as OfferType[];
-				this.totalSize = Number(res.headers.get('Total-pages'));
-			}
-		);
-	}
+  changePage(newPage: number) {
+    this.currentPage = newPage;
+    this.offerTypeService.getPage(newPage - 1, this.pageSize).subscribe(
+      res => {
+        this.offerTypeList = res.body as OfferType[];
+        this.totalSize = Number(res.headers.get('Total-pages'));
+      }
+    );
+  }
 
-	ngOnInit() {
-		this.offerTypeService.getPage(this.currentPage - 1, this.pageSize).subscribe(
-			res => {
-				this.offerTypeList = res.body as OfferType[];
-				this.totalSize = Number(res.headers.get('Total-pages'));
-			}
+  ngOnInit() {
+    this.offerTypeService.getPage(this.currentPage - 1, this.pageSize).subscribe(
+      res => {
+        this.offerTypeList = res.body as OfferType[];
+        this.totalSize = Number(res.headers.get('Total-pages'));
+      }
 
-		);
-	}
+    );
+  }
 
-	addNew() {
-		const modalRef = this.modalService.open(AddOfferTypeComponent, { ariaLabelledBy: 'add-offer-type', size: 'lg', scrollable: true });
-		modalRef.componentInstance.refresh = () => { this.changePage(this.currentPage); };
-	}
+  addNew() {
+    const modalRef = this.modalService.open(AddOfferTypeComponent, { ariaLabelledBy: 'add-offer-type', size: 'lg', scrollable: true });
+    modalRef.componentInstance.refresh = () => { this.changePage(this.currentPage); };
+  }
 
-	update(offerType) {
-		const modalRef = this.modalService.open(UpdateOfferTypeComponent, { ariaLabelledBy: 'update-offer-type', size: 'lg', scrollable: true });
-		modalRef.componentInstance.offer_type = offerType;
-		modalRef.componentInstance.refresh = () => { this.changePage(this.currentPage); };
-	}
+  update(offerType) {
+    const modalRef = this.modalService.open(UpdateOfferTypeComponent,
+       { ariaLabelledBy: 'update-offer-type', size: 'lg', scrollable: true });
+    modalRef.componentInstance.offer_type = offerType;
+    modalRef.componentInstance.refresh = () => { this.changePage(this.currentPage); };
+  }
 
-	subtypesView(id) {
-		const path = './' + id + '/subtypes';
-		this.router.navigate([path], { relativeTo: this.route });
-	}
+  subtypesView(id) {
+    const path = './' + id + '/subtypes';
+    this.router.navigate([path], { relativeTo: this.route });
+  }
 
-	delete(id) {
-		this.offerTypeService.delete(id).subscribe(res => {
-			let pageNum = this.currentPage;
-			if (this.offerTypeList.length === 1) {
-				pageNum = pageNum - 1;
-			}
-			this.changePage(pageNum);
-			this.deleteValidation = false;
-			this.deleteNotFoundValidation = false;
-			this.unauthorized = false;
-		},
-			error => {
-				if (error.status === 400) {
-					this.deleteValidation = true;
-				} else if (error.status === 404) {
-					this.deleteNotFoundValidation = true;
-				} else if (error.status === 401 || error.status === 403) {
-					this.unauthorized = true;
-				}
-			});
-	}
+  delete(id) {
+    this.offerTypeService.delete(id).subscribe(res => {
+      let pageNum = this.currentPage;
+      if (this.offerTypeList.length === 1) {
+        pageNum = pageNum - 1;
+      }
+      this.changePage(pageNum);
+      this.deleteValidation = false;
+      this.deleteNotFoundValidation = false;
+      this.unauthorized = false;
+    },
+      error => {
+        if (error.status === 400) {
+          this.deleteValidation = true;
+        } else if (error.status === 404) {
+          this.deleteNotFoundValidation = true;
+        } else if (error.status === 401 || error.status === 403) {
+          this.unauthorized = true;
+        }
+      });
+  }
 
 }
