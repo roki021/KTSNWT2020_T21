@@ -9,11 +9,11 @@
         <div class="form-group">
             <label for="name">Name</label>
             <div class="input-group">
-                <input id="name" name="name" [(ngModel)]="offer_type.name" class="form-control">
+                <input id="name" name="name" [(ngModel)]="offerType.name" class="form-control">
             </div>
-            <small class="text-danger" *ngIf="bad_request">
+            <small class="text-danger" *ngIf="badRequest">
                 Cant update new name is already taken</small>
-            <small class="text-danger" *ngIf="not_found">
+            <small class="text-danger" *ngIf="notFound">
                 Type for updating was not found</small>
             <small class="text-danger" *ngIf="unauthorized">
                 Unauthorized action</small>

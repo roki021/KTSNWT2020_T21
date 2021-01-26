@@ -12,33 +12,31 @@ export class UpdateSubtypeComponent implements OnInit {
 
   @Input() refresh;
   @Input() subtype: Subtype;
-  not_found: boolean = false;
-  bad_request: boolean = false;
-  unauthorized: boolean = false;
+  notFound = false;
+  badRequest = false;
+  unauthorized = false;
   constructor(public activeModal: NgbActiveModal,
-    private subtype_service: SubtypeService) { }
+              private subtypeService: SubtypeService) { }
 
   ngOnInit(): void {
   }
 
   update() {
-    this.subtype_service.update(this.subtype, this.subtype.id).subscribe(
+    this.subtypeService.update(this.subtype, this.subtype.id).subscribe(
       res => {
         this.refresh();
         this.activeModal.close();
-        this.bad_request = false;
-        this.not_found = false;
+        this.badRequest = false;
+        this.notFound = false;
         this.unauthorized = false;
       },
       error => {
         console.log(error);
-        if (error.status == 400) {
-          this.bad_request = true;
-        }
-        else if (error.status == 404) {
-          this.not_found = true;
-        }
-        else if (error.status == 401 || error.status == 403) {
+        if (error.status === 400) {
+          this.badRequest = true;
+        } else if (error.status === 404) {
+          this.notFound = true;
+        } else if (error.status === 401 || error.status === 403) {
           this.unauthorized = true;
         }
       }

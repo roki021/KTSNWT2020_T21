@@ -9,7 +9,7 @@
         <div class="form-group">
             <label for="name">Name</label>
             <div class="input-group">
-                <input id="name" name="name" [(ngModel)]="offer_type.name" class="form-control">
+                <input id="name" name="name" [(ngModel)]="offerType.name" class="form-control">
             </div>
 
             <label for="subtypes">Subtype</label>
@@ -19,7 +19,7 @@
                     <button class="btn btn-outline-secondary calendar" (click)="addSubtype()" type="button"></button>
                 </div>
             </div>
-            <small class="text-danger" *ngIf="repeated_subtype">
+            <small class="text-danger" *ngIf="repeatedSubtype">
                 Subtype name already taken</small>
             <div style="overflow-y: scroll; height:400px;">
                 <ul id="subtypes">
@@ -31,7 +31,7 @@
         </div>
     </form>
 </div>
-<small class="text-danger" *ngIf="bad_request">
+<small class="text-danger" *ngIf="badRequest">
     Cant create type name and or 1 or more subtype names are already taken</small>
 <small class="text-danger" *ngIf="unauthorized">
     Unauthorized action</small>
