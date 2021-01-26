@@ -73,26 +73,26 @@ public class CommentsControllerIntegrationTest {
     public void testGetGradesByCulturalOfferId() {
         HttpEntity<Object> httpEntity = new HttpEntity<Object>(httpHeaders);
         ResponseEntity<List<CommentDTO>> responseEntity =
-                restTemplate.exchange("/c/culturaloffer/comments/" + 14, HttpMethod.GET, httpEntity,
+                restTemplate.exchange("/c/culturaloffer/comments/" + 7, HttpMethod.GET, httpEntity,
                         new ParameterizedTypeReference<List<CommentDTO>>() {});
 
         List<CommentDTO> comments = responseEntity.getBody();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(2, comments.size());
+        assertEquals(1, comments.size());
     }
 
     @Test
     public void testGetGradesByUserId() {
         HttpEntity<Object> httpEntity = new HttpEntity<Object>(httpHeaders);
         ResponseEntity<List<CommentDTO>> responseEntity =
-                restTemplate.exchange("/c/user/comments/" + 1001, HttpMethod.GET, httpEntity,
+                restTemplate.exchange("/c/user/comments/" + 1005, HttpMethod.GET, httpEntity,
                         new ParameterizedTypeReference<List<CommentDTO>>() {});
 
         List<CommentDTO> comments = responseEntity.getBody();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(2, comments.size());
+        assertEquals(1, comments.size());
     }
 
     @Test
@@ -127,7 +127,7 @@ public class CommentsControllerIntegrationTest {
 
     @Test
     public void testDeleteGrade() {
-        /*HttpEntity<Object> httpEntity = new HttpEntity<Object>(httpHeaders);
+        HttpEntity<Object> httpEntity = new HttpEntity<Object>(httpHeaders);
         CommentDTO commentDTO = new CommentDTO(
                 888,
                 "Komentar",
@@ -139,16 +139,17 @@ public class CommentsControllerIntegrationTest {
                 "Cvetni Konaci"
         );
 
-        commentDTO = commentService.addComment(commentDTO);
+        Comment comment = commentService.addComment(commentMapper.toEntity(commentDTO),
+                commentDTO.getCulturalOfferId(), commentDTO.getUserId());
 
         int size = commentService.findByCulturalOfferId(14).size();
 
         ResponseEntity<Map<String, Boolean>> responseEntity =
-                restTemplate.exchange("/c/" + commentDTO.getId(),
+                restTemplate.exchange("/c/" + comment.getId(),
                         HttpMethod.DELETE, httpEntity, new ParameterizedTypeReference<Map<String, Boolean>>(){});
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(size - 1, commentService.findByCulturalOfferId(14).size());*/
+        assertEquals(size - 1, commentService.findByCulturalOfferId(14).size());
     }
 
     @Test
