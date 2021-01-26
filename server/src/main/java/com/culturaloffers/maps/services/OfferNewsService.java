@@ -1,6 +1,7 @@
 package com.culturaloffers.maps.services;
 
 import com.culturaloffers.maps.helper.ImageHandler;
+import com.culturaloffers.maps.helper.NewsNotifier;
 import com.culturaloffers.maps.model.CulturalOffer;
 import com.culturaloffers.maps.model.OfferNews;
 import com.culturaloffers.maps.repositories.OfferNewsRepository;
@@ -21,6 +22,9 @@ public class OfferNewsService {
     @Autowired
     private CulturalOfferService offerService;
 
+    @Autowired
+    private NewsNotifier newsNotifier;
+
     public OfferNews create(OfferNews news, Integer id) throws Exception {
         if (news.getTitle().isBlank())
             throw new Exception("Title of offer news cannot be empty");
@@ -36,7 +40,11 @@ public class OfferNewsService {
             imagePaths.add(ImageHandler.saveImage("src\\main\\images\\newsImages\\", s));
         }
         news.setImageUrls(imagePaths);
-        return repository.save(news);
+
+        repository.save(news);
+        newsNotifier.notifySubscribers(offer ,news);
+
+        return news;
     }
 
     public OfferNews findOne(Integer id){
