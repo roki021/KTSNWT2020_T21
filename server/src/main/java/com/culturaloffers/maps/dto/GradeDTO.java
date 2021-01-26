@@ -36,7 +36,7 @@ public class GradeDTO {
         this.userUsername = grade.getUser().getUsername();
     }
 
-    public GradeDTO(int id, @NotNull(message = "Grade value can not be null") @Min(1) @Max(5) int value,
+    public GradeDTO(int id, @NotNull(message = "Grade value can not be null") @Min(1) @Max(10) int value,
                     @NotNull(message = "Grade date can not be null") Date gradedOn,
                     int offerId, String offerName,
                     int userId, String userName)

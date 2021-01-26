@@ -58,7 +58,7 @@ public class CommentsServiceIntegrationTest {
 
     @Test
     public void okTestCreate() throws Exception{
-        /*CommentDTO commentDTO = new CommentDTO(
+        CommentDTO commentDTO = new CommentDTO(
                 888,
                 "Komentar",
                 new Date(),
@@ -69,14 +69,15 @@ public class CommentsServiceIntegrationTest {
                 "Cvetni Konaci"
         );
 
-        CommentDTO created = commentService.addComment(commentDTO);
+        Comment created = commentService.addComment(commentMapper.toEntity(commentDTO),
+                commentDTO.getCulturalOfferId(), commentDTO.getUserId());
 
-        assertEquals("Komentar", created.getContent());*/
+        assertEquals("Komentar", created.getContent());
     }
 
     @Test
     public void failTestCreate() throws Exception{
-        /*assertThrows(ConstraintViolationException.class, () -> {
+        assertThrows(ConstraintViolationException.class, () -> {
             CommentDTO commentDTO = new CommentDTO(
                     888,
                     "",
@@ -88,10 +89,11 @@ public class CommentsServiceIntegrationTest {
                     "Cvetni Konaci"
             );
 
-            CommentDTO created = commentService.addComment(commentDTO);
+            Comment created = commentService.addComment(commentMapper.toEntity(commentDTO),
+                    commentDTO.getCulturalOfferId(), commentDTO.getUserId());
 
             assertEquals("Komentar", created.getContent());
-        });*/
+        });
     }
 
     @Test
@@ -114,22 +116,22 @@ public class CommentsServiceIntegrationTest {
     @Test
     @Transactional
     public void okTestUpdate() throws Exception{
-        /*List<Comment> comments = commentService.findByUserId(1005);
+        List<Comment> comments = commentService.findByUserId(1005);
         System.out.println(comments.size());
         Comment toBeChanged = comments.get(0);
         toBeChanged.setContent("Izmenjen content");
 
         CommentDTO dto = commentMapper.toDto(toBeChanged);
 
-        Comment changed = commentService.updateComment(toBeChanged.getId(), dto);
+        Comment changed = commentService.updateComment(toBeChanged.getId(), commentMapper.toEntity(dto));
 
-        assertEquals("Izmenjen content", changed.getContent());*/
+        assertEquals("Izmenjen content", changed.getContent());
     }
 
     @Test
     public void failTestUpdateNotFound() throws Exception{
-       /* assertThrows(ResourceNotFoundException.class, () -> {
-            commentService.updateComment(156, new CommentDTO());
-        });*/
+        assertThrows(ResourceNotFoundException.class, () -> {
+            commentService.updateComment(156, new Comment());
+        });
     }
 }
