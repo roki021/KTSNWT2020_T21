@@ -25,6 +25,7 @@ export class OfferNewsViewComponent implements OnInit {
 
   view_title: string;
   view_desc: string;
+  view_images: string[];
 
   @Input()
   offer: CulturalOffer;
@@ -46,7 +47,7 @@ export class OfferNewsViewComponent implements OnInit {
 
   operations: TableOperation<OfferNews>[] = [
     {
-      operation: (news: OfferNews) => this.open(news.title, news.description),
+      operation: (news: OfferNews) => this.open(news.title, news.description, news.imageUrls),
       icon: Icons.preview
     }
   ];
@@ -93,9 +94,10 @@ export class OfferNewsViewComponent implements OnInit {
     );
   }
   
-  open(title: string, description: string): void {
+  open(title: string, description: string, images: string[]): void {
     this.view_title = title;
     this.view_desc = description;
+    this.view_images = images;
     this.allOffers = false;
   }
 

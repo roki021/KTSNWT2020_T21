@@ -27,9 +27,12 @@
         <td>
             <p>Upload pictures:</p>
         </td>
+        <td colspan="2" rowspan="2">
+            <img *ngFor='let url of images' [src]="url" height="100" width="100px" style="margin: 3px;"> <br/> <br>
+        </td>
     </tr>
     <tr>
-        <td><input type="file" accept="image/*" (input)="images.push($event.target.value)"></td>
+        <td><input type="file" accept="image/*" (input)="addImage($event)"></td>
     </tr>
     <tr style="height: 50px;"></tr>
     <tr>

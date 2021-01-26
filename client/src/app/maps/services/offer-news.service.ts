@@ -7,7 +7,7 @@ import { OfferNews } from '../model/offer-news';
   providedIn: 'root'
 })
 export class OfferNewsService {
-
+  
   private readonly port = "http://localhost:8080/news"
   private readonly path = "/offer/";
   private readonly pages = "/by-page/";
@@ -21,6 +21,10 @@ export class OfferNewsService {
   
   update(id:number, news:any):Observable<OfferNews>{
     return this.http.put<OfferNews>(this.port+"/"+id, news, {headers: this.headers, responseType: 'json'});
+  }
+
+  getOne(id: number) {
+    return this.http.get<OfferNews>(this.port+"/"+id, {headers: this.headers, responseType: 'json'});
   }
 
   getAll(offerId:number):Observable<OfferNews[]>{
