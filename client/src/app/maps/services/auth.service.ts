@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserToken } from '../model/user-token';
 import { catchError, map } from 'rxjs/operators';
@@ -13,7 +13,6 @@ export class AuthService {
 
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   private currentUser: UserToken;
-  private refreshingToken: boolean;
 
   constructor(private http: HttpClient) {
     if (localStorage.getItem('user')) {
@@ -21,26 +20,18 @@ export class AuthService {
     }
   }
 
-  validateToken(): void {
-    if (this.isLoggedIn()) {
-      if (new Date().getTime() >= this.currentUser.expireIn) {
-        this.logout();
-      }
-    }
-  }
-
   login(username: string, password: string): Observable<boolean> {
-    // const params:HttpParams = new HttpParams().set('entry',entryText);
     return this.http.post('api/auth/login', JSON.stringify({ username, password }),
       { headers: this.headers, responseType: 'json' }).pipe(
         map((res: any) => {
+          console.log(res);
           const token = res && res.accessToken;
 
           if (token) {
             const jwt: JwtHelperService = new JwtHelperService();
             const info = jwt.decodeToken(token);
             const userToken: UserToken = {
-              id: info.user_id,
+              id: parseInt(info.user_id),
               username: info.sub,
               expireIn: info.exp * 1000,
               authorities: info.roles.map((role) => role.authority),
@@ -65,6 +56,7 @@ export class AuthService {
   refreshToken(): Observable<boolean> {
     return this.http.post('api/auth/refresh', {}).pipe(
       map((res: any) => {
+        console.log(res);
         const token = res && res.accessToken;
 
         if (token) {
@@ -87,14 +79,6 @@ export class AuthService {
       catchError(error => {
         return throwError('Token could not be refreshed.');
       }));
-  }
-
-  isRefreshing(): boolean {
-    return this.refreshingToken;
-  }
-
-  setRefreshing(value: boolean): void {
-    this.refreshingToken = value;
   }
 
   getUserId(): number {
@@ -123,6 +107,6 @@ export class AuthService {
   }
 
   getCurrentUser(): UserToken {
-    return this.currentUser;
+   return this.currentUser;
   }
 }
