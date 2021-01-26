@@ -41,7 +41,6 @@ export class LoginFormComponent implements OnInit {
           .subscribe(
               (loggedIn:boolean) => {
                   if(loggedIn){    
-                    console.log(this.loginService.getToken());
                     this.router.navigateByUrl('/');
                   }
                   

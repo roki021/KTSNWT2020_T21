@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
@@ -203,6 +204,24 @@ public class ProfileE2ETest {
 
         justWait();
         justWait();
+    }
+
+    @Test
+    public void unsubscribeFromCulturalOffer() throws InterruptedException {
+        login("perica","12345");
+        profilePage.ensureIsDisplayedProfileForm();
+        assertEquals("http://localhost:4200/profile", driver.getCurrentUrl());
+        profilePage.ensureIsDisplayedSubscriptionTable();
+        justWait();
+
+        assertEquals(4, profilePage.getSubscriptionTable()
+                .findElements(By.xpath("//tbody/tr")).size());
+        profilePage.getSubscriptionTable().findElement(By.xpath("//tbody/tr[1]//button")).click();
+        justWait();
+        profilePage.ensureIsDisplayedUnsubscription();
+        justWait();
+        assertEquals(3, profilePage.getSubscriptionTable()
+                .findElements(By.xpath("//tbody/tr")).size());
     }
 
     private void justWait() throws InterruptedException {
