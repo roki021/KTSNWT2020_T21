@@ -88,7 +88,7 @@ export class OfferTypeListComponent implements OnInit {
   update(offerType) {
     const modalRef = this.modalService.open(UpdateOfferTypeComponent,
        { ariaLabelledBy: 'update-offer-type', size: 'lg', scrollable: true });
-    modalRef.componentInstance.offer_type = offerType;
+    modalRef.componentInstance.offerType = offerType;
     modalRef.componentInstance.refresh = () => { this.changePage(this.currentPage); };
   }
 
