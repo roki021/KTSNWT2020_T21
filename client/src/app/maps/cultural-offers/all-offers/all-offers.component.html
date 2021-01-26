@@ -7,19 +7,19 @@
     </tr>
 </table>
 <div class="container">
-    <app-gen-table [rowNum]="true" [tableHeader]="tableHeader" [tableData]="offers" [fieldDecoration]="headerDecoration" [operations]="operations">
+    <app-gen-table id="offers" [rowNum]="true" [tableHeader]="tableHeader" [tableData]="offers" [fieldDecoration]="headerDecoration" [operations]="operations">
     </app-gen-table>
     <app-pagination [totalPages]="totalSize" [pageSize]="pageSize" (pageSelected)="changePage($event)">
     </app-pagination>
     <button (click)="addNew()" type="button" class="btn btn-primary">Add</button>
 </div>
 
-<ng-template #add_offer let-modal>
+<ng-template id="add_cultural_offer" #add_offer let-modal>
     <app-add-cultural-offer (sendEvent)="saveChange()"></app-add-cultural-offer>
 </ng-template>
 
-<ng-template #edit_offer let-modal>
-    <app-edit-cultural-offer [id]="edit_id" [title]="edit_title" [description]="edit_description" [images]="edit_images" (sendEvent)="saveChange()">
+<ng-template id="edit_cultural_offer" #edit_offer let-modal>
+    <app-edit-cultural-offer [id]="edit_id" (sendEvent)="saveChange()">
 
     </app-edit-cultural-offer>
 </ng-template>

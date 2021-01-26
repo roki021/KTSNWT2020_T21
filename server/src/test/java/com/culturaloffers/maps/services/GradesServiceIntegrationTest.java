@@ -62,8 +62,9 @@ public class GradesServiceIntegrationTest {
     }
 
     @Test
+    @Transactional
     public void okTestCreate() throws Exception{
-        /*GradeDTO gradeDTO = new GradeDTO(
+        GradeDTO gradeDTO = new GradeDTO(
                 888,
                 2,
                 new Date(),
@@ -73,26 +74,29 @@ public class GradesServiceIntegrationTest {
                 "mikica"
         );
 
-        GradeDTO created = gradeService.addGrade(gradeDTO);
+        Grade created = gradeService.addGrade(gradeMapper.toEntity(gradeDTO), gradeDTO.getCulturalOfferId(), gradeDTO.getUserId());
 
-        assertEquals(2, created.getValue());*/
+        assertEquals(2, created.getValue());
+
+        gradeService.deleteById(created.getId());
     }
 
     @Test
+    @Transactional
     public void failTestCreate() throws Exception{
-        /*assertThrows(ConstraintViolationException.class, () -> {
+        assertThrows(ConstraintViolationException.class, () -> {
             GradeDTO gradeDTO = new GradeDTO(
                     888,
-                    9,
+                    -6,
                     new Date(),
                     14,
                     "Cvetni Konaci",
-                    1001,
-                    "perica"
+                    1005,
+                    "goPet"
             );
 
-            GradeDTO created = gradeService.addGrade(gradeDTO);
-        });*/
+            Grade created = gradeService.addGrade(gradeMapper.toEntity(gradeDTO), gradeDTO.getCulturalOfferId(), gradeDTO.getUserId());
+        });
     }
 
     @Test
@@ -114,22 +118,21 @@ public class GradesServiceIntegrationTest {
 
     @Test
     public void okTestUpdate() throws Exception{
-        /*List<Grade> grade = gradeService.findByUserId(1001);
+        List<Grade> grade = gradeService.findByUserId(1001);
         Grade toBeChanged = grade.get(0);
         toBeChanged.setValue(2);
 
-        GradeDTO dto = gradeMapper.toDto(toBeChanged);
 
-        Grade changed = gradeService.updateGrade(1, dto);
+        Grade changed = gradeService.updateGrade(1, toBeChanged);
 
-        assertEquals(2, changed.getValue());*/
+        assertEquals(2, changed.getValue());
     }
 
     @Test
     public void failTestUpdateNotFound() throws Exception{
-        /*assertThrows(ResourceNotFoundException.class, () -> {
-            gradeService.updateGrade(156, new GradeDTO());
-        });*/
+        assertThrows(ResourceNotFoundException.class, () -> {
+            gradeService.updateGrade(156, new Grade());
+        });
     }
 
 

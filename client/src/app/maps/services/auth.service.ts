@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserToken } from '../model/user-token';
 import { catchError, map } from 'rxjs/operators';
@@ -12,11 +12,27 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthService {
 
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-  private currentUser: UserToken;
+  private refreshingToken: boolean;
 
   constructor(private http: HttpClient) {
+  }
+
+  private takeUserFrom(): UserToken {
+    let currentUser: UserToken;
+    
     if (localStorage.getItem('user')) {
-      this.currentUser = JSON.parse(localStorage.getItem('user'));
+      currentUser = JSON.parse(localStorage.getItem('user'));
+    }
+   
+    return currentUser;
+  }
+
+  validateToken(): void {
+    let currentUser: UserToken = this.takeUserFrom();
+    if (this.isLoggedIn()) {
+      if (new Date().getTime() >= currentUser.expireIn) {
+        this.logout();
+      }
     }
   }
 
@@ -25,20 +41,18 @@ export class AuthService {
     return this.http.post('api/auth/login', JSON.stringify({ username, password }),
       { headers: this.headers, responseType: 'json' }).pipe(
         map((res: any) => {
-          console.log(res);
           const token = res && res.accessToken;
 
           if (token) {
             const jwt: JwtHelperService = new JwtHelperService();
             const info = jwt.decodeToken(token);
             const userToken: UserToken = {
-              id: info.user_id,
+              id: parseInt(info.user_id),
               username: info.sub,
               expireIn: info.exp * 1000,
               authorities: info.roles.map((role) => role.authority),
               token
             };
-            this.currentUser = userToken;
             localStorage.setItem('user', JSON.stringify(userToken));
             return true;
           } else {
@@ -57,20 +71,18 @@ export class AuthService {
   refreshToken(): Observable<boolean> {
     return this.http.post('api/auth/refresh', {}).pipe(
       map((res: any) => {
-        console.log(res);
         const token = res && res.accessToken;
 
         if (token) {
           const jwt: JwtHelperService = new JwtHelperService();
           const info = jwt.decodeToken(token);
           const userToken: UserToken = {
-            id: info.user_id,
+            id: parseInt(info.user_id),
             username: info.sub,
             expireIn: info.exp * 1000,
             authorities: info.roles.map((role) => role.authority),
             token
           };
-          this.currentUser = userToken;
           localStorage.setItem('user', JSON.stringify(userToken));
           return true;
         } else {
@@ -82,21 +94,31 @@ export class AuthService {
       }));
   }
 
+  isRefreshing(): boolean {
+    return this.refreshingToken;
+  }
+
+  setRefreshing(value: boolean): void {
+    this.refreshingToken = value;
+  }
+
   getUserId(): number {
-    return this.currentUser ? this.currentUser.id : null;
+    let currentUser: UserToken = this.takeUserFrom();
+    return currentUser ? currentUser.id : null;
   }
 
   getToken(): string {
-    return this.currentUser ? this.currentUser.token : null;
+    let currentUser: UserToken = this.takeUserFrom();
+    return currentUser ? currentUser.token : null;
   }
 
   getRole(): string {
-    return this.currentUser ? this.currentUser.authorities[0] : null;
+    let currentUser: UserToken = this.takeUserFrom();
+    return currentUser ? currentUser.authorities[0] : null;
   }
 
   logout(): void {
     localStorage.removeItem('user');
-    this.currentUser = null;
   }
 
   isLoggedIn(): boolean {
@@ -108,6 +130,7 @@ export class AuthService {
   }
 
   getCurrentUser(): UserToken {
-   return this.currentUser;
+    let currentUser: UserToken = this.takeUserFrom();
+    return currentUser;
   }
 }

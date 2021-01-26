@@ -4,7 +4,7 @@ INSERT INTO authority (name) VALUES
 
 -- password for all users is '12345'
 INSERT INTO guest (id, first_name, last_name, email_address, username, password, active) VALUES
-    (1001, 'Petar', 'Petrović', 'ppetrovic@gmail.com', 'perica', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', true),
+    (1001, 'Petar', 'Petrović', 'acanikolic021@gmail.com', 'perica', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', true),
     (1002, 'Mika', 'Mikić', 'mmikic@gmail.com', 'mikica', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', true),
     (1003, 'Bogdan', 'Bogdanović', 'bbogdan@gmail.com', 'bogi', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', true),
     (1004, 'Mika', 'Mikić', 'mkmik@gmail.com', 'mikarije', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', false),

@@ -9,15 +9,15 @@
 </div>
 <div class="row">
 	<div class="container">
-		<app-gen-table id="offer_types" [rowNum]="true" [tableHeader]="tableHeader" [tableData]="offer_type_list"
+		<app-gen-table id="offer_types" [rowNum]="true" [tableHeader]="tableHeader" [tableData]="offerTypeList"
 			[operations]="operations">
 		</app-gen-table>
 		<app-pagination [totalPages]="totalSize" [pageSize]="pageSize" (pageSelected)="changePage($event)">
 		</app-pagination>
 		<button (click)="addNew()" type="button" class="btn btn-primary">Add</button>
-		<small class="text-danger" *ngIf="delete_validation">
+		<small class="text-danger" *ngIf="deleteValidation">
 			Cant delete type if there is an offer of that type</small>
-		<small class="text-danger" *ngIf="delete_not_found_validation">
+		<small class="text-danger" *ngIf="deleteNotFoundValidation">
 			Type doesnt exist</small>
 		<small class="text-danger" *ngIf="unauthorized">
 			Unauthorized action</small>

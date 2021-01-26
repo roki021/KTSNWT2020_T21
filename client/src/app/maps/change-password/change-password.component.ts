@@ -10,40 +10,37 @@ import { ProfileService } from '../services/profile.service';
 })
 export class ChangePasswordComponent implements OnInit {
 
-  password: Password = { oldPassword: "", newPassword: "", repetedPassword: "" };
-  @Input() guest_id: number;
-  bad_request: boolean = false;
-  unauthorized: boolean = false;
-  not_found: boolean = false;
-  bad_repeat: boolean = false;
+  password: Password = { oldPassword: '', newPassword: '', repetedPassword: '' };
+  @Input() guestId: number;
+  badRequest = false;
+  unauthorized = false;
+  notFound = false;
+  badRepeat = false;
   constructor(public activeModal: NgbActiveModal,
-    private profile_service: ProfileService) { }
+              private profileService: ProfileService) { }
 
   ngOnInit(): void {
   }
 
   change() {
-    if (this.password.repetedPassword === this.password.newPassword && this.password.repetedPassword != "") {
-      this.bad_repeat = false;
-      this.profile_service.changePassword(this.password, this.guest_id).subscribe(
+    if (this.password.repetedPassword === this.password.newPassword && this.password.repetedPassword !== '') {
+      this.badRepeat = false;
+      this.profileService.changePassword(this.password, this.guestId).subscribe(
         res => {
           this.activeModal.close();
         },
         error => {
-          if (error.status == 400) {
-            this.bad_request = true;
-          }
-          else if (error.status == 401 || error.status == 403) {
+          if (error.status === 400) {
+            this.badRequest = true;
+          } else if (error.status === 401 || error.status === 403) {
             this.unauthorized = true;
-          }
-          else if (error.status == 404) {
-            this.not_found = true;
+          } else if (error.status === 404) {
+            this.notFound = true;
           }
         }
-      )
-    }
-    else{
-      this.bad_repeat = true;
+      );
+    } else {
+      this.badRepeat = true;
     }
   }
 

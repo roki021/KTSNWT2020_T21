@@ -4,7 +4,6 @@ import { OfferTypeListComponent } from '../offer-type-list/offer-type-list.compo
 import { OfferType } from '../../model/offer-type';
 import { OfferTypeService } from '../../services/offer-type.service';
 import { FormGroup } from '@angular/forms';
-import { error } from 'protractor';
 
 @Component({
   selector: 'app-add-offer-type',
@@ -14,14 +13,14 @@ import { error } from 'protractor';
 export class AddOfferTypeComponent implements OnInit {
 
   @Input() refresh;
-  bad_request: boolean = false;
-  unauthorized: boolean = false;
-  repeated_subtype: boolean = false;
-  offer_type: OfferType = { id: null, name: '', subtypes: [], subtypesNumber: null };
+  badRequest = false;
+  unauthorized = false;
+  repeatedSubtype = false;
+  offerType: OfferType = { id: null, name: '', subtypes: [], subtypesNumber: null };
   subtypes = [];
-  subtype: string = '';
+  subtype = '';
   constructor(public activeModal: NgbActiveModal,
-    private offer_type_service: OfferTypeService) {
+              private offerTypeService: OfferTypeService) {
 
   }
 
@@ -29,36 +28,34 @@ export class AddOfferTypeComponent implements OnInit {
   }
 
   addSubtype() {
-    if (this.subtypes.indexOf(this.subtype) == -1) {
+    if (this.subtypes.indexOf(this.subtype) === -1) {
       this.subtypes.push(this.subtype);
       this.subtype = '';
-      this.repeated_subtype = false;
-    }
-    else {
-      this.repeated_subtype = true;
+      this.repeatedSubtype = false;
+    } else {
+      this.repeatedSubtype = true;
     }
   }
 
   remove(index) {
     this.subtypes.splice(index, 1);
-    this.repeated_subtype = false;
+    this.repeatedSubtype = false;
   }
 
   add() {
-    this.repeated_subtype = false;
-    this.offer_type.subtypes = this.subtypes;
-    this.offer_type_service.create(this.offer_type).subscribe(
+    this.repeatedSubtype = false;
+    this.offerType.subtypes = this.subtypes;
+    this.offerTypeService.create(this.offerType).subscribe(
       res => {
         this.refresh();
         this.activeModal.close();
-        this.bad_request = false;
+        this.badRequest = false;
         this.unauthorized = false;
       },
       error => {
-        if (error.status == 400) {
-          this.bad_request = true;
-        }
-        else if (error.status == 401 || error.status == 403) {
+        if (error.status === 400) {
+          this.badRequest = true;
+        } else if (error.status === 401 || error.status === 403) {
           this.unauthorized = true;
         }
       }

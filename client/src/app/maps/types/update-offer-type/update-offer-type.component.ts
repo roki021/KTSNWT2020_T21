@@ -11,33 +11,31 @@ import { OfferTypeService } from '../../services/offer-type.service';
 export class UpdateOfferTypeComponent implements OnInit {
 
   @Input() refresh;
-  @Input() offer_type: OfferType;
-  not_found: boolean = false;
-  bad_request: boolean = false;
-  unauthorized: boolean = false;
+  @Input() offerType: OfferType;
+  notFound = false;
+  badRequest = false;
+  unauthorized = false;
   constructor(public activeModal: NgbActiveModal,
-    private offer_type_service: OfferTypeService) { }
+              private offerTypeService: OfferTypeService) { }
 
   ngOnInit(): void {
   }
 
   update() {
-    this.offer_type_service.update(this.offer_type, this.offer_type.id).subscribe(
+    this.offerTypeService.update(this.offerType, this.offerType.id).subscribe(
       res => {
         this.refresh();
         this.activeModal.close();
-        this.bad_request = false;
-        this.not_found = false;
+        this.badRequest = false;
+        this.notFound = false;
         this.unauthorized = false;
       },
       error => {
-        if (error.status == 400) {
-          this.bad_request = true;
-        }
-        else if (error.status == 404) {
-          this.not_found = true;
-        }
-        else if (error.status == 401 || error.status == 403) {
+        if (error.status === 400) {
+          this.badRequest = true;
+        } else if (error.status === 404) {
+          this.notFound = true;
+        } else if (error.status === 401 || error.status === 403) {
           this.unauthorized = true;
         }
       }

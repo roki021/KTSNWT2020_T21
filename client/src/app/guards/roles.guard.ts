@@ -13,6 +13,7 @@ export class RolesGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    this.auth.validateToken();
     if (this.auth.isLoggedIn()) {
       const expectedRoles: string = next.data.expectedRoles;
       const roles: string[] = expectedRoles.split('|', 2);
