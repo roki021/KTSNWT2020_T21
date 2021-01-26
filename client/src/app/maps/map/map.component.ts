@@ -76,16 +76,6 @@ export class MapComponent implements OnInit {
     }, 1000);
   }
 
-  searchClick(){
-    this.searchActive = true;
-    this.changePage(1);
-  }
-
-  clearClick(){
-    this.searchActive = false;
-    this.changePage(1);
-  }
-
   changePage(newPage: number) {
     this.currentPage = newPage;
     if (this.searchActive) {
@@ -124,6 +114,7 @@ export class MapComponent implements OnInit {
           this.cultural_offers = res.body as CulturalOffer[];
           this.totalSize = Number(res.headers.get('Total-pages'));
           this.createFeatures();
+          this.searchActive = true;
         },
         error => {
 
@@ -138,6 +129,7 @@ export class MapComponent implements OnInit {
         this.cultural_offers = res.body as CulturalOffer[];
         this.totalSize = Number(res.headers.get('Total-pages'));
         this.createFeatures();
+        this.searchActive = false;
       }
     );
   }
