@@ -10,14 +10,14 @@
             <p>Title</p>
         </td>
         <td style="width: 5%;"></td>
-        <td style="width: 65%;"><input type="text" [value]="title" (input)="title = $event.target.value"></td>
+        <td style="width: 65%;"><input id="title" type="text" [value]="title" (input)="title = $event.target.value"></td>
     </tr>
     <tr>
         <td style="width: 30%;">
             <p>Description</p>
         </td>
         <td style="width: 5%;"></td>
-        <td style="width: 65%;"><textarea [value]="description" (input)="description = $event.target.value"></textarea></td>
+        <td style="width: 65%;"><textarea id="description" [value]="description" (input)="description = $event.target.value"></textarea></td>
     </tr>
     <tr style="height: 10px;"></tr>
     <tr>
