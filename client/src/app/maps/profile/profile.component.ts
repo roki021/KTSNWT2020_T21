@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { error } from 'protractor';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 import { Guest } from '../model/guest';
 import { AuthService } from '../services/auth.service';
@@ -20,13 +19,13 @@ import { ToastService } from '../toasts/toast-service';
 })
 export class ProfileComponent implements OnInit {
 
-  guest_id: number;
-  guest: Guest = { id: null, username: "", emailAddress: "", firstName: "", lastName: "", password: "ignore" };
+  guestId: number;
+  guest: Guest = { id: null, username: '', emailAddress: '', firstName: '', lastName: '', password: 'ignore' };
   subscriptions: Subscription[] = [];
-  update_bad_request: boolean = false;
-  bad_request: boolean = false;
-  unauthorized: boolean = false;
-  not_found: boolean = false;
+  updateBadRequest = false;
+  badRequest = false;
+  unauthorized = false;
+  notFound = false;
   faMarkedMap = faMapMarkedAlt;
 
   tableHeader: TableHeader[] = [
@@ -43,12 +42,13 @@ export class ProfileComponent implements OnInit {
     }
   ];
 
-  constructor(private profile_service: ProfileService, private modalService: NgbModal,
-    private auth_service: AuthService, private subs_service: SubscriptionService,
+  constructor(
+    private profileService: ProfileService, private modalService: NgbModal,
+    private authService: AuthService, private subsService: SubscriptionService,
     private toastService: ToastService) { }
 
   ngOnInit(): void {
-    this.guest_id = this.auth_service.getUserId(); 
+    this.guestId = this.authService.getUserId();
     this.load();
     this.loadSubscriptions();
   }
@@ -58,11 +58,11 @@ export class ProfileComponent implements OnInit {
   }
 
   showDanger() {
-    this.toastService.show("Unsubscription failed", { classname: 'bg-danger text-light', delay: 4000 });
+    this.toastService.show('Unsubscription failed', { classname: 'bg-danger text-light', delay: 4000 });
   }
 
   unsubscribe(subscription: Subscription): void {
-    this.subs_service.unsubscribe(subscription).subscribe(
+    this.subsService.unsubscribe(subscription).subscribe(
       res => {
         if (res.deleted) {
           this.loadSubscriptions();
@@ -70,14 +70,12 @@ export class ProfileComponent implements OnInit {
         }
       },
       error => {
-        if(error.status == 400){
-          this.bad_request = true;
-        }
-        else if(error.status == 401 || error.status == 403){
+        if (error.status === 400) {
+          this.badRequest = true;
+        } else if (error.status === 401 || error.status === 403) {
           this.unauthorized = true;
-        }
-        else if(error.status == 404){
-          this.not_found = true;
+        } else if (error.status === 404) {
+          this.notFound = true;
         }
         this.showDanger();
       }
@@ -85,78 +83,71 @@ export class ProfileComponent implements OnInit {
   }
 
   load(): void {
-    this.profile_service.getProfile(this.guest_id).subscribe(
-			res => {
+    this.profileService.getProfile(this.guestId).subscribe(
+      res => {
         this.guest = res.body as Guest;
-        this.bad_request = false;
-        this.not_found = false;
+        this.badRequest = false;
+        this.notFound = false;
         this.unauthorized = false;
       },
       error => {
-        if(error.status == 400){
-          this.bad_request = true;
-        }
-        else if(error.status == 401 || error.status == 403){
+        if (error.status === 400) {
+          this.badRequest = true;
+        } else if (error.status === 401 || error.status === 403) {
           this.unauthorized = true;
-        }
-        else if(error.status == 404){
-          this.not_found = true;
+        } else if (error.status === 404) {
+          this.notFound = true;
         }
       }
-		);
+    );
   }
 
   loadSubscriptions(): void {
-    this.subs_service.getUserSubscriptions().subscribe(
+    this.subsService.getUserSubscriptions().subscribe(
       res => {
         this.subscriptions = res;
       },
       error => {
-        if(error.status == 400){
-          this.bad_request = true;
-        }
-        else if(error.status == 401 || error.status == 403){
+        if (error.status === 400) {
+          this.badRequest = true;
+        } else if (error.status === 401 || error.status === 403) {
           this.unauthorized = true;
-        }
-        else if(error.status == 404){
-          this.not_found = true;
+        } else if (error.status === 404) {
+          this.notFound = true;
         }
       }
-    )
+    );
   }
 
-  change_password(){
-    console.log(this.guest_id);
+  changePassword() {
     const modalRef = this.modalService.open(ChangePasswordComponent, { ariaLabelledBy: 'change-password', size: 'lg', scrollable: true });
-		modalRef.componentInstance.guest_id = this.guest_id;
+    modalRef.componentInstance.guestId = this.guestId;
   }
 
-  update(){
-    this.guest.password = "ignore";
-    this.profile_service.update(this.guest, this.guest_id).subscribe(
-			res => {
+  update() {
+    this.guest.password = 'ignore';
+    this.profileService.update(this.guest, this.guestId).subscribe(
+      res => {
         this.guest = res.body as Guest;
-        this.update_bad_request = false;
-        this.not_found = false;
+        this.updateBadRequest = false;
+        this.notFound = false;
         this.unauthorized = false;
-        this.auth_service.refreshToken().subscribe((refreshed:boolean) => {
-          if(refreshed){    
-            console.log(this.auth_service.getToken());
+        this.authService.refreshToken().subscribe((refreshed: boolean) => {
+          if (refreshed) {
+            console.log(this.authService.getToken());
           }
         });
       },
       error => {
-        if(error.status == 400){
-          this.update_bad_request = true;
-        }
-        else if(error.status == 401 || error.status == 403){
+        if (error.status === 400) {
+          this.updateBadRequest = true;
+        } else if (error.status === 401 || error.status === 403) {
           this.unauthorized = true;
-        }
-        else if(error.status == 404){
-          this.not_found = true;
+        } else if (error.status === 404) {
+          this.notFound = true;
         }
       }
-		);
+    );
   }
 
 }

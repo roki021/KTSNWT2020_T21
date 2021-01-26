@@ -11,12 +11,12 @@ import { SubtypeService } from '../../services/subtype.service';
 export class AddSubtypeComponent implements OnInit {
 
   @Input() refresh;
-  @Input() offer_type_name: string;
-  bad_request: boolean = false;
-  unauthorized: boolean = false;
+  @Input() offerTypeName: string;
+  badRequest = false;
+  unauthorized = false;
   subtype: Subtype = { id: null, name: '', offerTypeName: null, offerNumber: null };
   constructor(public activeModal: NgbActiveModal,
-    private subtype_service: SubtypeService) {
+              private subtypeService: SubtypeService) {
 
   }
 
@@ -24,20 +24,19 @@ export class AddSubtypeComponent implements OnInit {
   }
 
   add() {
-    this.subtype.offerTypeName = this.offer_type_name;
-    this.subtype_service.create(this.subtype).subscribe(
+    this.subtype.offerTypeName = this.offerTypeName;
+    this.subtypeService.create(this.subtype).subscribe(
       res => {
         console.log(res);
         this.refresh();
         this.activeModal.close();
-        this.bad_request = false;
+        this.badRequest = false;
         this.unauthorized = false;
       },
       error => {
-        if (error.status == 400) {
-          this.bad_request = true;
-        }
-        else if (error.status == 401 || error.status == 403) {
+        if (error.status === 400) {
+          this.badRequest = true;
+        } else if (error.status === 401 || error.status === 403) {
           this.unauthorized = true;
         }
       }

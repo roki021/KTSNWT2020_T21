@@ -10,11 +10,11 @@ import { Zoom } from '../model/zoom';
 })
 export class CulturalOfferService {
 
-  private readonly port = "http://localhost:8080"
-  private readonly path = "/offers/filtering";
-  private readonly general = "/offers";
-  private readonly pages = "/offers/by-page?page=";
-	private headers = new HttpHeaders({'Content-Type': 'application/json'});
+  private readonly port = 'http://localhost:8080';
+  private readonly path = '/offers/filtering';
+  private readonly general = '/offers';
+  private readonly pages = '/offers/by-page?page=';
+  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private http: HttpClient) { }
 
@@ -28,16 +28,16 @@ export class CulturalOfferService {
       { headers: this.headers, responseType: 'json' });
   }
 
-  add(offer:any):Observable<CulturalOffer>{
-    return this.http.post<CulturalOffer>(this.port+this.general, offer, {headers: this.headers, responseType: 'json'});
-  }
-  
-  update(id:number, offer:any):Observable<CulturalOffer>{
-    return this.http.put<CulturalOffer>(this.port+this.general+"/"+id, offer, {headers: this.headers, responseType: 'json'});
+  add(offer: any): Observable<CulturalOffer> {
+    return this.http.post<CulturalOffer>(this.port + this.general, offer, { headers: this.headers, responseType: 'json' });
   }
 
-  getAll():Observable<CulturalOffer[]>{
-    return this.http.get<CulturalOffer[]>(this.port+this.general, {headers: this.headers, responseType: 'json'});
+  update(id: number, offer: any): Observable<CulturalOffer> {
+    return this.http.put<CulturalOffer>(this.port + this.general + '/' + id, offer, { headers: this.headers, responseType: 'json' });
+  }
+
+  getAll(): Observable<CulturalOffer[]> {
+    return this.http.get<CulturalOffer[]>(this.port + this.general, { headers: this.headers, responseType: 'json' });
   }
 
   getOne(id: number):Observable<CulturalOffer>{
@@ -48,7 +48,7 @@ export class CulturalOfferService {
     return this.http.get<any>('https://nominatim.openstreetmap.org/search?q=' + address + '&format=json');
   }
 
-  getPage(page: number, size: number):Observable<any>{
+  getPage(page: number, size: number): Observable<any> {
     let queryParams = {};
 
     queryParams = {
@@ -56,18 +56,18 @@ export class CulturalOfferService {
       observe: 'response'
     };
     return this.http.get<CulturalOffer[]>(this.port + this.general + '/by-page?page=' + page + '&size=' + size,
-    queryParams)
+      queryParams);
   }
 
-  getPage2(page: number, size: number):Observable<CulturalOffer[]>{
+  getPage2(page: number, size: number): Observable<CulturalOffer[]> {
     return this.http.get<CulturalOffer[]>(this.port + this.general + '/by-page?page=' + page + '&size=' + size);
   }
 
-  delete(id:number):Observable<any>{
-    return this.http.delete<void>(this.port+this.general+"/"+id, {headers: this.headers, responseType: 'json'});
+  delete(id: number): Observable<any> {
+    return this.http.delete<void>(this.port + this.general + '/' + id, { headers: this.headers, responseType: 'json' });
   }
 
-  search(searchField: string, searchValue: string, page: number, size: number):Observable<any>{
+  search(searchField: string, searchValue: string, page: number, size: number): Observable<any> {
     let queryParams = {};
 
     queryParams = {
@@ -75,6 +75,6 @@ export class CulturalOfferService {
       observe: 'response'
     };
     return this.http.post<CulturalOffer[]>(this.port + this.general + '/search?page=' + page + '&size=' + size,
-    {searchValue: searchValue, searchField: searchField}, queryParams)
+      { searchValue, searchField }, queryParams);
   }
 }

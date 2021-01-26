@@ -11,7 +11,7 @@
             <div class="input-group">
                 <input id="name" name="name" [(ngModel)]="subtype.name" class="form-control">
             </div>
-            <small class="text-danger" *ngIf="bad_request">
+            <small class="text-danger" *ngIf="badRequest">
                 Cant create subtype name is already taken</small>
             <small class="text-danger" *ngIf="unauthorized">
                 Unauthorized action</small>

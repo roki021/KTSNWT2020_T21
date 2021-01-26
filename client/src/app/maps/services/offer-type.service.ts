@@ -36,12 +36,12 @@ export class OfferTypeService {
     return this.http.get<OfferType[]>(this.port + this.path + `/${id}`, queryParams);
   }
 
-  create(offer_type: OfferType): Observable<any> {
-    return this.http.post<OfferType>(this.port + this.path, offer_type, { observe: 'response' });
+  create(offerType: OfferType): Observable<any> {
+    return this.http.post<OfferType>(this.port + this.path, offerType, { observe: 'response' });
   }
 
-  update(offer_type: OfferType, id: number): Observable<any> {
-    return this.http.put<OfferType>(this.port + this.path + `/${id}`, offer_type, { observe: 'response' });
+  update(offerType: OfferType, id: number): Observable<any> {
+    return this.http.put<OfferType>(this.port + this.path + `/${id}`, offerType, { observe: 'response' });
   }
 
   delete(id: any): Observable<any> {

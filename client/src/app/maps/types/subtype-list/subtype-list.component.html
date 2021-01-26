@@ -8,18 +8,18 @@
 </div>
 <div class="row">
 	<div class="container">
-		<app-gen-table id="subtypes_table" [rowNum]="true" [tableHeader]="tableHeader" [tableData]="subtype_list" [operations]="operations">
+		<app-gen-table id="subtypes_table" [rowNum]="true" [tableHeader]="tableHeader" [tableData]="subtypeList" [operations]="operations">
 		</app-gen-table>
 		<app-pagination [totalPages]="totalSize" [pageSize]="pageSize" (pageSelected)="changePage($event)">
 		</app-pagination>
-		<button *ngIf="!offer_not_found" (click)="addNew()" type="button" class="btn btn-primary">Add</button>
-		<small class="text-danger" *ngIf="delete_validation">
+		<button *ngIf="!offerNotFound" (click)="addNew()" type="button" class="btn btn-primary">Add</button>
+		<small class="text-danger" *ngIf="deleteValidation">
 			Cant delete subtype if there is an offer of that subtype</small>
-		<small class="text-danger" *ngIf="delete_not_found_validation">
+		<small class="text-danger" *ngIf="deleteNotFoundValidation">
 			Subtype doesnt exist</small>
 		<small class="text-danger" *ngIf="unauthorized">
 			Unauthorized action</small>
-		<small class="text-danger" *ngIf="offer_not_found">
+		<small class="text-danger" *ngIf="offerNotFound">
 			Unauthorized action</small>
 	</div>
 </div>

@@ -22,14 +22,14 @@ export class SubtypeListComponent implements OnInit {
   pageSize: number;
   currentPage: number;
   totalSize: number;
-	faMarkedMap = faMapMarkedAlt;
-  subtype_list: Subtype[] = [];
-  offer_type: string;
-  delete_validation: boolean = false;
-  delete_not_found_validation: boolean = false;
-  unauthorized: boolean = false;
-  offer_not_found: boolean = false;
-  valid_offer_type: OfferType = { id: null, name: '', subtypesNumber: 0, subtypes: null };
+  faMarkedMap = faMapMarkedAlt;
+  subtypeList: Subtype[] = [];
+  offerType: string;
+  deleteValidation = false;
+  deleteNotFoundValidation = false;
+  unauthorized = false;
+  offerNotFound = false;
+  validOfferType: OfferType = { id: null, name: '', subtypesNumber: 0, subtypes: null };
 
   tableHeader: TableHeader[] = [
     {
@@ -53,43 +53,43 @@ export class SubtypeListComponent implements OnInit {
     }
   ];
 
-  constructor(private subtypes_service: SubtypeService, private route: ActivatedRoute,
-    private modalService: NgbModal, private offer_type_service: OfferTypeService) {
+  constructor(
+    private subtypesService: SubtypeService, private route: ActivatedRoute,
+    private modalService: NgbModal, private offerTypeService: OfferTypeService) {
     this.pageSize = 2;
     this.currentPage = 1;
     this.totalSize = 1;
-    this.offer_type = this.route.snapshot.paramMap.get('id');
+    this.offerType = this.route.snapshot.paramMap.get('id');
   }
 
   changePage(newPage: number) {
     this.currentPage = newPage;
-    this.subtypes_service.getPage(newPage - 1, this.pageSize, this.offer_type).subscribe(
+    this.subtypesService.getPage(newPage - 1, this.pageSize, this.offerType).subscribe(
       res => {
-        this.subtype_list = res.body as Subtype[];
+        this.subtypeList = res.body as Subtype[];
         this.totalSize = Number(res.headers.get('Total-pages'));
       }
     );
   }
 
   ngOnInit() {
-    this.subtypes_service.getPage(this.currentPage - 1, this.pageSize, this.offer_type).subscribe(
+    this.subtypesService.getPage(this.currentPage - 1, this.pageSize, this.offerType).subscribe(
       res => {
-        this.subtype_list = res.body as Subtype[];
+        this.subtypeList = res.body as Subtype[];
         this.totalSize = Number(res.headers.get('Total-pages'));
 
-        if (this.subtype_list.length > 0) {
-          this.valid_offer_type.name = this.subtype_list[0].offerTypeName;
+        if (this.subtypeList.length > 0) {
+          this.validOfferType.name = this.subtypeList[0].offerTypeName;
 
-        }
-        else {
-          this.offer_type_service.getById(this.offer_type).subscribe(
+        } else {
+          this.offerTypeService.getById(this.offerType).subscribe(
             response => {
-              this.valid_offer_type = response.body as OfferType;
+              this.validOfferType = response.body as OfferType;
 
-              this.offer_not_found = false;
+              this.offerNotFound = false;
             },
             error => {
-              this.offer_not_found = true;
+              this.offerNotFound = true;
             }
           );
         }
@@ -100,7 +100,7 @@ export class SubtypeListComponent implements OnInit {
   addNew() {
     const modalRef = this.modalService.open(AddSubtypeComponent, { ariaLabelledBy: 'add-subtype', size: 'lg', scrollable: true });
     modalRef.componentInstance.refresh = () => { this.changePage(this.currentPage); };
-    modalRef.componentInstance.offer_type_name = this.valid_offer_type.name;
+    modalRef.componentInstance.offerTypeName = this.validOfferType.name;
   }
 
   update(subtype) {
@@ -110,24 +110,22 @@ export class SubtypeListComponent implements OnInit {
   }
 
   delete(id) {
-    this.subtypes_service.delete(id).subscribe(res => {
-      let page_num = this.currentPage;
-      if (this.subtype_list.length === 1) {
-        page_num = page_num - 1;
+    this.subtypesService.delete(id).subscribe(res => {
+      let pageNum = this.currentPage;
+      if (this.subtypeList.length === 1) {
+        pageNum = pageNum - 1;
       }
-      this.changePage(page_num);
-      this.delete_validation = false;
-      this.delete_not_found_validation = false;
+      this.changePage(pageNum);
+      this.deleteValidation = false;
+      this.deleteNotFoundValidation = false;
       this.unauthorized = false;
     },
       error => {
-        if (error.status == 400) {
-          this.delete_validation = true;
-        }
-        else if (error.status == 404) {
-          this.delete_not_found_validation = true;
-        }
-        else if (error.status == 401 || error.status == 403) {
+        if (error.status === 400) {
+          this.deleteValidation = true;
+        } else if (error.status === 404) {
+          this.deleteNotFoundValidation = true;
+        } else if (error.status === 401 || error.status === 403) {
           this.unauthorized = true;
         }
       });
