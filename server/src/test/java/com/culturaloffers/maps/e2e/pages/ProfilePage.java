@@ -41,6 +41,9 @@ public class ProfilePage {
     @FindBy(xpath = "//*[@name=\"repeated\"]")
     private WebElement repeated;
 
+    @FindBy(xpath = "//app-gen-table//table")
+    private WebElement subscriptionTable;
+
     public ProfilePage(){
 
     }
@@ -57,8 +60,16 @@ public class ProfilePage {
         (new WebDriverWait(driver, 20)).until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"profile\"]")));
     }
 
+    public void ensureIsDisplayedSubscriptionTable() {
+        (new WebDriverWait(driver, 20)).until(ExpectedConditions.elementToBeClickable(By.xpath("//app-gen-table//table")));
+    }
+
     public void ensureIsDisplayedErrorMessage(){
         (new WebDriverWait(driver, 10)).until(ExpectedConditions.numberOfElementsToBe(By.xpath("//small[@class=\"text-danger\"]"),1));
+    }
+
+    public void ensureIsDisplayedUnsubscription(){
+        (new WebDriverWait(driver, 10)).until(ExpectedConditions.numberOfElementsToBe(By.xpath("//ngb-toast"),1));
     }
 
     public WebElement getName() {
@@ -100,4 +111,6 @@ public class ProfilePage {
     public WebElement getRepeated() {
         return repeated;
     }
+
+    public WebElement getSubscriptionTable() { return subscriptionTable; }
 }
