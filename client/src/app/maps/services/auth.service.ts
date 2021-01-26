@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserToken } from '../model/user-token';
 import { catchError, map } from 'rxjs/operators';
@@ -13,10 +13,19 @@ export class AuthService {
 
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   private currentUser: UserToken;
+  private refreshingToken: boolean;
 
   constructor(private http: HttpClient) {
     if (localStorage.getItem('user')) {
       this.currentUser = JSON.parse(localStorage.getItem('user'));
+    }
+  }
+
+  validateToken(): void {
+    if (this.isLoggedIn()) {
+      if (new Date().getTime() >= this.currentUser.expireIn) {
+        this.logout();
+      }
     }
   }
 
@@ -25,7 +34,6 @@ export class AuthService {
     return this.http.post('api/auth/login', JSON.stringify({ username, password }),
       { headers: this.headers, responseType: 'json' }).pipe(
         map((res: any) => {
-          console.log(res);
           const token = res && res.accessToken;
 
           if (token) {
@@ -57,7 +65,6 @@ export class AuthService {
   refreshToken(): Observable<boolean> {
     return this.http.post('api/auth/refresh', {}).pipe(
       map((res: any) => {
-        console.log(res);
         const token = res && res.accessToken;
 
         if (token) {
@@ -80,6 +87,14 @@ export class AuthService {
       catchError(error => {
         return throwError('Token could not be refreshed.');
       }));
+  }
+
+  isRefreshing(): boolean {
+    return this.refreshingToken;
+  }
+
+  setRefreshing(value: boolean): void {
+    this.refreshingToken = value;
   }
 
   getUserId(): number {
@@ -108,6 +123,6 @@ export class AuthService {
   }
 
   getCurrentUser(): UserToken {
-   return this.currentUser;
+    return this.currentUser;
   }
 }
