@@ -32,7 +32,7 @@ export class TokenInterceptorService {
   }
 
   checkTokenExpireDate(authService: AuthService): void {
-    let milliesLeft = authService.getCurrentUser().expireIn - new Date().getTime();
+    const milliesLeft = authService.getCurrentUser().expireIn - new Date().getTime();
     if (milliesLeft >= 0 && milliesLeft < 9000000) {
         authService.setRefreshing(true);
         authService.refreshToken().subscribe(

@@ -65,7 +65,8 @@ export class MapComponent implements OnInit {
 
   ngOnInit(): void {
     this.initilizeMap();
-    window['execClick'] = (lon, lat) => { this.simClick(lon, lat); };
+    const clickMethodName = 'execClick';
+    window[clickMethodName] = (lon, lat) => { this.simClick(lon, lat); };
     setInterval(() => {
       this.ref.detectChanges();
     }, 1000);
