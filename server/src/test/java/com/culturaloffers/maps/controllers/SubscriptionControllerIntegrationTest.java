@@ -53,7 +53,7 @@ public class SubscriptionControllerIntegrationTest {
         httpHeaders.add("Authorization", accessToken);
     }
 
-    /*@Test
+    @Test
     @Transactional
     public void testGetSubscriptionsByOfferId() {
         //subscriptionService.addSubscription(new SubscriptionDTO(1004, 1));
@@ -66,7 +66,7 @@ public class SubscriptionControllerIntegrationTest {
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(2, subs.size());
-    }*/
+    }
 
     @Test
     @Transactional
