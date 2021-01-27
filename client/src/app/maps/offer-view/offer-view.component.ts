@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { CulturalOffer } from '../model/cultural-offer';
 import { Subscription } from '../model/subscription';
@@ -15,7 +15,6 @@ import { ToastService } from '../toasts/toast-service';
 export class OfferViewComponent implements OnInit, OnChanges {
 
   @Input() selectedOffer: CulturalOffer;
-  @Input() offerId: number;
   btnSubType: string;
   btnSubText: string;
   isSubed: boolean;
@@ -23,8 +22,8 @@ export class OfferViewComponent implements OnInit, OnChanges {
   active = 3;
 
   constructor(private subsService: SubscriptionService, private authService: AuthService,
-              private router: Router, private toastService: ToastService, private gradesService: GradesService,
-              private ref: ChangeDetectorRef) {}
+              private router: Router, private toastService: ToastService, private gradesService: GradesService) {
+              }
 
   ngOnInit(): void {
   }
