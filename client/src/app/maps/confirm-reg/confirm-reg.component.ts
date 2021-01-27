@@ -16,7 +16,7 @@ export class ConfirmRegComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      const verifyToken: string = params['token'];
+      const verifyToken: string = params.token;
       this.regService.confirmRegistration(verifyToken).subscribe(
         res => {
           this.isVerified = true;

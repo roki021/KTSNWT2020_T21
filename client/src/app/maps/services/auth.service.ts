@@ -23,12 +23,12 @@ export class AuthService {
     if (localStorage.getItem('user')) {
       currentUser = JSON.parse(localStorage.getItem('user'));
     }
-   
+
     return currentUser;
   }
 
   validateToken(): void {
-    let currentUser: UserToken = this.takeUserFrom();
+    const currentUser: UserToken = this.takeUserFrom();
     if (this.isLoggedIn()) {
       if (new Date().getTime() >= currentUser.expireIn) {
         this.logout();
@@ -47,7 +47,7 @@ export class AuthService {
             const jwt: JwtHelperService = new JwtHelperService();
             const info = jwt.decodeToken(token);
             const userToken: UserToken = {
-              id: parseInt(info.user_id),
+              id: parseInt(info.user_id, 10),
               username: info.sub,
               expireIn: info.exp * 1000,
               authorities: info.roles.map((role) => role.authority),
@@ -77,7 +77,7 @@ export class AuthService {
           const jwt: JwtHelperService = new JwtHelperService();
           const info = jwt.decodeToken(token);
           const userToken: UserToken = {
-            id: parseInt(info.user_id),
+            id: parseInt(info.user_id, 10),
             username: info.sub,
             expireIn: info.exp * 1000,
             authorities: info.roles.map((role) => role.authority),
@@ -103,17 +103,17 @@ export class AuthService {
   }
 
   getUserId(): number {
-    let currentUser: UserToken = this.takeUserFrom();
+    const currentUser: UserToken = this.takeUserFrom();
     return currentUser ? currentUser.id : null;
   }
 
   getToken(): string {
-    let currentUser: UserToken = this.takeUserFrom();
+    const currentUser: UserToken = this.takeUserFrom();
     return currentUser ? currentUser.token : null;
   }
 
   getRole(): string {
-    let currentUser: UserToken = this.takeUserFrom();
+    const currentUser: UserToken = this.takeUserFrom();
     return currentUser ? currentUser.authorities[0] : null;
   }
 
@@ -130,7 +130,6 @@ export class AuthService {
   }
 
   getCurrentUser(): UserToken {
-    let currentUser: UserToken = this.takeUserFrom();
-    return currentUser;
+    return this.takeUserFrom();
   }
 }
