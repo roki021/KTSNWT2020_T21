@@ -57,8 +57,8 @@ export class RegistrationComponent implements OnInit {
         (loggedIn:boolean) => {
             if(loggedIn){    
               //console.log(this.loginService.getToken());
-              //this.router.navigateByUrl('/');
-              console.log("Uspesno registrovan")
+              this.router.navigateByUrl('/postregistration');
+              //console.log("Uspesno registrovan")
             } 
           },
         (err:Error) => {

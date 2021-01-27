@@ -44,6 +44,7 @@ import { IvyGalleryModule } from 'angular-gallery';
 import { NotFoundComponent } from './maps/not-found/not-found.component';
 import { ConfirmRegComponent } from './maps/confirm-reg/confirm-reg.component';
 import { OfferNewsViewComponent } from './maps/offer-news-view/offer-news-view.component';
+import { RegistrationFollowupComponent } from './maps/registration-followup/registration-followup.component';
 
 
 @NgModule({
@@ -80,7 +81,8 @@ import { OfferNewsViewComponent } from './maps/offer-news-view/offer-news-view.c
     CommentCardsComponent,
     CommentGalleryComponent,
     NotFoundComponent,
-    ConfirmRegComponent
+    ConfirmRegComponent,
+    RegistrationFollowupComponent
   ],
   imports: [
     BrowserModule,

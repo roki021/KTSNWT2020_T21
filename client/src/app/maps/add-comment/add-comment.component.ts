@@ -22,6 +22,9 @@ export class AddCommentComponent implements OnInit {
   @Input() public offerId : number;
   public notAnImage : boolean;
   @Output() added = new EventEmitter<CommentInt>();
+  public logged : string;
+  public role : string;
+  public targetRole: string = 'ROLE_GUEST';
 
   myForm = new FormGroup({
    content: new FormControl('', Validators.required),
@@ -32,6 +35,9 @@ export class AddCommentComponent implements OnInit {
  constructor(private modalService: NgbModal, private auth_service: AuthService, private commentService: AddCommentService) {
    this.commentadd = {content: '', userId : auth_service.getUserId(), commentedOn: new Date(),
         imageUrls: [], culturalOfferId: 0};
+
+    this.logged = this.auth_service.getToken();
+    this.role = this.auth_service.getRole();
     
   }
 

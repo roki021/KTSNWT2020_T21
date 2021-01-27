@@ -80,6 +80,8 @@ public class AuthController {
         Guest existUser;
         try {
             existUser = guestService.insert(guestMapper.toEntity(userRequest));
+            if(existUser == null)
+                throw new Exception("Crash");
             String appUrl = request.getContextPath();
             eventPublisher.publishEvent(new OnRegistrationCompleteEvent(existUser,
                     request.getLocale(), appUrl));

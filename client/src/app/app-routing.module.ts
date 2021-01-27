@@ -18,6 +18,7 @@ import { CommentCardsComponent } from './maps/comment-cards/comment-cards.compon
 import { AddCommentComponent } from './maps/add-comment/add-comment.component';
 import { NotFoundComponent } from './maps/not-found/not-found.component';
 import { ConfirmRegComponent } from './maps/confirm-reg/confirm-reg.component';
+import { RegistrationFollowupComponent } from './maps/registration-followup/registration-followup.component';
 
 const routes: Routes = [{
   path: '',
@@ -66,6 +67,10 @@ const routes: Routes = [{
 {
   path: 'registrationConfirm',
   component: ConfirmRegComponent
+},
+{
+  path: "postregistration",
+  component: RegistrationFollowupComponent
 },
 {
   path: '**',
