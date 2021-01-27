@@ -35,7 +35,7 @@ describe('AddOfferNewsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should add offer', () => {
+  it('should add news', () => {
     spyOn(service, "add").and.returnValue(of({
       id: 7,
       title: "new title",
@@ -54,6 +54,21 @@ describe('AddOfferNewsComponent', () => {
       imageUrls: [],
       culturalOfferId: 2
     });
+  });
+
+  it('should not add news', () => {
+    const error = new Observable<OfferNews>((observer) => {
+      observer.error({status: 400});
+
+    });
+    spyOn(service, "add").and.returnValue(error);
+    spyOn(window, 'alert');
+    component.title = "";
+    component.description = "new desc";
+    component.images = [];
+    component.offerId = 2;
+    component.addOffer();
+    expect(window.alert).toHaveBeenCalledWith('Some fields are empty or invalid!');
   });
 
 });
