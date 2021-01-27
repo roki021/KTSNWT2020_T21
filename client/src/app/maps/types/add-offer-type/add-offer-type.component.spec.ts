@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
@@ -13,13 +14,14 @@ describe('AddOfferTypeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AddOfferTypeComponent]
+      declarations: [AddOfferTypeComponent],
+      imports: [HttpClientTestingModule]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    let typeServiceMock = {
+    /*let typeServiceMock = {
       create: jasmine.createSpy('create')
         .and.returnValue(of({
           body: {
@@ -29,13 +31,13 @@ describe('AddOfferTypeComponent', () => {
             subtypes: ['muzej', 'pozoriste']
           }
         }))
-    };
+    };*/
     let mockActiveModal = {
       close: jasmine.createSpy('close').and.callFake
-    }
+    };
     TestBed.configureTestingModule({
       declarations: [AddOfferTypeComponent],
-      providers: [{ provide: OfferTypeService, useValue: typeServiceMock },
+      providers: [{ provide: OfferTypeService/*, useValue: typeServiceMock*/ },
         NgbModal, NgbActiveModal]
     });
     fixture = TestBed.createComponent(AddOfferTypeComponent);
@@ -47,7 +49,7 @@ describe('AddOfferTypeComponent', () => {
       name: 'park',
       subtypesNumber: 2,
       subtypes: ['muzej', 'pozoriste']
-    }
+    };
     component.refresh = () => { };
     component.subtypes = ['muzej', 'pozoriste'];
     fixture.detectChanges();
@@ -65,6 +67,7 @@ describe('AddOfferTypeComponent', () => {
   });
 
   it('remove subtype from list', () => {
+    
     component.remove(1);
     expect(component.subtypes.length).toBe(1);
   });
@@ -75,19 +78,24 @@ describe('AddOfferTypeComponent', () => {
       name: 'park',
       subtypesNumber: 2,
       subtypes: ['muzej', 'pozoriste']
-    }
+    };
+
+    spyOn(typeService, "create").and.returnValue(of({ body: newType }));
 
     component.add();
     expect(typeService.create).toHaveBeenCalledWith(newType);
-    //expect(activeModal.close).toHaveBeenCalled();
+    expect(component.badRequest).toBe(false);
 
   });
 
-  /*it('should error', () => {
-    spyOn(component['offerTypeService'], 'create').and.callFake(() => Observable.throw({ error: {
-      title: 'Mocked title',
-      status: 400 // Mocked status
-    }}));
+  it('should error', () => {
+    const error = new Observable((observer) => {
+      observer.error({status: 400});
+      
+    });
+    spyOn(typeService, "create").and.returnValue(error);
+    
+    component.add();
     expect(component.badRequest).toBe(true);
-  });*/
+  });
 });

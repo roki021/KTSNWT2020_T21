@@ -2,7 +2,7 @@ import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { OfferTypeService } from '../../services/offer-type.service';
 
 import { OfferTypeListComponent } from './offer-type-list.component';
@@ -10,6 +10,7 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddOfferTypeComponent } from '../add-offer-type/add-offer-type.component';
 import { UpdateOfferTypeComponent } from '../update-offer-type/update-offer-type.component';
 import { OfferType } from '../../model/offer-type';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 
 export class MockAddNgbModalRef {
@@ -39,20 +40,14 @@ describe('OfferTypeListComponent', () => {
     TestBed.configureTestingModule({
       declarations: [OfferTypeListComponent],
       imports: [
-        NgbModule
+        NgbModule,
+        HttpClientTestingModule
       ]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    let typeServiceMock = {
-      getPage: jasmine.createSpy('getPage')
-        .and.returnValue(of({ body: [{}, {}], headers: { get: (param) => 2 } })),
-      delete: jasmine.createSpy('delete')
-        .and.returnValue(of()),
-      subscribe: jasmine.createSpy('subscribe')
-    };
 
     let routerMock = {
       navigate: jasmine.createSpy('navigate')
@@ -60,7 +55,7 @@ describe('OfferTypeListComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [OfferTypeListComponent],
-      providers: [{ provide: OfferTypeService, useValue: typeServiceMock },
+      providers: [{ provide: OfferTypeService },
       { provide: Router, useValue: routerMock },
       { provide: ActivatedRoute, useValue: 'http://localhost:4200/offer-types' }]
     });
@@ -73,17 +68,15 @@ describe('OfferTypeListComponent', () => {
     route = TestBed.inject(ActivatedRoute);
     modalService = TestBed.inject(NgbModal);
 
-    //component.ngOnInit();
   });
 
   it('should create', () => {
-    //component.ngOnInit();
     expect(component).toBeTruthy();
   });
 
   it('should fetch the subtype list on init', async(() => {
+    spyOn(typeService, "getPage").and.returnValue(of({ body: [{},{}], headers: { get: (param) => 2 } }));
     component.ngOnInit();
-    // should subscribe on RegenerateData
     expect(typeService.getPage).toHaveBeenCalled();
 
     expect(component.offerTypeList.length).toBe(2);
@@ -111,6 +104,7 @@ describe('OfferTypeListComponent', () => {
   });
 
   it('should navigate to subtypes page of choosen type', () => {
+    spyOn(typeService, "getPage").and.returnValue(of({ body: [{},{}], headers: { get: (param) => 2 } }));
     component.ngOnInit();
     component.subtypesView(1);
     expect(router.navigate).toHaveBeenCalledWith(
@@ -118,12 +112,25 @@ describe('OfferTypeListComponent', () => {
   });
 
   it ('should call delete of choosen type', () => {
+    spyOn(typeService, "delete").and.returnValue(of())
     component.delete(1);
 
     expect(typeService.delete).toHaveBeenCalledWith(1);    
   });
+
+  it('should error', () => {
+    const error = new Observable((observer) => {
+      observer.error({ status: 400 });
+
+    });
+    spyOn(typeService, "delete").and.returnValue(error);
+
+    component.delete(1);
+    expect(component.deleteValidation).toBe(true);
+  });
   
   it ('should call change page for type table', () => {
+    spyOn(typeService, "getPage").and.returnValue(of({ body: [{},{}], headers: { get: (param) => 2 } }));
     component.changePage(2);
 
     expect(typeService.getPage).toHaveBeenCalledWith(1, 2);    
