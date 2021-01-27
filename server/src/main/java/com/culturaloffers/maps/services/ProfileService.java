@@ -74,7 +74,8 @@ public class ProfileService {
             throw new Exception("Bad password");
         }
         user.setPassword(passwordEncoder.encode(newPassword));
-        user.setLastPasswordResetDate(new Timestamp(System.currentTimeMillis()));
+        user.setLastPasswordResetDate(new Timestamp(System.currentTimeMillis() - 1000));
+        // minus 1 second for token generation
         userRepository.save(user);
     }
 }

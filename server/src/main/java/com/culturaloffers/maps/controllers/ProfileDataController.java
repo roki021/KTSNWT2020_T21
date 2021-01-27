@@ -3,10 +3,14 @@ package com.culturaloffers.maps.controllers;
 import com.culturaloffers.maps.dto.GuestDTO;
 import com.culturaloffers.maps.dto.OfferTypeDTO;
 import com.culturaloffers.maps.dto.PasswordDTO;
+import com.culturaloffers.maps.dto.UserTokenStateDTO;
 import com.culturaloffers.maps.helper.GuestMapper;
 import com.culturaloffers.maps.model.Guest;
 import com.culturaloffers.maps.model.OfferType;
+import com.culturaloffers.maps.model.User;
+import com.culturaloffers.maps.security.TokenUtils;
 import com.culturaloffers.maps.services.ProfileService;
+import com.culturaloffers.maps.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +27,12 @@ public class ProfileDataController {
 
     @Autowired
     ProfileService profileService;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    private TokenUtils tokenUtils;
 
     private GuestMapper guestMapper;
 
@@ -69,14 +79,16 @@ public class ProfileDataController {
 
     @PreAuthorize("hasAnyRole('ROLE_GUEST','ROLE_ADMIN')")
     @RequestMapping(value="/{id}/change-password", method= RequestMethod.PUT)
-    public ResponseEntity<Void> changePassword(@PathVariable Integer id,@Valid @RequestBody PasswordDTO passwordDTO,
+    public ResponseEntity<?> changePassword(@PathVariable Integer id,@Valid @RequestBody PasswordDTO passwordDTO,
                                                Principal principal){
+        User user;
         try {
             if(!passwordDTO.getNewPassword().equals(passwordDTO.getRepetedPassword())){
                 throw new Exception("Repeted password doesnt match");
             }
             profileService.ChangePassword(id, passwordDTO.getOldPassword(),
                     passwordDTO.getNewPassword(), principal.getName());
+            user = userService.getUserByUsername(principal.getName());
         } catch (Exception e) {
             if(e.getMessage() != null){
                 if(e.getMessage().equals("User doesnt exist")) {
@@ -88,7 +100,10 @@ public class ProfileDataController {
             }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        String newToken = tokenUtils.generateToken(user);
+        int expiresIn = tokenUtils.getExpiredIn();
+        return ResponseEntity.ok(new UserTokenStateDTO(newToken, expiresIn));
     }
 
     public ProfileDataController() {

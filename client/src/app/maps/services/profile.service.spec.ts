@@ -97,30 +97,32 @@ describe('ProfileService', () => {
   }));
 
   it('changePassword() should query url and change the guest password', fakeAsync(() => {
+    let isChanged: boolean;
     let password: Password = 
     {
       oldPassword: '12345',
       newPassword: '123',
       repetedPassword: '123'        
     };
-    const mockPassword: Password = 
-    {
-      oldPassword: '12345',
-      newPassword: '123',
-      repetedPassword: '123'        
+    const mockUserToken = {
+      accessToken: `
+        eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJjdWx0dXJhbC1vZmZlcnMtbWFwIiwic3ViIjoicGVyaWNhIi
+        widXNlcl9pZCI6IjEwMDEiLCJyb2xlcyI6W3siaWQiOjIsIm5hbWUiOiJST0xFX0dVRVNUIiwiYXV0aG9yaXR5IjoiUk9M
+        RV9HVUVTVCJ9XSwiYXVkIjoid2ViIiwiaWF0IjoxNjExNjg5ODI2LCJleHAiOjE2MTE3MDc4MjZ9.5DEycxkIHT-vNvrcADsmsPT0ckkFk0n
+        aySTPwt4nS7mSNIQWIiCNGt0VUaSWrdSLQDBnLqAzFVVSdzDLikOuOw
+      `,
+      expiresIn: 18000000
     };
     
-    service.changePassword(password, 1001).subscribe(res => password = res.body);
+    service.changePassword(password, 1001).subscribe(res => isChanged = res);
     
     const req = httpMock.expectOne('http://localhost:8080/profile/1001/change-password');
     expect(req.request.method).toBe('PUT');
-    req.flush(mockPassword);
+    req.flush(mockUserToken);
     
     tick();
 
-    expect(password).toBeDefined();
-    expect(password.oldPassword).toEqual('12345');
-    expect(password.newPassword).toEqual('123');
-    expect(password.repetedPassword).toEqual('123');
+    expect(isChanged).toBeDefined();
+    expect(isChanged).toBeTrue();
   }));
 });

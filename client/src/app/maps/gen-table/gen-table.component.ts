@@ -7,6 +7,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Icons } from 'src/app/enums/icons.enum';
 import { TableOperation } from './table-operation';
+import { iif } from 'rxjs';
 
 @Component({
   selector: 'app-gen-table',
@@ -28,12 +29,16 @@ export class GenTableComponent<T> implements OnInit, DoCheck {
   constructor() { }
 
   ngOnInit(): void {
-    this.collectionSize = this.tableData.length;
+    if(this.tableData) {
+      this.collectionSize = this.tableData.length;
+    }
   }
 
   ngDoCheck(): void {
-    this.collectionSize = this.tableData.length;
-    this.refreshItems();
+    if(this.tableData) {
+      this.collectionSize = this.tableData.length;
+      this.refreshItems();
+    }
   }
 
   refreshItems(): void {

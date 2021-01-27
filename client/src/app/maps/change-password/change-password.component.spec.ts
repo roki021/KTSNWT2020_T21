@@ -41,7 +41,7 @@ describe('ChangePasswordComponent', () => {
   it('update password', () => {
     const password = { oldPassword: '12345', newPassword: '123', repetedPassword: '123' };
 
-    spyOn(service, "changePassword").and.returnValue(of({}));
+    spyOn(service, "changePassword").and.returnValue(of(true));
     spyOn(activeModal, 'close').and.callFake(() => {});
 
     component.change();
