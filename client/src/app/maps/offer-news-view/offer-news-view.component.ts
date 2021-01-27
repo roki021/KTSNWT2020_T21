@@ -40,10 +40,6 @@ export class OfferNewsViewComponent implements OnInit {
       fieldName: ['date']
     }
   ];
-  headerDecoration: FieldDecorator = {
-    name: 'CulturalOffer',
-    decoration: `<img src="https://upload.wikimedia.org/wikipedia/commons/{0}" class="mr-2" style="width: 20px"> {1}`
-  };
 
   operations: TableOperation<OfferNews>[] = [
     {
@@ -57,11 +53,12 @@ export class OfferNewsViewComponent implements OnInit {
     ) {
       this.currentPage=1;
       this.pageSize=3;
+      this.allOffers=true;
+      
   }
 
   ngOnInit(): void {
     console.log(this.allOffers);
-    this.allOffers=true;
     this.offerNewsService.getAll(this.offer.id).subscribe(
       res => {
         this.totalSize = Math.ceil(res.length/this.pageSize);
