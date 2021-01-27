@@ -11,18 +11,19 @@ import { AuthService } from '../services/auth.service';
 })
 export class CommentCardsComponent implements OnInit {
 
-  public comments : CommentInt[] = [];
+  public comments : CommentInt[];
   public userId : number;
   @Input() public culturalOffer : CulturalOffer;
 
   constructor(private auth_service: AuthService, private commentService: AddCommentService) {
     this.userId = auth_service.getUserId();
+    this.comments = [];
    }
 
   ngOnInit(): void {
     this.commentService.getCommentByOffer(this.culturalOffer.id).subscribe((res) => {
       this.comments = res;
-      console.log(this.comments);
+      //console.log(this.comments);
     });
   }
 
@@ -35,10 +36,14 @@ export class CommentCardsComponent implements OnInit {
 
   onAdded(added: CommentInt) {
     added.commentedOn = new Date(added.commentedOn);
-    this.comments.splice(0,0, added);
+    if(!this.comments)
+      this.comments = [added];
+
+    else
+      this.comments.splice(0,0, added);
     
     //this.comments.push(added);
-    console.log(added);
+    //console.log(added);
   }
 
 }

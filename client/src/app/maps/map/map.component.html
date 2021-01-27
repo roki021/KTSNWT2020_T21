@@ -17,7 +17,7 @@
     <app-option-navbar></app-option-navbar>
 </div>
 <div id="offer-view" class="position-absolute offer-view shadow-lg" [@widthGrow]="viewState">
-    <app-offer-view [selectedOffer]="selectedOffer"></app-offer-view>
+    <app-offer-view [selectedOffer]="selectedOffer" ></app-offer-view>
 </div>
 <app-pagination class="position-absolute pagination-options" [totalPages]="totalSize" [pageSize]="pageSize" (pageSelected)="changePage($event)">
 </app-pagination>

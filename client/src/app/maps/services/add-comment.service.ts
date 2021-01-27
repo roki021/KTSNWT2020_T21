@@ -17,7 +17,7 @@ export class AddCommentService {
 
   constructor(private http: HttpClient) { }
 
-  addGrade(comment:CommentInt): Observable<CommentInt> {
+  addCommentCall(comment:CommentInt): Observable<CommentInt> {
     
     return this.http.post<CommentInt>(this.port + this.addcomment, comment,
       {headers: this.headers, responseType: 'json'});  

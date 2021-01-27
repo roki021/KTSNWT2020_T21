@@ -81,6 +81,17 @@ export class AddCommentComponent implements OnInit {
    }
  }
 
+ clearForm(){
+  this.myForm.setValue({
+    content: '',
+    file: '',
+    fileSource: ''
+  });
+
+  this.images = [];
+  this.imagesBase64 = [];
+ }
+
  submit(){
   const val = this.myForm.value;
   this.submitValidate = false;
@@ -93,8 +104,9 @@ export class AddCommentComponent implements OnInit {
       this.commentadd.commentedOn = new Date();
       this.commentadd.culturalOfferId = this.offerId;
 
-      this.commentService.addGrade(this.commentadd).subscribe((res) => {
+      this.commentService.addCommentCall(this.commentadd).subscribe((res) => {
         this.added.emit(res);
+        this.clearForm();
         this.modalService.dismissAll();
         //console.log(res.content + " " + res.culturalOfferName + " " + res.userUsername + " " + res.imageUrls);
       })
