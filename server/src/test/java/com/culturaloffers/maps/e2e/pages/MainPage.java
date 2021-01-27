@@ -40,6 +40,18 @@ public class MainPage {
     @FindBy(xpath = "//*[@id=\"comments-link\"]")
     private WebElement commentsTab;
 
+    @FindBy(xpath = "//*[@id=\"news-link\"]")
+    private WebElement newsTab;
+
+    @FindBy(xpath = "//*[@class=\"btn\"]")
+    private WebElement openNewsViewBtn1;
+
+    @FindBy(xpath = "//*[@class=\"btn\"]//following::button[1]")
+    private WebElement openNewsViewBtn2;
+
+    @FindBy(xpath = "//*[@id=\"back-btn\"]")
+    private WebElement backToAllNewsBtn;
+
     @FindBy(xpath = "//*[@id=\"add-comment\"]")
     private WebElement addCommentBtn;
 
@@ -85,6 +97,14 @@ public class MainPage {
 
     public void ensureIsDisplayedOffewView() {
         (new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(By.id("offer-view")));
+    }
+
+    public void ensureIsDisplayedOfferNewsView() {
+        (new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(By.id("news")));
+    }
+
+    public void ensureIsDisplayedNewsDesc(String desc){
+        (new WebDriverWait(driver, 10)).until(ExpectedConditions.numberOfElementsToBe(By.xpath("//*[text()=\"" + desc + "\"]"),1));
     }
 
     public void ensureIsDisplayedOffewTitle() {
@@ -146,6 +166,22 @@ public class MainPage {
     public void nextPage(int page) {
         for(int i = 0; i < page - 1; i++)
             nextPage.click();
+    }
+
+    public WebElement getNewsTab() {
+        return newsTab;
+    }
+
+    public WebElement getOpenNewsViewBtn1() {
+        return openNewsViewBtn1;
+    }
+
+    public WebElement getOpenNewsViewBtn2() {
+        return openNewsViewBtn2;
+    }
+
+    public WebElement getBackToAllNewsBtn() {
+        return backToAllNewsBtn;
     }
 
     public WebElement getSearchField() {
