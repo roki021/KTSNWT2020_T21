@@ -16,10 +16,16 @@ export class GradingComponent implements OnInit {
   public grade: Grade;
   @Input() public culturalOffer: CulturalOffer;
   @Output() graded : EventEmitter<boolean> = new EventEmitter();
+  public role: string;
+  public logged : string;
+  public targetRole : string = 'ROLE_GUEST';
 
   constructor(private gradingService: GradesService, private auth_service: AuthService) { 
     this.grade = {value:1, gradedOn: new Date(), userId:this.auth_service.getUserId(), 
       culturalOfferId: 0};
+
+    this.role = this.auth_service.getRole();
+    this.logged = this.auth_service.getToken();
   }
 
   ngOnInit(): void {

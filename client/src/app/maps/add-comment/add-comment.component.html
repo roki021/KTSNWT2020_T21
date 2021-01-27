@@ -36,9 +36,10 @@
                     </div>
             </div>
             <img *ngFor='let url of images'  [src]="url" height="150" width="200px" style="margin: 3px;"> <br/> <br>
-            <button class="btn btn-primary" type="submit">Submit</button>
+            <button class="btn btn-primary" type="submit" id="submit-comment">Submit</button>
         </form>
     </div>
 </ng-template>
 
-<button class="btn btn-sm btn-success" (click)="open(content)">Add comment</button>
+<button class="btn btn-sm btn-success" (click)="open(content)" id="add-comment"
+    *ngIf = "logged && role == targetRole">Add comment</button>

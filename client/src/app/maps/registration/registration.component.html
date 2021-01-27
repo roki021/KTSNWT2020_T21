@@ -43,8 +43,11 @@
             class="alert alert-danger">
             <div>Email format is invalid</div>
         </div>
+        <div class="mb-3 alert alert-danger" *ngIf="wrongUsernameOrPass" id="errormsg">
+            <div >Email or password already in use.</div>
+        </div>
         <div class="form-buttons">
-            <button class="btn btn-primary" (click) = "register()">Register</button>
+            <button class="btn btn-primary" (click) = "register()" id="reg-btn">Register</button>
         </div>
     </form>
     <br>

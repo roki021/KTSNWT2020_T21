@@ -17,6 +17,8 @@ export class AddOfferNewsComponent implements OnInit {
 
   images: string[];
 
+  displays: string[];
+
   @Output()
   sendEvent: EventEmitter<string>;
 
@@ -24,10 +26,20 @@ export class AddOfferNewsComponent implements OnInit {
     this.title = "";
     this.description = "";
     this.images = [];
+    this.displays = [];
     this.sendEvent = new EventEmitter<string>();
   }
 
   ngOnInit(): void {
+  }
+
+  addImage(event){
+    var reader = new FileReader();
+    reader.onload = (event:any) => {
+      this.displays.push(event.target.result);
+      this.images.push(event.target.result.substring(event.target.result.indexOf("base64,") + 7));
+    }
+    reader.readAsDataURL(event.target.files[0]);
   }
 
   addOffer(){
@@ -37,6 +49,7 @@ export class AddOfferNewsComponent implements OnInit {
       "imageUrls": this.images,
       "culturalOfferId": this.offerId
     }).subscribe(res => {
+      alert("Offer news created!");
       console.log(res.culturalOfferId);
       this.sendEvent.emit("OK");
     }, err => {

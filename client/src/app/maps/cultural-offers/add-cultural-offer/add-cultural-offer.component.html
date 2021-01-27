@@ -10,21 +10,21 @@
             <p>Title</p>
         </td>
         <td style="width: 5%;"></td>
-        <td style="width: 65%;"><input type="text" [value]="title" (input)="title = $event.target.value"></td>
+        <td style="width: 65%;"><input id="title" type="text" [value]="title" (input)="title = $event.target.value"></td>
     </tr>
     <tr>
         <td style="width: 30%;">
             <p>Description</p>
         </td>
         <td style="width: 5%;"></td>
-        <td style="width: 65%;"><textarea [value]="description" (input)="description = $event.target.value"></textarea></td>
+        <td style="width: 65%;"><textarea id="description" [value]="description" (input)="description = $event.target.value"></textarea></td>
     </tr>
     <tr>
         <td style="width: 30%;">
             <p>Subtype</p>
         </td>
         <td style="width: 5%;"></td>
-        <td style="width: 65%;"><select [value]="subtype" (input)="subtype = $event.target.value">
+        <td style="width: 65%;"><select id="subtype" [value]="subtype" (input)="subtype = $event.target.value">
                 <option selected>Nacionalni park</option>
                 <option>Akva park</option>
                 <option>Pozoriste</option>
@@ -47,21 +47,24 @@
             <p>Address</p>
         </td>
         <td style="width: 5%;"></td>
-        <td style="width: 65%;"><input type="text" [value]="address" (input)="address = $event.target.value"></td>
+        <td style="width: 65%;"><input id="address" type="text" [value]="address" (input)="address = $event.target.value"></td>
     </tr>
     <tr style="height: 10px;"></tr>
     <tr>
         <td>
             <p>Upload pictures:</p>
         </td>
+        <td colspan="2" rowspan="2">
+            <img *ngFor='let url of displays' [src]="url" height="100" width="100px" style="margin: 3px;"> <br/> <br>
+        </td>
     </tr>
     <tr>
-        <td><input type="file" accept="image/*" (input)="images.push($event.target.value)"></td>
+        <td><input type="file" accept="image/*" (input)="addImage($event)"></td>
     </tr>
     <tr style="height: 50px;"></tr>
     <tr>
         <td></td>
         <td></td>
-        <td><button class="add-btn" (click)="addOffer()">Add</button></td>
+        <td><button class="add-btn" (click)="addOffer()">Create new</button></td>
     </tr>
 </table>

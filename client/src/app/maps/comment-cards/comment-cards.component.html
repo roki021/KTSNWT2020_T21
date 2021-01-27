@@ -9,7 +9,7 @@
           <h5 class="card-title">{{c.userUsername}}</h5>
           <p class="card-text">{{c.commentedOn.getDate()}}.{{c.commentedOn.getMonth()+1}}.{{c.commentedOn.getFullYear()}} {{c.commentedOn.getHours()}}:{{c.commentedOn.getMinutes()}}</p>
           <p class="card-text">{{c.content}}</p>
-          <button type="button" class="btn btn-sm btn-danger" *ngIf = "c.userId == userId" 
+          <button type="button" class="btn btn-sm btn-danger" *ngIf = "c.userId == userId" [attr.id]=c.id
             (click)="deleteComment(c.id)">Delete</button> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

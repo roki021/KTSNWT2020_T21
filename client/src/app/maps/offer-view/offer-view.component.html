@@ -15,7 +15,7 @@
     <ngb-rating [rate]="overallGrade" [starTemplate]="t" [max]="10" [readonly]="true" (graded)="onGraded($event)"></ngb-rating>
     <div class="tab-content">
         <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
-            <li [ngbNavItem]="1">
+            <li [ngbNavItem]="1" id = "comments-link">
                 <a ngbNavLink>Comments</a>
                 <ng-template ngbNavContent>
                     <app-grading [culturalOffer]="selectedOffer"></app-grading>
