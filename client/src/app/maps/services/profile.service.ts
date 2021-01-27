@@ -52,7 +52,7 @@ export class ProfileService {
         }
       }),
       catchError(error => {
-        return throwError('Token could not be issued.');
+        return throwError(error);
       }));
   }
 
