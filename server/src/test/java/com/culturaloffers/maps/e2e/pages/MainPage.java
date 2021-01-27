@@ -140,7 +140,7 @@ public class MainPage {
     }
 
     public void clickOnFeature(double lon, double lat) throws InterruptedException {
-        ((JavascriptExecutor)driver).executeScript(String.format("window.execClick(%f, %f);", lon, lat));
+        ((JavascriptExecutor)driver).executeScript(String.format("window.execClick(%s, %s);", lon + "", lat + ""));
     }
 
     public void nextPage(int page) {
