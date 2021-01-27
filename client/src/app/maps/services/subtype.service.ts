@@ -25,6 +25,16 @@ export class SubtypeService {
       page + '&size=' + size, queryParams);
   }
 
+  getAll(): Observable<any> {
+    let queryParams = {};
+
+    queryParams = {
+      headers: this.headers,
+      observe: 'response'
+    };
+    return this.http.get<Subtype[]>(this.port + '/subtypes', queryParams);
+  }
+
   create(subtype: Subtype): Observable<any> {
     return this.http.post<Subtype>(this.port + '/subtypes', subtype, { observe: 'response' });
   }

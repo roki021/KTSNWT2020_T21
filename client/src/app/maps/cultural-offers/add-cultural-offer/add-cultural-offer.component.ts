@@ -1,5 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Subtype } from '../../model/subtype';
 import { CulturalOfferService } from '../../services/cultural-offer.service';
+import { SubtypeService } from '../../services/subtype.service';
 
 @Component({
   selector: 'app-add-cultural-offer',
@@ -20,10 +22,12 @@ export class AddCulturalOfferComponent implements OnInit {
 
   displays: string[];
 
+  subtypes: Subtype[];
+
   @Output()
   sendEvent: EventEmitter<string>;
 
-  constructor(private service: CulturalOfferService) { 
+  constructor(private service: CulturalOfferService, private subtypeService: SubtypeService) { 
     this.title = "";
     this.description = "";
     this.address = "";
@@ -34,8 +38,16 @@ export class AddCulturalOfferComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadSubtypes();
   }
 
+  loadSubtypes(){
+    this.subtypeService.getAll().subscribe(
+      res => {
+        this.subtypes = res.body as Subtype[];
+      }
+    )
+  }
   addImage(event){
     var reader = new FileReader();
     console.log("image url: "+event.target.value);
@@ -50,6 +62,7 @@ export class AddCulturalOfferComponent implements OnInit {
   }
 
   addOffer(){
+    console.log(this.subtype.split(" ", 1)[0].toLowerCase());
     this.service.getLocationDetails(this.address).subscribe(res => {
       if (res.length > 0){
         this.service.add({

@@ -138,4 +138,44 @@ describe('SubtypeService', () => {
     expect(req.request.method).toBe('DELETE');
     req.flush({});
   });
+
+  it('getAll() should return all subtypes', fakeAsync(() => {
+    let subtypes: Subtype[];
+
+    const mockSubtypes: Subtype[] = [
+      {
+        id: 1,
+        name: 'akva',
+        offerTypeName: 'park',
+        offerNumber: 1
+      },
+      {
+        id: 2,
+        name: 'nacionalni',
+        offerTypeName: 'park',
+        offerNumber: 1
+      }];
+
+    service.getAll().subscribe(data => {
+      subtypes = data.body;
+    });
+
+    const req = httpMock.expectOne('http://localhost:8080/subtypes');
+    expect(req.request.method).toBe('GET');
+    req.flush(mockSubtypes);
+
+    tick();
+
+    expect(subtypes.length).toEqual(2, 'should contain given amount of students');
+    expect(subtypes[0].id).toEqual(1);
+    expect(subtypes[0].name).toEqual('akva');
+    expect(subtypes[0].offerTypeName).toEqual('park');
+    expect(subtypes[0].offerNumber).toEqual(1);
+
+    expect(subtypes[1].id).toEqual(2);
+    expect(subtypes[1].name).toEqual('nacionalni');
+    expect(subtypes[1].offerTypeName).toEqual('park');
+    expect(subtypes[1].offerNumber).toEqual(1);
+
+  }));
 });
