@@ -15,7 +15,6 @@ import { ToastService } from '../toasts/toast-service';
 export class OfferViewComponent implements OnInit, OnChanges {
 
   @Input() selectedOffer: CulturalOffer;
-  @Input() offerId: number;
   btnSubType: string;
   btnSubText: string;
   isSubed: boolean;
