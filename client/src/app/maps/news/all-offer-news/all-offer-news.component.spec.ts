@@ -93,12 +93,6 @@ describe('AllOfferNewsComponent', () => {
     
   }));
 
-  it('should open pop-up for adding new offer news', () => {
-    spyOn(modalService, 'open').and.returnValue(mockAddModalRef as any);
-    component.addNew();
-    expect(modalService.open).toHaveBeenCalledWith(AddOfferNewsComponent);
-  });
-
   it('should navigate to all offers page', () => {
     spyOn(router, "navigate");
     component.back();
