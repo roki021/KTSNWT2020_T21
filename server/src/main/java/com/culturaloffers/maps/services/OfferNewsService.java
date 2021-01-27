@@ -77,10 +77,11 @@ public class OfferNewsService {
         if (repository.findById(id).orElse(null) == null)
             throw new Exception("Offer news with given id does not exist");
         news.setId(id);
-        List<String> imagePaths = new ArrayList<>();
+        List<String> imagePaths = repository.findById(id).orElse(null).getImageUrls();
         for(String s : news.getImageUrls())
         {
-            imagePaths.add(ImageHandler.saveImage("src\\main\\images\\newsImages\\", s));
+            if (!s.contains("localhost"))
+                imagePaths.add(ImageHandler.saveImage("src\\main\\images\\newsImages\\", s));
         }
         news.setImageUrls(imagePaths);
         return repository.save(news);

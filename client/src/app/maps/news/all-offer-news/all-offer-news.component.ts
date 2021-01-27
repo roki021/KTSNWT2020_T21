@@ -29,6 +29,7 @@ export class AllOfferNewsComponent implements OnInit {
 
   view_title: string;
   view_desc: string;
+  view_images: string[];
 
   news: OfferNews[];
   currentPage: number;
@@ -69,6 +70,7 @@ export class AllOfferNewsComponent implements OnInit {
       operation: (news: OfferNews) => {
         this.view_title = news.title;
         this.view_desc = news.description;
+        this.view_images = news.imageUrls;
         this.open(this.content);
       },
       icon: Icons.preview
