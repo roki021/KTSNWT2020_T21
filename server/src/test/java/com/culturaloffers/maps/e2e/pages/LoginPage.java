@@ -20,6 +20,9 @@ public class LoginPage {
     @FindBy(xpath = "//*[@id=\"login-btn\"]")
     private WebElement loginBtn;
 
+    @FindBy(xpath = "//*[@id=\"error\"]")
+    private WebElement errorMessage;
+
     public LoginPage() {
     }
 
@@ -39,6 +42,14 @@ public class LoginPage {
         (new WebDriverWait(driver, 10)).until(ExpectedConditions.invisibilityOfElementLocated(By.id("username")));
     }
 
+    public void ensureIsDisplayedErrorMessage() {
+        (new WebDriverWait(driver, 10)).until(ExpectedConditions.elementToBeClickable(By.id("error")));
+    }
+
+    public void ensureIsNotVisibleErrorMessage() {
+        (new WebDriverWait(driver, 10)).until(ExpectedConditions.invisibilityOfElementLocated(By.id("error")));
+    }
+
     public WebElement getUsername() {
         return username;
     }
@@ -50,4 +61,6 @@ public class LoginPage {
     public WebElement getLoginBtn() {
         return loginBtn;
     }
+
+    public WebElement getErrorMessage() { return errorMessage; }
 }
