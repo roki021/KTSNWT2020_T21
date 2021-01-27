@@ -26,7 +26,7 @@ export class SubscriptionService {
   }
 
   unsubscribe(subscription: Subscription): Observable<any> {
-    return this.http.request('DELETE', 'api/subscription', { headers: this.headers, responseType: 'json', body: subscription });
+    return this.http.request<any>('DELETE', 'api/subscription', { headers: this.headers, responseType: 'json', body: subscription });
   }
 
   subscribe(subscription: Subscription): Observable<Subscription> {

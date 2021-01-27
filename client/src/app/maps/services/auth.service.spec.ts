@@ -14,7 +14,7 @@ describe('AuthService', () => {
   let jwt: JwtHelperService;
 
   beforeEach(() => {
-    let jwtMockService = {
+    const jwtMockService = {
       decodeToken: jasmine.createSpy('decodeToken')
         .and.returnValue({
           id: 1001,
@@ -156,7 +156,7 @@ describe('AuthService', () => {
       authorities: ['ROLE_GUEST'],
       token: 'token'
     };
-    
+
     localStorage.setItem('user', JSON.stringify(user));
 
     expect(authService.isLoggedIn()).toEqual(true);
