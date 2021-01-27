@@ -18,16 +18,6 @@ export class CulturalOfferService {
 
   constructor(private http: HttpClient) { }
 
-  filter(zoom: Zoom): Observable<CulturalOffer[]> {
-    return this.http.post<CulturalOffer[]>(this.port + this.path, {
-      latitudeLowerCorner: zoom.latitudeLowerCorner,
-      latitudeUpperCorner: zoom.latitudeUpperCorner,
-      longitudeLowerCorner: zoom.longitudeLowerCorner,
-      longitudeUpperCorner: zoom.longitudeUpperCorner
-    },
-      { headers: this.headers, responseType: 'json' });
-  }
-
   add(offer: any): Observable<CulturalOffer> {
     return this.http.post<CulturalOffer>(this.port + this.general, offer, { headers: this.headers, responseType: 'json' });
   }
