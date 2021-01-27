@@ -10,7 +10,7 @@
             <p>Title</p>
         </td>
         <td style="width: 5%;"></td>
-        <td style="width: 75%;"><input type="text" [value]="title" (input)="title = $event.target.value"></td>
+        <td style="width: 75%;"><input id="title" type="text" [value]="title" (input)="title = $event.target.value"></td>
     </tr>
     <tr>
         <td style="width: 30%;">
@@ -20,7 +20,7 @@
         <td></td>
     </tr>
     <tr>
-        <td colspan="3"><textarea [value]="description" (input)="description = $event.target.value"></textarea></td>
+        <td colspan="3"><textarea id="description" [value]="description" (input)="description = $event.target.value"></textarea></td>
     </tr>
     <tr style="height: 10px;"></tr>
     <tr>
@@ -38,6 +38,6 @@
     <tr>
         <td></td>
         <td></td>
-        <td><button class="add-btn" (click)="addOffer()">Add</button></td>
+        <td><button class="add-btn" (click)="addOffer()">Create new</button></td>
     </tr>
 </table>
