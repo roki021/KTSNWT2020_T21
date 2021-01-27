@@ -149,16 +149,16 @@ INSERT INTO comment (id, content, commented_on, user_id, cultural_offer_id) VALU
     (3, 'Najbolji hamburger u celoj Srbiji', '2020-12-08 19:30:55', 1006, 12),
     (4, 'Hotel zasluzuje jos jednu zvezdicu', '2020-12-08 20:41:10', 1011, 14),
     (5, 'Smestaj je bio dobar, ali hrana je mogla biti bolja', '2020-12-08 21:42:10', 1001, 14),
-    (6, 'Ne bih pozeleo ni najgorem neprijatelju', 1013, 8),
-    (7, 'Izuzetno, svaka preporuka', 1011, 7),
-    (8, 'Vrlo dobro, vredi posetiti', 1014, 6),
-    (9, 'Tracenje vremena, ima boljih mesta za posetiti', 1003, 11),
-    (10, 'FENOMENALNO', 1004, 14),
-    (11, 'Pre bih pucao sebi u koleno nego ponovo posetio', 1008, 12),
-    (12, 'Solidno', 1007, 3),
-    (13, 'Jedno od najboljih mesta koje sam posetio, izuzetan provod', 1009, 2),
-    (14, 'Ne gubite vreme', 1010, 1),
-    (15, 'Sve najgore, zaobidjite u sirokom luku', 1001, 14);
+    (6, 'Ne bih pozeleo ni najgorem neprijatelju', '2020-12-08 21:42:10', 1013, 8),
+    (7, 'Izuzetno, svaka preporuka', '2020-12-08 21:42:10', 1011, 7),
+    (8, 'Vrlo dobro, vredi posetiti', '2020-12-08 21:42:10', 1014, 6),
+    (9, 'Tracenje vremena, ima boljih mesta za posetiti', '2020-12-08 21:42:10', 1003, 11),
+    (10, 'FENOMENALNO', '2020-12-08 21:42:10', 1004, 14),
+    (11, 'Pre bih pucao sebi u koleno nego ponovo posetio', '2020-12-08 21:42:10', 1008, 12),
+    (12, 'Solidno', '2020-12-08 21:42:10', 1007, 3),
+    (13, 'Jedno od najboljih mesta koje sam posetio, izuzetan provod', '2020-12-08 21:42:10', 1009, 2),
+    (14, 'Ne gubite vreme', '2020-12-08 21:42:10', 1010, 1),
+    (15, 'Sve najgore, zaobidjite u sirokom luku', '2020-12-08 21:42:10', 1001, 14);
 
 INSERT INTO grade (id, value, graded_on, user_id, cultural_offer_id) VALUES
     (1, 8, '2020-12-08 21:41:10', 1001, 7),
@@ -191,5 +191,5 @@ INSERT INTO cultural_offer_user (cultural_offer_id, user_id) VALUES
     (1, 1011),
     (9, 1011),
     (14, 1001),
-    (10, 1001)
+    (10, 1001),
     (6, 1001);
