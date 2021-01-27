@@ -21,23 +21,9 @@ describe('AddOfferTypeComponent', () => {
   }));
 
   beforeEach(() => {
-    /*let typeServiceMock = {
-      create: jasmine.createSpy('create')
-        .and.returnValue(of({
-          body: {
-            id: 1,
-            name: 'park',
-            subtypesNumber: 2,
-            subtypes: ['muzej', 'pozoriste']
-          }
-        }))
-    };*/
-    let mockActiveModal = {
-      close: jasmine.createSpy('close').and.callFake
-    };
     TestBed.configureTestingModule({
       declarations: [AddOfferTypeComponent],
-      providers: [{ provide: OfferTypeService/*, useValue: typeServiceMock*/ },
+      providers: [{ provide: OfferTypeService },
         NgbModal, NgbActiveModal]
     });
     fixture = TestBed.createComponent(AddOfferTypeComponent);
@@ -81,10 +67,12 @@ describe('AddOfferTypeComponent', () => {
     };
 
     spyOn(typeService, "create").and.returnValue(of({ body: newType }));
+    spyOn(activeModal, 'close').and.callFake(() => {});
 
     component.add();
     expect(typeService.create).toHaveBeenCalledWith(newType);
     expect(component.badRequest).toBe(false);
+    expect(activeModal.close).toHaveBeenCalled();
 
   });
 
