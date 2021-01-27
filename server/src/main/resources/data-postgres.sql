@@ -148,20 +148,48 @@ INSERT INTO comment (id, content, commented_on, user_id, cultural_offer_id) VALU
     (2, 'Svima bi preporucio posetu ovome muzeju', '2020-12-08 18:40:50', 1005, 4),
     (3, 'Najbolji hamburger u celoj Srbiji', '2020-12-08 19:30:55', 1006, 12),
     (4, 'Hotel zasluzuje jos jednu zvezdicu', '2020-12-08 20:41:10', 1011, 14),
-    (5, 'Smestaj je bio dobar, ali hrana je mogla biti bolja', '2020-12-08 21:42:10', 1001, 14);
+    (5, 'Smestaj je bio dobar, ali hrana je mogla biti bolja', '2020-12-08 21:42:10', 1001, 14),
+    (6, 'Ne bih pozeleo ni najgorem neprijatelju', 1013, 8),
+    (7, 'Izuzetno, svaka preporuka', 1011, 7),
+    (8, 'Vrlo dobro, vredi posetiti', 1014, 6),
+    (9, 'Tracenje vremena, ima boljih mesta za posetiti', 1003, 11),
+    (10, 'FENOMENALNO', 1004, 14),
+    (11, 'Pre bih pucao sebi u koleno nego ponovo posetio', 1008, 12),
+    (12, 'Solidno', 1007, 3),
+    (13, 'Jedno od najboljih mesta koje sam posetio, izuzetan provod', 1009, 2),
+    (14, 'Ne gubite vreme', 1010, 1),
+    (15, 'Sve najgore, zaobidjite u sirokom luku', 1001, 14);
 
 INSERT INTO grade (id, value, graded_on, user_id, cultural_offer_id) VALUES
     (1, 8, '2020-12-08 21:41:10', 1001, 7),
     (2, 10, '2020-12-08 22:41:10', 1005, 4),
-    (3, 9, '2020-12-08 22:46:00', 1006, 12),
-    (4, 5, '2020-12-08 22:51:16', 1011, 14),
-    (5, 2, '2020-12-08 23:11:42', 1001, 14);
+    (3, 9, '2020-12-08 22:46:00', 1006, 2),
+    (4, 5, '2020-12-08 22:51:16', 1011, 4),
+    (5, 2, '2020-12-08 23:11:42', 1012, 5),
+    (6, 1, '2020-12-08 23:11:42', 1013, 8),
+    (7, 9, '2020-12-08 23:11:42', 1011, 7),
+    (8, 7, '2020-12-08 23:11:42', 1014, 6),
+    (9, 4, '2020-12-08 23:11:42', 1003, 11),
+    (10, 10, '2020-12-08 23:11:42', 1004, 14),
+    (11, 2, '2020-12-08 23:11:42', 1008, 12),
+    (12, 7, '2020-12-08 23:11:42', 1007, 3),
+    (13, 9, '2020-12-08 23:11:42', 1009, 2),
+    (14, 3, '2020-12-08 23:11:42', 1010, 1),
+    (15, 1, '2020-12-08 23:11:42', 1001, 14);
 
 INSERT INTO cultural_offer_user (cultural_offer_id, user_id) VALUES
     (1,1001),
     (2,1001),
     (7, 1001),
     (4, 1005),
+    (10, 1005),
+    (8, 1005),
     (12, 1006),
+    (15, 1006),
+    (13, 1006),
     (14, 1011),
-    (14, 1001);
+    (1, 1011),
+    (9, 1011),
+    (14, 1001),
+    (10, 1001)
+    (6, 1001);
