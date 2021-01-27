@@ -3,8 +3,10 @@ package com.culturaloffers.maps.e2e.tests;
 import com.culturaloffers.maps.e2e.pages.LoginPage;
 import com.culturaloffers.maps.e2e.pages.MainPage;
 import com.culturaloffers.maps.e2e.pages.OfferNewsPage;
+import com.culturaloffers.maps.helper.SmtpServerRule;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -26,6 +28,9 @@ public class OfferNewsTableCRUDE2ETest {
     private MainPage mainPage;
     private OfferNewsPage offerNewsPage;
     public static final String BASE_URL = "http://localhost:4200";
+
+    @Rule
+    public SmtpServerRule smtpServerRule = new SmtpServerRule(2525);
 
     @Before
     public void setUp() throws InterruptedException {
@@ -59,40 +64,40 @@ public class OfferNewsTableCRUDE2ETest {
         driver.navigate().to(BASE_URL + "/news/2");
     }
 
-//    @Test
-//    public void AddOfferNewsSuccess() throws InterruptedException {
-//        offerNewsPage.ensureIsDisplayedOfferNewsTable();
-//        assertEquals("http://localhost:4200/news/2", driver.getCurrentUrl());
-//
-//        justWait();
-//
-//        offerNewsPage.getAddBtn().click();
-//
-//        justWait();
-//
-//        offerNewsPage.getTitle().sendKeys("new title");
-//
-//        offerNewsPage.getDescription().sendKeys("new desc");
-//
-//        justWait();
-//
-//        offerNewsPage.getCreateBtn().click();
-//
-//        justWait();
-//        justWait();
-//        justWait();
-//        justWait();
-//
-//        offerNewsPage.ensureAlertAppeared();
-//
-//        justWait();
-//        justWait();
-//
-//        assertEquals(offerNewsPage.getDriver().switchTo().alert().getText(), "Offer news created!");
-//
-//        justWait();
-//        justWait();
-//    }
+    @Test
+    public void AddOfferNewsSuccess() throws InterruptedException {
+        offerNewsPage.ensureIsDisplayedOfferNewsTable();
+        assertEquals("http://localhost:4200/news/2", driver.getCurrentUrl());
+
+        justWait();
+
+        offerNewsPage.getAddBtn().click();
+
+        justWait();
+
+        offerNewsPage.getTitle().sendKeys("new title");
+
+        offerNewsPage.getDescription().sendKeys("new desc");
+
+        justWait();
+
+        offerNewsPage.getCreateBtn().click();
+
+        justWait();
+        justWait();
+        justWait();
+        justWait();
+
+        offerNewsPage.ensureAlertAppeared();
+
+        justWait();
+        justWait();
+
+        assertEquals(offerNewsPage.getDriver().switchTo().alert().getText(), "Offer news created!");
+
+        justWait();
+        justWait();
+    }
 
     @Test
     public void AddOfferNewsFail() throws InterruptedException {

@@ -207,6 +207,7 @@ export class MapComponent implements OnInit {
       this.map.forEachFeatureAtPixel(e.pixel,
         (feature) => {
           if (!founded) {
+            console.log(e);
             this.selectedOffer = this.getCulturalOffer(feature.style_.text_.text_);
             this.offerId = this.getCulturalOffer(feature.style_.text_.text_).id;
             this.viewState = 'open';

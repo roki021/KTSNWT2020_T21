@@ -55,6 +55,18 @@ public class MainPage {
     @FindBy(xpath = "//*[@id=\"grading\"]")
     private WebElement gradingElement;
 
+    @FindBy(xpath = "//*[@id=\"searchField\"]")
+    private WebElement searchField;
+
+    @FindBy(xpath = "//*[@id=\"searchValue\"]")
+    private WebElement searchValue;
+
+    @FindBy(xpath = "//*[@id=\"searchBtn\"]")
+    private WebElement searchBtn;
+
+    @FindBy(xpath = "//*[@id=\"discardBtn\"]")
+    private WebElement discardBtn;
+
     public MainPage() {
     }
 
@@ -77,6 +89,10 @@ public class MainPage {
 
     public void ensureIsDisplayedOffewTitle() {
         (new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(By.id("offer-title")));
+    }
+
+    public void ensureIsNumOfOffersDisplayed(int numOfOffers){
+        (new WebDriverWait(driver, 30)).until(ExpectedConditions.numberOfElementsToBe(By.xpath("//[contains(text(), \"Location\")]"), numOfOffers));
     }
 
     public void ensureIsNotVisibleOfferView() {
@@ -124,12 +140,28 @@ public class MainPage {
     }
 
     public void clickOnFeature(double lon, double lat) throws InterruptedException {
-        ((JavascriptExecutor)driver).executeScript(String.format("window.execClick(%f, %f);", lon, lat));
+        ((JavascriptExecutor)driver).executeScript(String.format("window.execClick(%s, %s);", lon + "", lat + ""));
     }
 
     public void nextPage(int page) {
         for(int i = 0; i < page - 1; i++)
             nextPage.click();
+    }
+
+    public WebElement getSearchField() {
+        return searchField;
+    }
+
+    public WebElement getSearchValue() {
+        return searchValue;
+    }
+
+    public WebElement getSearchBtn() {
+        return searchBtn;
+    }
+
+    public WebElement getDiscardBtn() {
+        return discardBtn;
     }
 
     public WebElement getMap() {
