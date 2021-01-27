@@ -101,10 +101,23 @@ public class GradesServiceIntegrationTest {
 
     @Test
     public void okTestDelete() throws Exception{
+        GradeDTO gradeDTO = new GradeDTO(
+                888,
+                2,
+                new Date(),
+                14,
+                "Cvetni Konaci",
+                1002,
+                "mikica"
+        );
+
+        Grade created = gradeService.addGrade(gradeMapper.toEntity(gradeDTO), gradeDTO.getCulturalOfferId(), gradeDTO.getUserId());
+
+
         Map<String, Boolean> expected = new HashMap<String, Boolean>();
         expected.put("deleted", Boolean.TRUE);
 
-        Map<String, Boolean> actual = gradeService.deleteById(4);
+        Map<String, Boolean> actual = gradeService.deleteById(created.getId());
 
         assertEquals(expected, actual);
     }

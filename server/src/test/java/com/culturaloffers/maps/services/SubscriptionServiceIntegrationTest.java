@@ -46,11 +46,15 @@ public class SubscriptionServiceIntegrationTest {
 
         List<SubscriptionDTO> subs = subscriptionService.getAllCulturalOfferSubscribers(15);
         assertEquals(1, subs.size());
+
+        subscriptionService.deleteSubscription(new SubscriptionDTO(1004, 15));
     }
 
     @Test
     @Transactional
     public void okDeleteSubscription(){
+        subscriptionService.addSubscription(new SubscriptionDTO(1004, 15));
+
         subscriptionService.deleteSubscription(new SubscriptionDTO(1004, 15));
 
         List<SubscriptionDTO> subs = subscriptionService.getAllCulturalOfferSubscribers(15);

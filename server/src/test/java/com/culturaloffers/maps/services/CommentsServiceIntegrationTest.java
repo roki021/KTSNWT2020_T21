@@ -143,10 +143,24 @@ public class CommentsServiceIntegrationTest {
 
     @Test
     public void okTestDelete() throws Exception{
+        CommentDTO commentDTO = new CommentDTO(
+                888,
+                "Komentar",
+                new Date(),
+                new ArrayList<String>(),
+                1001,
+                14,
+                "perica",
+                "Cvetni Konaci"
+        );
+
+        Comment created = commentService.addComment(commentMapper.toEntity(commentDTO),
+                commentDTO.getCulturalOfferId(), commentDTO.getUserId());
+
         Map<String, Boolean> expected = new HashMap<String, Boolean>();
         expected.put("deleted", Boolean.TRUE);
 
-        Map<String, Boolean> actual = commentService.deleteById(5);
+        Map<String, Boolean> actual = commentService.deleteById(created.getId());
 
         assertEquals(expected, actual);
     }
