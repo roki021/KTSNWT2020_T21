@@ -1,5 +1,5 @@
 <div class="container" *ngIf="allOffers; else elseBlock">
-    <app-gen-table [rowNum]="false" [tableHeader]="tableHeader" [tableData]="news" [fieldDecoration]="headerDecoration" [operations]="operations">
+    <app-gen-table id="news" [rowNum]="false" [tableHeader]="tableHeader" [tableData]="news" [fieldDecoration]="headerDecoration" [operations]="operations">
     </app-gen-table>
     <app-pagination [totalPages]="totalSize" [pageSize]="pageSize" (pageSelected)="changePage($event)">
     </app-pagination>
@@ -10,5 +10,5 @@
     <div style="margin-left: auto; margin-right: auto;">
         <img *ngFor='let url of view_images' [src]="url" height="100" width="100px" style="margin: 3px;"> <br/> <br>
     </div>
-    <button class="back-btn" (click)="back()">Back</button>
+    <button id="back-btn" class="back-btn" (click)="back()">Back</button>
 </ng-template>
