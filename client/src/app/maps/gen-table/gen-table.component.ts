@@ -1,8 +1,10 @@
 import { Component, DoCheck, Input, OnInit } from '@angular/core';
 import { FieldDecorator } from './field-decorator';
 import { TableHeader } from './table-header';
-import { faPlus, faPencilAlt, faTrash, faNewspaper,
-   faEye, IconDefinition, faArrowRight, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPlus, faPencilAlt, faTrash, faNewspaper,
+  faEye, IconDefinition, faArrowRight, faEyeSlash
+} from '@fortawesome/free-solid-svg-icons';
 import { Icons } from 'src/app/enums/icons.enum';
 import { TableOperation } from './table-operation';
 
@@ -13,17 +15,17 @@ import { TableOperation } from './table-operation';
 })
 export class GenTableComponent<T> implements OnInit, DoCheck {
 
-  @Input() tableData: T[];
-  @Input() tableHeader: TableHeader[];
+  @Input() tableData: T[] = [];
+  @Input() tableHeader: TableHeader[] = [];
   @Input() rowNum = false;
   @Input() fieldDecoration: FieldDecorator;
-  @Input() operations: TableOperation<T>[];
+  @Input() operations: TableOperation<T>[] = [];
   data: T[];
   page = 1;
   pageSize = 4;
   collectionSize = 0;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
     this.collectionSize = this.tableData.length;
@@ -43,19 +45,20 @@ export class GenTableComponent<T> implements OnInit, DoCheck {
           return item;
         }
       });
-      // .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
 
   generateField(item, headerInfo): string {
     let retVal: string;
-    const rowValues: string[] = headerInfo.fieldName.map((elem, i) => item[elem] + '');
-    if (this.fieldDecoration && headerInfo.headerName === this.fieldDecoration.name) {
-      retVal = this.fieldDecoration.decoration.replace(/\{(\d+)\}/g,
-      (match, capture) => {
-        return rowValues[1 * capture];
-      });
-    } else {
-      retVal = rowValues.join(' ');
+    if (item) {
+      const rowValues: string[] = headerInfo.fieldName.map((elem, i) => item[elem] + '');
+      if (this.fieldDecoration && headerInfo.headerName === this.fieldDecoration.name) {
+        retVal = this.fieldDecoration.decoration.replace(/\{(\d+)\}/g,
+          (match, capture) => {
+            return rowValues[1 * capture];
+          });
+      } else {
+        retVal = rowValues.join(' ');
+      }
     }
 
     return retVal;

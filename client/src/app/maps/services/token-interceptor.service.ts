@@ -12,6 +12,7 @@ export class TokenInterceptorService {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const authenticationService: AuthService = this.inj.get(AuthService);
+    authenticationService.validateToken();
     const token = authenticationService.getToken();
 
     if (token) {
@@ -22,6 +23,26 @@ export class TokenInterceptorService {
       });
     }
 
+    if (authenticationService.isLoggedIn() &&
+        !authenticationService.isRefreshing()) {
+      this.checkTokenExpireDate(authenticationService);
+    }
+
     return next.handle(request);
+  }
+
+  checkTokenExpireDate(authService: AuthService): void {
+    const milliesLeft = authService.getCurrentUser().expireIn - new Date().getTime();
+    if (milliesLeft >= 0 && milliesLeft < 9000000) {
+        authService.setRefreshing(true);
+        authService.refreshToken().subscribe(
+          res => {
+            authService.setRefreshing(false);
+          },
+          error => {
+            authService.setRefreshing(false);
+          }
+        );
+    }
   }
 }

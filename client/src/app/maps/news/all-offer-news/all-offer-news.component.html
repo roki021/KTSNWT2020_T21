@@ -8,7 +8,7 @@
     </tr>
 </table>
 <div class="container">
-    <app-gen-table [rowNum]="true" [tableHeader]="tableHeader" [tableData]="news" [fieldDecoration]="headerDecoration" [operations]="operations">
+    <app-gen-table id="news" [rowNum]="true" [tableHeader]="tableHeader" [tableData]="news" [fieldDecoration]="headerDecoration" [operations]="operations">
     </app-gen-table>
     <app-pagination [totalPages]="totalSize" [pageSize]="pageSize" (pageSelected)="changePage($event)">
     </app-pagination>
@@ -20,7 +20,7 @@
 </ng-template>
 
 <ng-template #edit_news let-modal>
-    <app-edit-offer-news [id]="edit_id" [title]="edit_title" [description]="edit_description" [images]="edit_images" (sendEvent)="saveChange()">
+    <app-edit-offer-news [id]="edit_id" (sendEvent)="saveChange()">
 
     </app-edit-offer-news>
 </ng-template>
@@ -28,4 +28,7 @@
 <ng-template #content let-modal>
     <h3>{{view_title}}</h3>
     <p>{{view_desc}}</p>
+    <div style="margin-left: auto; margin-right: auto;">
+        <img *ngFor='let url of view_images' [src]="url" height="100" width="100px" style="margin: 3px;"> <br/> <br>
+    </div>
 </ng-template>

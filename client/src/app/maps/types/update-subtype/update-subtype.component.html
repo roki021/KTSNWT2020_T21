@@ -11,9 +11,9 @@
             <div class="input-group">
                 <input id="name" name="name" [(ngModel)]="subtype.name" class="form-control">
             </div>
-            <small class="text-danger" *ngIf="bad_request">
+            <small class="text-danger" *ngIf="badRequest">
                 Cant update new name is already taken</small>
-            <small class="text-danger" *ngIf="not_found">
+            <small class="text-danger" *ngIf="notFound">
                 Subtype for updating was not found</small>
             <small class="text-danger" *ngIf="unauthorized">
                 Unauthorized action</small>

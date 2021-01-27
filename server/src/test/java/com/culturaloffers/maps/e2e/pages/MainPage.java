@@ -37,6 +37,36 @@ public class MainPage {
     @FindBy(xpath = "//a[contains(text(), \"Log out\")]")
     private WebElement logOutBtn;
 
+    @FindBy(xpath = "//*[@id=\"comments-link\"]")
+    private WebElement commentsTab;
+
+    @FindBy(xpath = "//*[@id=\"add-comment\"]")
+    private WebElement addCommentBtn;
+
+    @FindBy(xpath = "//*[@id=\"submit-comment\"]")
+    private WebElement submitCommentButton;
+
+    @FindBy(xpath = "//*[@id=\"content\"]")
+    private WebElement commentContent;
+
+    @FindBy(xpath = "//*[@id=\"6\"]")
+    private WebElement deleteCommentButton;
+
+    @FindBy(xpath = "//*[@id=\"grading\"]")
+    private WebElement gradingElement;
+
+    @FindBy(xpath = "//*[@id=\"searchField\"]")
+    private WebElement searchField;
+
+    @FindBy(xpath = "//*[@id=\"searchValue\"]")
+    private WebElement searchValue;
+
+    @FindBy(xpath = "//*[@id=\"searchBtn\"]")
+    private WebElement searchBtn;
+
+    @FindBy(xpath = "//*[@id=\"discardBtn\"]")
+    private WebElement discardBtn;
+
     public MainPage() {
     }
 
@@ -61,6 +91,10 @@ public class MainPage {
         (new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(By.id("offer-title")));
     }
 
+    public void ensureIsNumOfOffersDisplayed(int numOfOffers){
+        (new WebDriverWait(driver, 30)).until(ExpectedConditions.numberOfElementsToBe(By.xpath("//[contains(text(), \"Location\")]"), numOfOffers));
+    }
+
     public void ensureIsNotVisibleOfferView() {
         (new WebDriverWait(driver, 10)).until(ExpectedConditions.invisibilityOfElementLocated(By.id("offer-view")));
     }
@@ -73,13 +107,61 @@ public class MainPage {
         (new WebDriverWait(driver, 10)).until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(), \"Log in\")]")));
     }
 
+    public void ensureIsDisplayedAddCommentButton() {
+        (new WebDriverWait(driver, 10)).until(ExpectedConditions.elementToBeClickable(By.id("add-comment")));
+    }
+
+    public void ensureIsDisplayedSubmitCommentButton() {
+        (new WebDriverWait(driver, 10)).until(ExpectedConditions.elementToBeClickable(By.id("submit-comment")));
+    }
+
+    public void ensureIsDisplayedSContent() {
+        (new WebDriverWait(driver, 10)).until(ExpectedConditions.elementToBeClickable(By.id("content")));
+    }
+
+    public void ensureNotDisplayedSubmitCommentButton() {
+        (new WebDriverWait(driver, 10)).until(ExpectedConditions.invisibilityOfElementLocated(By.id("submit-comment")));
+    }
+
+    public void ensureNotDisplayedDeletedComment() {
+        (new WebDriverWait(driver, 10)).until(ExpectedConditions.invisibilityOfElementLocated(By.id("6")));
+    }
+
+    public void ensureDisplayedGradingComponent() {
+        (new WebDriverWait(driver, 10)).until(ExpectedConditions.elementToBeClickable(By.id("grading")));
+    }
+
+    public void ensureNotDisplayedGradingComponent() {
+        (new WebDriverWait(driver, 10)).until(ExpectedConditions.invisibilityOfElementLocated(By.id("grading")));
+    }
+
+    public void ensureNotDisplayedAddCommentButton() {
+        (new WebDriverWait(driver, 10)).until(ExpectedConditions.invisibilityOfElementLocated(By.id("add-comment")));
+    }
+
     public void clickOnFeature(double lon, double lat) throws InterruptedException {
-        ((JavascriptExecutor)driver).executeScript(String.format("window.execClick(%f, %f);", lon, lat));
+        ((JavascriptExecutor)driver).executeScript(String.format("window.execClick(%s, %s);", lon + "", lat + ""));
     }
 
     public void nextPage(int page) {
         for(int i = 0; i < page - 1; i++)
             nextPage.click();
+    }
+
+    public WebElement getSearchField() {
+        return searchField;
+    }
+
+    public WebElement getSearchValue() {
+        return searchValue;
+    }
+
+    public WebElement getSearchBtn() {
+        return searchBtn;
+    }
+
+    public WebElement getDiscardBtn() {
+        return discardBtn;
     }
 
     public WebElement getMap() {
@@ -97,4 +179,28 @@ public class MainPage {
     public WebElement getSubscribeBtn() { return subscribeBtn; }
 
     public WebElement getLogOutBtn() { return logOutBtn; }
+
+    public WebElement getCommentsTab() {
+        return commentsTab;
+    }
+
+    public WebElement getAddCommentBtn() {
+        return addCommentBtn;
+    }
+
+    public WebElement getSubmitCommentButton() {
+        return submitCommentButton;
+    }
+
+    public WebElement getCommentContent() {
+        return commentContent;
+    }
+
+    public WebElement getDeleteCommentButton() {
+        return deleteCommentButton;
+    }
+
+    public WebElement getGradingElement() {
+        return gradingElement;
+    }
 }

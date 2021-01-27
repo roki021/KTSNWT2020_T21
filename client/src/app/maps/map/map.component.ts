@@ -20,7 +20,6 @@ import { CulturalOffer } from '../model/cultural-offer';
 import * as olProj from 'ol/proj';
 import { Zoom } from '../model/zoom';
 import { trigger, transition, style, animate, state } from '@angular/animations';
-import { error } from 'protractor';
 
 @Component({
   selector: 'app-map',
@@ -29,12 +28,12 @@ import { error } from 'protractor';
   animations: [
     trigger('widthGrow', [
       state('closed', style({
-        left: "-400px",
-        visibility: "hidden"
+        left: '-400px',
+        visibility: 'hidden'
       })),
       state('open', style({
         left: 0,
-        visibility: "visible"
+        visibility: 'visible'
       })),
       transition('* => *', animate(500))
     ]),
@@ -44,63 +43,49 @@ export class MapComponent implements OnInit {
 
   map;
   vector;
-  cashed_maps_extent = [];
-  cash_flow_id = 0;
-  curr_id = 0;
-  cultural_offers: CulturalOffer[];
+  culturalOffers: CulturalOffer[];
   zoom: Zoom;
-  cash_features: Feature[] = [];
-  view_state: string = "closed";
-  selected_offer: CulturalOffer;
+  viewState = 'closed';
+  selectedOffer: CulturalOffer;
   offerId: number;
   pageSize: number;
   currentPage: number;
   totalSize: number;
-  searchActive: boolean = false;
-  searchField = "grade";
-  searchValue = "1";
+  searchActive = false;
+  searchField = 'grade';
+  searchValue = '1';
 
-  constructor(private cultural_offer_service: CulturalOfferService, private ref: ChangeDetectorRef) {
+  constructor(private culturalOfferService: CulturalOfferService, private ref: ChangeDetectorRef) {
     this.pageSize = 5;
     this.currentPage = 1;
     this.totalSize = 1;
-    this.searchField = "title";
-    this.searchValue = "";
+    this.searchField = 'title';
+    this.searchValue = '';
   }
 
   ngOnInit(): void {
     this.initilizeMap();
-    window['execClick'] = (lon, lat) => { this.simClick(lon, lat); }
+    const clickMethodName = 'execClick';
+    window[clickMethodName] = (lon, lat) => { this.simClick(lon, lat); };
     setInterval(() => {
-      this.ref.detectChanges()
+      this.ref.detectChanges();
     }, 1000);
-  }
-
-  searchClick(){
-    this.searchActive = true;
-    this.changePage(1);
-  }
-
-  clearClick(){
-    this.searchActive = false;
-    this.changePage(1);
   }
 
   changePage(newPage: number) {
     this.currentPage = newPage;
     if (this.searchActive) {
       this.search(newPage);
-    }
-    else {
+    } else {
       this.loadAll(newPage);
     }
 
   }
 
   loadAll(newPage: number) {
-    this.cultural_offer_service.getPage(newPage - 1, this.pageSize).subscribe(
+    this.culturalOfferService.getPage(newPage - 1, this.pageSize).subscribe(
       res => {
-        this.cultural_offers = res.body as CulturalOffer[];
+        this.culturalOffers = res.body as CulturalOffer[];
         this.totalSize = Number(res.headers.get('Total-pages'));
         this.createFeatures();
       }
@@ -109,21 +94,22 @@ export class MapComponent implements OnInit {
 
   search(newPage: number) {
     let canSearch = true;
-    if (this.searchField=="subscribers" || this.searchField=="grade"){
+    if (this.searchField === 'subscribers' || this.searchField === 'grade') {
       console.log(Number(this.searchValue));
-      if (!Number(this.searchValue)){
-        console.log("Recognised as NaN");
-        alert("Must enter number in given search field!");
+      if (!Number(this.searchValue)) {
+        console.log('Recognised as NaN');
+        alert('Must enter number in given search field!');
         canSearch = false;
       }
     }
-    if (canSearch){
-    this.cultural_offer_service.search(this.searchField, this.searchValue,
+    if (canSearch) {
+    this.culturalOfferService.search(this.searchField, this.searchValue,
       this.currentPage - 1, this.pageSize).subscribe(
         res => {
-          this.cultural_offers = res.body as CulturalOffer[];
+          this.culturalOffers = res.body as CulturalOffer[];
           this.totalSize = Number(res.headers.get('Total-pages'));
           this.createFeatures();
+          this.searchActive = true;
         },
         error => {
 
@@ -132,20 +118,21 @@ export class MapComponent implements OnInit {
     }
   }
 
-  discard(){
-    this.cultural_offer_service.getPage(this.currentPage - 1, this.pageSize).subscribe(
+  discard() {
+    this.culturalOfferService.getPage(this.currentPage - 1, this.pageSize).subscribe(
       res => {
-        this.cultural_offers = res.body as CulturalOffer[];
+        this.culturalOffers = res.body as CulturalOffer[];
         this.totalSize = Number(res.headers.get('Total-pages'));
         this.createFeatures();
+        this.searchActive = false;
       }
     );
   }
 
   createFeatures() {
     this.vector.getSource().clear();
-    for (let i = 0; i < this.cultural_offers.length; i++) {
-      const coord1 = olProj.fromLonLat([this.cultural_offers[i].longitude, this.cultural_offers[i].latitude]);
+    for (const offer of this.culturalOffers) {
+      const coord1 = olProj.fromLonLat([offer.longitude, offer.latitude]);
       const marker1 = new Point(coord1);
       const featureMarker1 = new Feature(marker1);
       const styleMarker = new Style({
@@ -157,7 +144,7 @@ export class MapComponent implements OnInit {
           src: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABBBJREFUeNrkW01IVFEUPuMMk5qlaEkgKKERiBGG/dAPjrtmRmibJQWRmxZRbSJooWRE7ZptYVBUqyhJp0WQShFZRkISRklgSfZjaKiNkzPTOeNrEY1273v3nvvMA4fL6Dnnnvt937sz980bTyqVgqVsWbDEzWcnyePxSMUHQ2EvDjvR69C3oK9HX4Oea4VMo4+iv0Z/it6F/uhetDMhM48dNXtsJQkCgAsvxeEYeiP6aslpvqBfQ7+IQAwvKgBw4UU4tKI3oXsdqpRUcAn9NAIx5noAcPF7cGhDL1R8uX5DP4QgtLsSAFw4/fEc+knN+9Z59FMIRMo1AODi6d3kKvp+ps37OvoBBCHpFABVb4MRxsWDNVdERSHHCkD2D1ublAlrQhVcNnYJ4OLLcXiJnmMIgB/oGxCEIVOXQMTg4sGaO2LkEkD2A9YnNjdYHaqg285afA4mPW4nyYsfiyrL41BVEYeigrlNfGw8Cwbe+uHVkB8SCdu9dLMpIBSuL8ZhRAZA2jZqa2Kwr34SVhVkXuXXcS/c6MiDnr5skGxrFr0k2tnxmWsPCMos3udNwYmDE3C0cWLexZPR/yiGYilHUslBzuNwQCb4SMN32FEdE46nWMrR2ZNTADaKBm6qnIHA5pg8wphDuTp6UgFAmWjg3uCU7V1WMreMEwChk15xYQIqSn/aBoByqYbKnnSdBTLa2pJZV9TQAYBQV/krk44blKgxywnAiEjQ1LTHMQASNUY4ARgUCXo/6nMMgESNQU4AnogEDX/0wacx+7cEKZdqqOxJFQBR0cBb95fbBkAyN8oGAJ686N59j0jsg96c9CFH1iiHcgWtx+qJ9W2wWSQoiZv4hbZ8ePdBfD+gWMpJJtX2ovR+QPpEFArTEbRWJCfbn4KG8CSEdk2nj8SZjI7C0Ye5cLMzD2Jxjwz7Abt3hJxu02dEAaAFXbm9Au525cL26hmoWheHovy5T3ljE14YeOOHxy+WpY/EOpSoRQGWCmj33WroTlAvsr/t9wtTt8WbwZw5nlvVFyMmVPAH+yYVYEoFSuZU+d0gpwr+Yt+0ArhVoGwupV+PM6kgI/tuUACXCpTOoeMBCZ0qmJd9tyhAtwqU19b1jNAzHGoU9/oc2V+wplsUQHZWQ81WHY3qAoAeZOpXWK/fqrk4ALAeYGpRWLIl00NRblaAShVoY18rAApVoI193QpQoQKt7GsHQIEKtLLPoQAnKtDOPgsADlSgnX0uBdhRAQv7bADYUAEL+5wKkFEBG/usAEiogI19bgWIqICVfXYABFTAyr4JBSykAnb2jQCwgArY2TelgEwqMMK+MQAyqMAI+2Q+MGfEeJ/VQ7upJrT+cvRfFgyFd+OQjezfUVGP7TdD/5Mt+V+P/xJgAO0Axv5zXgpBAAAAAElFTkSuQmCC'
         }),
         text: new Text({
-          text: this.cultural_offers[i].title,
+          text: offer.title,
           scale: 1.2,
           fill: new Fill({
             color: '#fff'
@@ -219,36 +206,37 @@ export class MapComponent implements OnInit {
       let founded = false;
       this.map.forEachFeatureAtPixel(e.pixel,
         (feature) => {
-          if(!founded) {
-            this.selected_offer = this.get_cultural_offer(feature.style_.text_.text_);
-            this.offerId = this.get_cultural_offer(feature.style_.text_.text_).id;
-            this.view_state = "open";
+          if (!founded) {
+            console.log(e);
+            this.selectedOffer = this.getCulturalOffer(feature.style_.text_.text_);
+            this.offerId = this.getCulturalOffer(feature.style_.text_.text_).id;
+            this.viewState = 'open';
             founded = true;
           }
         },
         { hitTolerance: 0 }
       );
       if (!founded) {
-        this.view_state = "closed";
+        this.viewState = 'closed';
       }
     });
   }
 
-  get_cultural_offer(offer_title: string): CulturalOffer {
-    for (let offer of this.cultural_offers) {
-      if (offer.title === offer_title) {
+  getCulturalOffer(offerTitle: string): CulturalOffer {
+    for (const offer of this.culturalOffers) {
+      if (offer.title === offerTitle) {
         return offer;
       }
     }
   }
-  
+
   // for e2e tests
   simClick(lon, lat): void {
-    let coords = [lon, lat];
-    var evt = {
+    const coords = [lon, lat];
+    const evt = {
       type: 'click',
       pixel: this.map.getPixelFromCoordinate(olProj.fromLonLat(coords))
-    }
+    };
     this.map.dispatchEvent(evt);
   }
 }

@@ -69,26 +69,26 @@ public class GradesControllerIntegrationTest {
     public void testGetGradesByCulturalOfferId() {
         HttpEntity<Object> httpEntity = new HttpEntity<Object>(httpHeaders);
         ResponseEntity<List<GradeDTO>> responseEntity =
-                restTemplate.exchange("/g/culturaloffer/grades/" + 14, HttpMethod.GET, httpEntity,
+                restTemplate.exchange("/g/culturaloffer/grades/" + 7, HttpMethod.GET, httpEntity,
                         new ParameterizedTypeReference<List<GradeDTO>>() {});
 
         List<GradeDTO> grades = responseEntity.getBody();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(2, grades.size());
+        assertEquals(1, grades.size());
     }
 
     @Test
     public void testGetGradesByUserId() {
         HttpEntity<Object> httpEntity = new HttpEntity<Object>(httpHeaders);
         ResponseEntity<List<GradeDTO>> responseEntity =
-                restTemplate.exchange("/g/user/grades/" + 1001, HttpMethod.GET, httpEntity,
+                restTemplate.exchange("/g/user/grades/" + 1005, HttpMethod.GET, httpEntity,
                         new ParameterizedTypeReference<List<GradeDTO>>() {});
 
         List<GradeDTO> grades = responseEntity.getBody();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(2, grades.size());
+        assertEquals(1, grades.size());
     }
 
     @Test
@@ -99,8 +99,8 @@ public class GradesControllerIntegrationTest {
                 new Date(),
                 14,
                 "Cvetni Konaci",
-                1001,
-                "perica"
+                1010,
+                "kostica1"
         );
 
         HttpEntity<GradeDTO> httpEntity = new HttpEntity<GradeDTO>(gradeDTO, httpHeaders);
@@ -122,7 +122,7 @@ public class GradesControllerIntegrationTest {
 
     @Test
     public void testDeleteGrade() {
-        /*HttpEntity<Object> httpEntity = new HttpEntity<Object>(httpHeaders);
+        HttpEntity<Object> httpEntity = new HttpEntity<Object>(httpHeaders);
         GradeDTO gradeDTO = new GradeDTO(
                 888,
                 2,
@@ -133,16 +133,17 @@ public class GradesControllerIntegrationTest {
                 "perica"
         );
 
-        gradeDTO = gradeService.addGrade(gradeDTO);
+        Grade newGrade = gradeService.addGrade(gradeMapper.toEntity(gradeDTO), gradeDTO.getCulturalOfferId()
+                , gradeDTO.getUserId());
 
         int size = gradeService.findByCulturalOfferId(14).size();
 
         ResponseEntity<Map<String, Boolean>> responseEntity =
-                restTemplate.exchange("/g/grade/" + gradeDTO.getId(),
+                restTemplate.exchange("/g/grade/" + newGrade.getId(),
                         HttpMethod.DELETE, httpEntity, new ParameterizedTypeReference<Map<String, Boolean>>(){});
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(size - 1, gradeService.findByCulturalOfferId(14).size());*/
+        assertEquals(size - 1, gradeService.findByCulturalOfferId(14).size());
     }
 
     @Test

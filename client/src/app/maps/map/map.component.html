@@ -1,6 +1,6 @@
 <table class="position-absolute search">
     <tr>
-        <td><select [value]="searchField" (input)="searchField = $event.target.value">
+        <td><select id="searchField" [value]="searchField" (input)="searchField = $event.target.value">
             <option>title</option>
             <option>description</option>
             <option>subtype</option>
@@ -8,16 +8,16 @@
             <option>subscribers</option>
             <option>grade</option>
         </select></td>
-        <td><input type="text" [value]="searchValue" (input)="searchValue = $event.target.value" /></td>
-        <td><button class="search-btn" (click)="search(1)">Search</button></td>
-        <td><button class="discard-btn" (click)="discard()">Discard</button></td>
+        <td><input id="searchValue" type="text" [value]="searchValue" (input)="searchValue = $event.target.value" /></td>
+        <td><button id="searchBtn" class="search-btn" (click)="search(1)">Search</button></td>
+        <td><button id="discardBtn" class="discard-btn" (click)="discard()">Discard</button></td>
     </tr>
 </table>
 <div class="position-absolute options">
     <app-option-navbar></app-option-navbar>
 </div>
-<div id="offer-view" class="position-absolute offer-view shadow-lg" [@widthGrow]="view_state">
-    <app-offer-view [selectedOffer]="selected_offer"></app-offer-view>
+<div id="offer-view" class="position-absolute offer-view shadow-lg" [@widthGrow]="viewState">
+    <app-offer-view [selectedOffer]="selectedOffer" ></app-offer-view>
 </div>
 <app-pagination class="position-absolute pagination-options" [totalPages]="totalSize" [pageSize]="pageSize" (pageSelected)="changePage($event)">
 </app-pagination>

@@ -23,7 +23,7 @@ export class OfferViewComponent implements OnInit, OnChanges {
   active = 3;
 
   constructor(private subsService: SubscriptionService, private authService: AuthService,
-              private router: Router, private toastService: ToastService, private gradesService: GradesService) { 
+              private router: Router, private toastService: ToastService, private gradesService: GradesService) {
               }
 
   ngOnInit(): void {
@@ -51,9 +51,7 @@ export class OfferViewComponent implements OnInit, OnChanges {
     }
   }
 
-  onGraded(graded:boolean)
-  {
-    console.log("kikiki");
+  onGraded(graded: boolean): void {
     this.setAvgGrade();
   }
 

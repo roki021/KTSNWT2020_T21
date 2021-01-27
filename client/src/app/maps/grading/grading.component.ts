@@ -16,19 +16,28 @@ export class GradingComponent implements OnInit {
   public grade: Grade;
   @Input() public culturalOffer: CulturalOffer;
   @Output() graded : EventEmitter<boolean> = new EventEmitter();
+  public role: string;
+  public logged : string;
+  public targetRole : string = 'ROLE_GUEST';
 
   constructor(private gradingService: GradesService, private auth_service: AuthService) { 
     this.grade = {value:1, gradedOn: new Date(), userId:this.auth_service.getUserId(), 
       culturalOfferId: 0};
+
+    this.role = this.auth_service.getRole();
+    this.logged = this.auth_service.getToken();
   }
 
   ngOnInit(): void {
-    this.gradingService.getSpecificGrade(this.culturalOffer.id, this.auth_service.getUserId()).subscribe((res) => {
-      setTimeout(() => {
-        this.userGrade = res as number;
-      }, 20);
-      
-    });
+    if(this.logged && this.role == this.targetRole)
+    {
+      this.gradingService.getSpecificGrade(this.culturalOffer.id, this.auth_service.getUserId()).subscribe((res) => {
+        setTimeout(() => {
+          this.userGrade = res as number;
+        }, 20);
+        
+      });
+    }
   }
 
   aux(){
@@ -36,13 +45,13 @@ export class GradingComponent implements OnInit {
   }
 
   gradeOffer(){
-    console.log(this.grade.culturalOfferId);
+    //console.log(this.grade.culturalOfferId);
     this.grade.gradedOn = new Date();
     this.grade.value = this.userGrade;
     this.grade.culturalOfferId = this.culturalOffer.id;
     
     this.gradingService.addGrade(this.grade).subscribe((res) => {
-      console.log(res.value);
+      //console.log(res.value);
       this.graded.emit(true);
     });
   }

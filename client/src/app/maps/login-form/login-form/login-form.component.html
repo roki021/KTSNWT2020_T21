@@ -16,7 +16,7 @@
             <div>Both username and email are required</div>
         </div>
         <div *ngIf="wrongUsernameOrPass" class="alert alert-danger">
-            <div>Invalid username or password</div>
+            <div id="error">Invalid username or password</div>
         </div>
         <div class="form-buttons">
             <button id="login-btn" class="btn btn-primary" (click)="login()">Login</button>

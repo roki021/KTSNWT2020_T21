@@ -69,10 +69,11 @@ public class CulturalOfferService {
         if (repository.findByTitleAndIdNot(offer.getTitle(), id) != null)
             throw new Exception("Cultural offer with given title already exists");
         offer.setId(id);
-        List<String> imagePaths = new ArrayList<>();
+        List<String> imagePaths = repository.findById(id).orElse(null).getImageUrls();
         for(String s : offer.getImageUrls())
         {
-            imagePaths.add(ImageHandler.saveImage("src\\main\\images\\offerImages\\", s));
+            if (!s.contains("localhost"))
+                imagePaths.add(ImageHandler.saveImage("src\\main\\images\\offerImages\\", s));
         }
         offer.setImageUrls(imagePaths);
         return repository.save(offer);
