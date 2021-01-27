@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { OfferTypeService } from '../../services/offer-type.service';
 
 import { AddOfferTypeComponent } from './add-offer-type.component';
@@ -82,4 +82,12 @@ describe('AddOfferTypeComponent', () => {
     //expect(activeModal.close).toHaveBeenCalled();
 
   });
+
+  /*it('should error', () => {
+    spyOn(component['offerTypeService'], 'create').and.callFake(() => Observable.throw({ error: {
+      title: 'Mocked title',
+      status: 400 // Mocked status
+    }}));
+    expect(component.badRequest).toBe(true);
+  });*/
 });
