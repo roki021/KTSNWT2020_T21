@@ -15,7 +15,7 @@ describe('SubscriptionService', () => {
 
   beforeEach(() => {
 
-    let authMockService = {
+    const authMockService = {
       getUserId: jasmine.createSpy('getUserId')
         .and.returnValue(1001)
     };
@@ -88,7 +88,7 @@ describe('SubscriptionService', () => {
   it('unsubscribe() should unsubscribe user to selected offer', fakeAsync(() => {
     let subscriptions: Subscription[];
     let unsubscribed: boolean;
-    let subscription: Subscription = {
+    const subscription: Subscription = {
       culturalOfferId: 1,
       culturalOfferTitle: 'Ponuda 1',
       guestId: 1001
@@ -226,7 +226,7 @@ describe('SubscriptionService', () => {
     req = httpMock.expectOne(`api/subscription`);
     expect(req.request.method).toBe('POST');
     req.flush(mockSubscription);
-    
+
     tick();
     expect(subscription).toBeDefined();
     expect(subscription.culturalOfferId).toEqual(1);
