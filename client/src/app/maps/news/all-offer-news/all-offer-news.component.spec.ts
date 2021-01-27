@@ -9,6 +9,8 @@ import { MockAddNgbModalRef, MockUpdateNgbModalRef } from '../../types/offer-typ
 import {RouterTestingModule} from '@angular/router/testing';
 
 import { AllOfferNewsComponent } from './all-offer-news.component';
+import { AddOfferNewsComponent } from '../add-offer-news/add-offer-news.component';
+import { EditOfferNewsComponent } from '../edit-offer-news/edit-offer-news.component';
 
 describe('AllOfferNewsComponent', () => {
   let component: AllOfferNewsComponent;
@@ -91,56 +93,35 @@ describe('AllOfferNewsComponent', () => {
     
   }));
 
-  // it('should open pop-up for adding new types', () => {
-  //   spyOn(modalService, 'open').and.returnValue(mockAddModalRef as any);
-  //   component.addNew();
-  //   expect(modalService.open).toHaveBeenCalledWith(AddOfferTypeComponent, { ariaLabelledBy: 'add-offer-type', size: 'lg', scrollable: true });
-  // });
+  it('should open pop-up for adding new offer news', () => {
+    spyOn(modalService, 'open').and.returnValue(mockAddModalRef as any);
+    component.addNew();
+    expect(modalService.open).toHaveBeenCalledWith(AddOfferNewsComponent);
+  });
 
-  // it('should open pop-up for updating selected types', () => {
-  //   const mockType: OfferType = 
-  //   {
-  //     id: 1,
-  //     name: 'park',
-  //     subtypesNumber: 2,
-  //     subtypes: ['muzej', 'pozoriste']            
-  //   };
-  //   spyOn(modalService, 'open').and.returnValue(mockUpdateModalRef as any);
-  //   component.update(mockType);
-  //   expect(modalService.open).toHaveBeenCalledWith(UpdateOfferTypeComponent, { ariaLabelledBy: 'update-offer-type', size: 'lg', scrollable: true });
-  //   expect(mockUpdateModalRef.componentInstance.offerType.name).toEqual('park');
-  // });
+  it('should navigate to all offers page', () => {
+    spyOn(router, "navigate");
+    component.back();
+    expect(router.navigate).toHaveBeenCalledWith(['/all_offers']);
+  });
 
-  // it('should navigate to subtypes page of choosen type', () => {
-  //   spyOn(newsService, "getPage").and.returnValue(of({ body: [{},{}], headers: { get: (param) => 2 } }));
-  //   component.ngOnInit();
-  //   component.subtypesView(1);
-  //   expect(router.navigate).toHaveBeenCalledWith(
-  //     ['./1/subtypes'], Object({ relativeTo: 'http://localhost:4200/offer-types' }));
-  // });
+  it('should navigate to home page', () => {
+    spyOn(router, "navigate");
+    component.home();
+    expect(router.navigate).toHaveBeenCalledWith(['']);
+  });
 
-  // it ('should call delete of choosen type', () => {
-  //   spyOn(newsService, "delete").and.returnValue(of())
-  //   component.delete(1);
+  it('should navigate to all offer news for given offer page', () => {
+    spyOn(router, "navigate");
+    component.backNews();
+    expect(router.navigate).toHaveBeenCalledWith(['/news/'+component.offerId]);
+  });
 
-  //   expect(newsService.delete).toHaveBeenCalledWith(1);    
-  // });
+  it ('should call delete of choosen type', () => {
+    spyOn(offerNewsService, "delete").and.returnValue(of())
+    component.removeOffer(1);
 
-  // it('should error', () => {
-  //   const error = new Observable((observer) => {
-  //     observer.error({ status: 400 });
-
-  //   });
-  //   spyOn(newsService, "delete").and.returnValue(error);
-
-  //   component.delete(1);
-  //   expect(component.deleteValidation).toBe(true);
-  // });
+    expect(offerNewsService.delete).toHaveBeenCalledWith(1);    
+  });
   
-  // it ('should call change page for type table', () => {
-  //   spyOn(newsService, "getPage").and.returnValue(of({ body: [{},{}], headers: { get: (param) => 2 } }));
-  //   component.changePage(2);
-
-  //   expect(newsService.getPage).toHaveBeenCalledWith(1, 2);    
-  // });
 });
